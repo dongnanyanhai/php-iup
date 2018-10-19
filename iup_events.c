@@ -27,21 +27,10 @@
 #include "ext/standard/info.h"
 #include "php_iup.h"
 
-#include "ext/iup/iup-3.25/include/iup.h"
-#include "ext/iup/iup-3.25/include/iupcbs.h"
-#include "ext/iup/iup-3.25/include/iupcontrols.h"
-#include "ext/iup/iup-3.25/include/iupdraw.h"
-#include "ext/iup/iup-3.25/include/iupgl.h"
-#include "ext/iup/iup-3.25/include/iupglcontrols.h"
-#include "ext/iup/iup-3.25/include/iupim.h"
-#include "ext/iup/iup-3.25/include/iupole.h"
-#include "ext/iup/iup-3.25/include/iuptuio.h"
-#include "ext/iup/iup-3.25/include/iupweb.h"
-#include "ext/iup/iup-3.25/include/iup_config.h"
-#include "ext/iup/iup-3.25/include/iup_mglplot.h"
-#include "ext/iup/iup-3.25/include/iup_plot.h"
-#include "ext/iup/iup-3.25/include/iup_scintilla.h"
-#include "ext/iup/iup-3.25/include/iup_varg.h"
+extern int le_iup_ihandle;
+extern int le_iup_event;
+
+extern HashTable *iup_events;
 
 int event_common( Ihandle *self , char * event_name)
 {

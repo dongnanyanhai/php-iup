@@ -27,31 +27,10 @@
 #include "ext/standard/info.h"
 #include "php_iup.h"
 
-#include "ext/iup/iup-3.25/include/iup.h"
-#include "ext/iup/iup-3.25/include/iupcbs.h"
-#include "ext/iup/iup-3.25/include/iupcontrols.h"
-#include "ext/iup/iup-3.25/include/iupdraw.h"
-#include "ext/iup/iup-3.25/include/iupgl.h"
-#include "ext/iup/iup-3.25/include/iupglcontrols.h"
-#include "ext/iup/iup-3.25/include/iupim.h"
-#include "ext/iup/iup-3.25/include/iupole.h"
-#include "ext/iup/iup-3.25/include/iuptuio.h"
-#include "ext/iup/iup-3.25/include/iupweb.h"
-#include "ext/iup/iup-3.25/include/iup_config.h"
-#include "ext/iup/iup-3.25/include/iup_mglplot.h"
-#include "ext/iup/iup-3.25/include/iup_plot.h"
-#include "ext/iup/iup-3.25/include/iup_scintilla.h"
-#include "ext/iup/iup-3.25/include/iup_varg.h"
+extern int le_iup_ihandle;
+extern int le_iup_event;
 
-
-static void iup_ihandle_dtor(zend_resource *rsrc TSRMLS_DC){
-  Ihandle *hd = (Ihandle *) rsrc->ptr;
-  if(hd){
-    IupDestroy(hd);
-  }
-}
-
-static void iup_event_dtor(zend_resource *rsrc TSRMLS_DC){}
+extern HashTable *iup_events;
 
 
 /* {{{ proto void IupOpen()
@@ -445,7 +424,7 @@ PHP_FUNCTION(IupLog)
         return;
     }
 
-    IupLog(type,format);
+    IupLog(type,format,NULL);
 
     RETURN_BOOL(1);
 }
@@ -1380,7 +1359,7 @@ PHP_FUNCTION(IupSetStrf)
 
     ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
 
-    IupSetStrf(ih,name,format);
+    IupSetStrf(ih,name,format,NULL);
 
     RETURN_BOOL(1);
 }
@@ -1808,7 +1787,7 @@ PHP_FUNCTION(IupSetStrfId)
 
     ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
 
-    IupSetStrfId(ih,name,id,format);
+    IupSetStrfId(ih,name,id,format,NULL);
 
     RETURN_BOOL(1);
 }
@@ -2197,7 +2176,7 @@ PHP_FUNCTION(IupSetStrfId2)
 
     ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
 
-    IupSetStrfId2(ih,name,lin,col,format);
+    IupSetStrfId2(ih,name,lin,col,format,NULL);
 
     RETURN_BOOL(1);
 }
@@ -3673,7 +3652,7 @@ PHP_FUNCTION(IupVbox)
 
     child = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
 
-    re = IupVbox(child);
+    re = IupVbox(child,NULL);
 
     RETURN_RES(zend_register_resource(re, le_iup_ihandle));
 }
@@ -3721,7 +3700,7 @@ PHP_FUNCTION(IupZbox)
 
     child = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
 
-    re = IupZbox(child);
+    re = IupZbox(child,NULL);
 
     RETURN_RES(zend_register_resource(re, le_iup_ihandle));
 }
@@ -3769,7 +3748,7 @@ PHP_FUNCTION(IupHbox)
 
     child = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
 
-    re = IupHbox(child);
+    re = IupHbox(child,NULL);
 
     RETURN_RES(zend_register_resource(re, le_iup_ihandle));
 }
@@ -3816,7 +3795,7 @@ PHP_FUNCTION(IupNormalizer)
 
     ih_first = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
 
-    re = IupNormalizer(ih_first);
+    re = IupNormalizer(ih_first,NULL);
 
     RETURN_RES(zend_register_resource(re, le_iup_ihandle));
 }
@@ -3863,7 +3842,7 @@ PHP_FUNCTION(IupCbox)
 
     child = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
 
-    re = IupCbox(child);
+    re = IupCbox(child,NULL);
 
     RETURN_RES(zend_register_resource(re, le_iup_ihandle));
 }
@@ -4003,7 +3982,7 @@ PHP_FUNCTION(IupGridBox)
 
     child = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
 
-    re = IupGridBox(child);
+    re = IupGridBox(child,NULL);
 
     RETURN_RES(zend_register_resource(re, le_iup_ihandle));
 }
@@ -4264,7 +4243,7 @@ PHP_FUNCTION(IupMenu)
 
     child = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
 
-    re = IupMenu(child);
+    re = IupMenu(child,NULL);
 
     RETURN_RES(zend_register_resource(re, le_iup_ihandle));
 }
@@ -4687,7 +4666,7 @@ PHP_FUNCTION(IupTabs)
 
     child = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
 
-    re = IupTabs(child);
+    re = IupTabs(child,NULL);
 
     RETURN_RES(zend_register_resource(re, le_iup_ihandle));
 }
@@ -4733,7 +4712,7 @@ PHP_FUNCTION(IupFlatTabs)
 
     first = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
 
-    re = IupFlatTabs(first);
+    re = IupFlatTabs(first,NULL);
 
     RETURN_RES(zend_register_resource(re, le_iup_ihandle));
 }

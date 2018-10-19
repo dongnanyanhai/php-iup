@@ -74,15 +74,6 @@ ZEND_TSRMLS_CACHE_EXTERN()
 #include "ext/iup/iup-3.25/include/iup_scintilla.h"
 #include "ext/iup/iup-3.25/include/iup_varg.h"
 
-static int le_iup_ihandle;
-static int le_iup_event;
-
-HashTable *iup_events;
-
-static void iup_ihandle_dtor(zend_resource *rsrc TSRMLS_DC);
-static void iup_event_dtor(zend_resource *rsrc TSRMLS_DC);
-
-
 
 int event_action( Ihandle *self );
 int event_action_cb( Ihandle *self );

@@ -27,28 +27,17 @@
 #include "ext/standard/info.h"
 #include "php_iup.h"
 
-#include "ext/iup/iup-3.25/include/iup.h"
-#include "ext/iup/iup-3.25/include/iupcbs.h"
-#include "ext/iup/iup-3.25/include/iupcontrols.h"
-#include "ext/iup/iup-3.25/include/iupdraw.h"
-#include "ext/iup/iup-3.25/include/iupgl.h"
-#include "ext/iup/iup-3.25/include/iupglcontrols.h"
-#include "ext/iup/iup-3.25/include/iupim.h"
-#include "ext/iup/iup-3.25/include/iupole.h"
-#include "ext/iup/iup-3.25/include/iuptuio.h"
-#include "ext/iup/iup-3.25/include/iupweb.h"
-#include "ext/iup/iup-3.25/include/iup_config.h"
-#include "ext/iup/iup-3.25/include/iup_mglplot.h"
-#include "ext/iup/iup-3.25/include/iup_plot.h"
-#include "ext/iup/iup-3.25/include/iup_scintilla.h"
-#include "ext/iup/iup-3.25/include/iup_varg.h"
-
 /* If you declare any globals in php_iup.h uncomment this:
 ZEND_DECLARE_MODULE_GLOBALS(iup)
 */
 
 /* True global resources - no need for thread safety here */
-static int le_iup;
+int le_iup;
+
+int le_iup_ihandle = 0;
+int le_iup_event = 0;
+
+HashTable *iup_events = NULL;
 
 /* {{{ PHP_INI
  */
@@ -90,9 +79,9 @@ PHP_FUNCTION(confirm_iup_compiled)
 
 static void iup_ihandle_dtor(zend_resource *rsrc TSRMLS_DC){
   Ihandle *hd = (Ihandle *) rsrc->ptr;
-  if(hd){
-    IupDestroy(hd);
-  }
+  // if(hd){
+  //   IupDestroy(hd);
+  // }
 }
 
 static void iup_event_dtor(zend_resource *rsrc TSRMLS_DC){
@@ -124,8 +113,12 @@ PHP_MINIT_FUNCTION(iup)
 
 
     // register resource type
+    php_error(E_WARNING, "le_iup_ihandle_begin: %d", le_iup_ihandle);
+    php_error(E_WARNING, "le_iup_event_begin: %d", le_iup_event);
     le_iup_ihandle = zend_register_list_destructors_ex(iup_ihandle_dtor,NULL,"iup-handle", module_number);
+    php_error(E_WARNING, "le_iup_ihandle_end: %d", le_iup_ihandle);
     le_iup_event = zend_register_list_destructors_ex(iup_event_dtor,NULL,"iup-event", module_number);
+    php_error(E_WARNING, "le_iup_event_end: %d", le_iup_event);
 
     // init array
     ALLOC_HASHTABLE(iup_events);
