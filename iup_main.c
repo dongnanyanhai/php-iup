@@ -2645,8 +2645,12 @@ PHP_FUNCTION(IupSetCallback)
     char *event_name = NULL;
     size_t event_name_len;
 
-    static zend_fcall_info callable;
+    zend_fcall_info callable;
     zend_fcall_info_cache call_cache;
+
+    zend_fcall_info * call_p;
+
+    call_p = (zend_fcall_info *)malloc(sizeof(zend_fcall_info));
 
     static zval call_params[1];
 
@@ -2660,6 +2664,9 @@ PHP_FUNCTION(IupSetCallback)
 
     Icallback cb;
 
+    zval * event_val_old;
+    zend_fcall_info * callable_old;
+
     if (zend_parse_parameters(argc TSRMLS_DC,"rsf",&ihandle_res, &event_name, &event_name_len, &callable, &call_cache) == FAILURE) {
         return;
     }
@@ -2667,6 +2674,8 @@ PHP_FUNCTION(IupSetCallback)
     call_params[0] = *ihandle_res;
     callable.param_count = 1;
     callable.params = call_params;
+
+    *call_p = callable;
 
     ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
 
@@ -2968,9 +2977,22 @@ PHP_FUNCTION(IupSetCallback)
 
         // 绑定事件
         IupSetCallback(ih, event_name, cb);
+    }else{
+        // 释放旧事件方法占用的内容
+        event_val_old = zend_hash_find(iup_events,event_key);
+
+        if(event_val_old != NULL){
+
+            callable_old = zend_fetch_resource_ex(event_val_old,"iup-event",le_iup_event);
+
+            if(callable_old != NULL){
+                free(callable_old);
+            }
+        }
+
     }
 
-    ZVAL_RES(&event_val,zend_register_resource(&callable, le_iup_event));
+    ZVAL_RES(&event_val,zend_register_resource(call_p, le_iup_event));
     zend_hash_update(iup_events, event_key, &event_val);
 
     RETURN_BOOL(1);
