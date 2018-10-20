@@ -10,12 +10,51 @@ function open_cb($self){
 
     global $multitext;
 
+    $filedlg = IupFileDlg();
+    IupSetAttribute($filedlg,"DIALOGTYPE", "OPEN");
+    IupSetAttribute($filedlg,"EXTFILTER", "Text Files|*.txt|All Files|*.*|");
+
+
+    IupPopup($filedlg, IUP_CENTER, IUP_CENTER);
+
+    if (IupGetInt($filedlg, "STATUS") != -1)
+    {
+        $filename = IupGetAttribute($filedlg, "VALUE");
+        $str = file_get_contents($filename);
+        if($str === false){
+            IupMessage("Error", "Fail when reading from file: ".$filename );
+        }else{
+            IupSetStrAttribute($multitext, "VALUE", $str);
+        }
+    }
+
+    IupDestroy($filedlg);
+
     return IUP_DEFAULT;
 }
 
 function saveas_cb($self){
     
     global $multitext;
+
+    $filedlg = IupFileDlg();
+    IupSetAttribute($filedlg,"DIALOGTYPE", "SAVE");
+    IupSetAttribute($filedlg,"EXTFILTER", "Text Files|*.txt|All Files|*.*|");
+
+    IupPopup($filedlg, IUP_CENTER, IUP_CENTER);
+
+    if (IupGetInt($filedlg, "STATUS") != -1)
+    {
+        $filename = IupGetAttribute($filedlg, "VALUE");
+        $str = IupGetAttribute($multitext, "VALUE");
+        $count = IupGetInt($multitext, "COUNT");
+        $re = file_put_contents($filename, $str);
+        if($re === false){
+            IupMessage("Error", "Fail when writing to file: ".$filename);
+        }
+    }
+
+    IupDestroy($filedlg);
 
     return IUP_DEFAULT;
 }
