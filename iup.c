@@ -111,14 +111,9 @@ PHP_MINIT_FUNCTION(iup)
 	REGISTER_INI_ENTRIES();
 	*/
 
-
     // register resource type
-    php_error(E_WARNING, "le_iup_ihandle_begin: %d", le_iup_ihandle);
-    php_error(E_WARNING, "le_iup_event_begin: %d", le_iup_event);
     le_iup_ihandle = zend_register_list_destructors_ex(iup_ihandle_dtor,NULL,"iup-handle", module_number);
-    php_error(E_WARNING, "le_iup_ihandle_end: %d", le_iup_ihandle);
     le_iup_event = zend_register_list_destructors_ex(iup_event_dtor,NULL,"iup-event", module_number);
-    php_error(E_WARNING, "le_iup_event_end: %d", le_iup_event);
 
     // init array
     ALLOC_HASHTABLE(iup_events);
