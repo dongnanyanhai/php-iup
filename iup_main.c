@@ -2680,286 +2680,287 @@ PHP_FUNCTION(IupSetCallback)
 
     // 判断事件数组中是否存有相同事件id
     if(!zend_hash_exists(iup_events,event_key)){
+
         // 判断是什么事件
-        if(event_name == "ACTION"){
+        if(strcmp(event_name,"ACTION") == 0){
             cb = (Icallback) event_action;
-        }else if(event_name == "ACTION_CB"){
+        }else if(strcmp(event_name,"ACTION_CB") == 0){
             cb = (Icallback) event_action_cb;
-        }else if(event_name == "AUTOCCANCELLED_CB"){
+        }else if(strcmp(event_name,"AUTOCCANCELLED_CB") == 0){
             cb = (Icallback) event_autoccancelled_cb;
-        }else if(event_name == "AUTOCCHARDELETED_CB"){
+        }else if(strcmp(event_name,"AUTOCCHARDELETED_CB") == 0){
             cb = (Icallback) event_autocchardeleted_cb;
-        }else if(event_name == "AUTOCSELECTION_CB"){
+        }else if(strcmp(event_name,"AUTOCSELECTION_CB") == 0){
             cb = (Icallback) event_autocselection_cb;
-        }else if(event_name == "BUSY_CB"){
+        }else if(strcmp(event_name,"BUSY_CB") == 0){
             cb = (Icallback) event_busy_cb;
-        }else if(event_name == "BUTTON_CB"){
+        }else if(strcmp(event_name,"BUTTON_CB") == 0){
             cb = (Icallback) event_button_cb;
-        }else if(event_name == "BUTTON_PRESS_CB"){
+        }else if(strcmp(event_name,"BUTTON_PRESS_CB") == 0){
             cb = (Icallback) event_button_press_cb;
-        }else if(event_name == "BUTTON_RELEASE_CB"){
+        }else if(strcmp(event_name,"BUTTON_RELEASE_CB") == 0){
             cb = (Icallback) event_button_release_cb;
-        }else if(event_name == "CANCEL_CB"){
+        }else if(strcmp(event_name,"CANCEL_CB") == 0){
             cb = (Icallback) event_cancel_cb;
-        }else if(event_name == "CARET_CB"){
+        }else if(strcmp(event_name,"CARET_CB") == 0){
             cb = (Icallback) event_caret_cb;
-        }else if(event_name == "CELL_CB"){
+        }else if(strcmp(event_name,"CELL_CB") == 0){
             cb = (Icallback) event_cell_cb;
-        }else if(event_name == "CHANGE_CB"){
+        }else if(strcmp(event_name,"CHANGE_CB") == 0){
             cb = (Icallback) event_change_cb;
-        }else if(event_name == "CLICKSAMPLE_CB"){
+        }else if(strcmp(event_name,"CLICKSAMPLE_CB") == 0){
             cb = (Icallback) event_clicksample_cb;
-        }else if(event_name == "CLICKSEGMENT_CB"){
+        }else if(strcmp(event_name,"CLICKSEGMENT_CB") == 0){
             cb = (Icallback) event_clicksegment_cb;
-        }else if(event_name == "CLOSETEXT_CB"){
+        }else if(strcmp(event_name,"CLOSETEXT_CB") == 0){
             cb = (Icallback) event_closetext_cb;
-        }else if(event_name == "CLOSE_CB"){
+        }else if(strcmp(event_name,"CLOSE_CB") == 0){
             cb = (Icallback) event_close_cb;
-        }else if(event_name == "COLORUPDATE_CB"){
+        }else if(strcmp(event_name,"COLORUPDATE_CB") == 0){
             cb = (Icallback) event_colorupdate_cb;
-        }else if(event_name == "COMPLETED_CB"){
+        }else if(strcmp(event_name,"COMPLETED_CB") == 0){
             cb = (Icallback) event_completed_cb;
-        }else if(event_name == "CONFIGLOAD_CB"){
+        }else if(strcmp(event_name,"CONFIGLOAD_CB") == 0){
             cb = (Icallback) event_configload_cb;
-        }else if(event_name == "CONFIGSAVE_CB"){
+        }else if(strcmp(event_name,"CONFIGSAVE_CB") == 0){
             cb = (Icallback) event_configsave_cb;
-        }else if(event_name == "COPYDATA_CB"){
+        }else if(strcmp(event_name,"COPYDATA_CB") == 0){
             cb = (Icallback) event_copydata_cb;
-        }else if(event_name == "CUSTOMFRAMEACTIVATE_CB"){
+        }else if(strcmp(event_name,"CUSTOMFRAMEACTIVATE_CB") == 0){
             cb = (Icallback) event_customframeactivate_cb;
-        }else if(event_name == "CUSTOMFRAME_CB"){
+        }else if(strcmp(event_name,"CUSTOMFRAME_CB") == 0){
             cb = (Icallback) event_customframe_cb;
-        }else if(event_name == "DBLCLICK_CB"){
+        }else if(strcmp(event_name,"DBLCLICK_CB") == 0){
             cb = (Icallback) event_dblclick_cb;
-        }else if(event_name == "DELETEBEGIN_CB"){
+        }else if(strcmp(event_name,"DELETEBEGIN_CB") == 0){
             cb = (Icallback) event_deletebegin_cb;
-        }else if(event_name == "DELETEEND_CB"){
+        }else if(strcmp(event_name,"DELETEEND_CB") == 0){
             cb = (Icallback) event_deleteend_cb;
-        }else if(event_name == "DELETE_CB"){
+        }else if(strcmp(event_name,"DELETE_CB") == 0){
             cb = (Icallback) event_delete_cb;
-        }else if(event_name == "DESTROY_CB"){
+        }else if(strcmp(event_name,"DESTROY_CB") == 0){
             cb = (Icallback) event_destroy_cb;
-        }else if(event_name == "DETACHED_CB"){
+        }else if(strcmp(event_name,"DETACHED_CB") == 0){
             cb = (Icallback) event_detached_cb;
-        }else if(event_name == "DRAGDROP_CB"){
+        }else if(strcmp(event_name,"DRAGDROP_CB") == 0){
             cb = (Icallback) event_dragdrop_cb;
-        }else if(event_name == "DRAG_CB"){
+        }else if(strcmp(event_name,"DRAG_CB") == 0){
             cb = (Icallback) event_drag_cb;
-        }else if(event_name == "DRAWSAMPLE_CB"){
+        }else if(strcmp(event_name,"DRAWSAMPLE_CB") == 0){
             cb = (Icallback) event_drawsample_cb;
-        }else if(event_name == "DRAW_CB"){
+        }else if(strcmp(event_name,"DRAW_CB") == 0){
             cb = (Icallback) event_draw_cb;
-        }else if(event_name == "DROPDOWN_CB"){
+        }else if(strcmp(event_name,"DROPDOWN_CB") == 0){
             cb = (Icallback) event_dropdown_cb;
-        }else if(event_name == "DROPFILES_CB"){
+        }else if(strcmp(event_name,"DROPFILES_CB") == 0){
             cb = (Icallback) event_dropfiles_cb;
-        }else if(event_name == "DROPSHOW_CB"){
+        }else if(strcmp(event_name,"DROPSHOW_CB") == 0){
             cb = (Icallback) event_dropshow_cb;
-        }else if(event_name == "DSPROPERTIESCHANGED_CB"){
+        }else if(strcmp(event_name,"DSPROPERTIESCHANGED_CB") == 0){
             cb = (Icallback) event_dspropertieschanged_cb;
-        }else if(event_name == "DWELL_CB"){
+        }else if(strcmp(event_name,"DWELL_CB") == 0){
             cb = (Icallback) event_dwell_cb;
-        }else if(event_name == "EDITSAMPLE_CB"){
+        }else if(strcmp(event_name,"EDITSAMPLE_CB") == 0){
             cb = (Icallback) event_editsample_cb;
-        }else if(event_name == "EDIT_CB"){
+        }else if(strcmp(event_name,"EDIT_CB") == 0){
             cb = (Icallback) event_edit_cb;
-        }else if(event_name == "ENTERWINDOW_CB"){
+        }else if(strcmp(event_name,"ENTERWINDOW_CB") == 0){
             cb = (Icallback) event_enterwindow_cb;
-        }else if(event_name == "ERROR_CB"){
+        }else if(strcmp(event_name,"ERROR_CB") == 0){
             cb = (Icallback) event_error_cb;
-        }else if(event_name == "EXIT_CB"){
+        }else if(strcmp(event_name,"EXIT_CB") == 0){
             cb = (Icallback) event_exit_cb;
-        }else if(event_name == "EXTENDED_CB"){
+        }else if(strcmp(event_name,"EXTENDED_CB") == 0){
             cb = (Icallback) event_extended_cb;
-        }else if(event_name == "EXTRABUTTON_CB"){
+        }else if(strcmp(event_name,"EXTRABUTTON_CB") == 0){
             cb = (Icallback) event_extrabutton_cb;
-        }else if(event_name == "FILE_CB"){
+        }else if(strcmp(event_name,"FILE_CB") == 0){
             cb = (Icallback) event_file_cb;
-        }else if(event_name == "FLAT_ACTION"){
+        }else if(strcmp(event_name,"FLAT_ACTION") == 0){
             cb = (Icallback) event_flat_action;
-        }else if(event_name == "FOCUS_CB"){
+        }else if(strcmp(event_name,"FOCUS_CB") == 0){
             cb = (Icallback) event_focus_cb;
-        }else if(event_name == "GETFOCUS_CB"){
+        }else if(strcmp(event_name,"GETFOCUS_CB") == 0){
             cb = (Icallback) event_getfocus_cb;
-        }else if(event_name == "GL_ACTION"){
+        }else if(strcmp(event_name,"GL_ACTION") == 0){
             cb = (Icallback) event_gl_action;
-        }else if(event_name == "GL_BUTTON_CB"){
+        }else if(strcmp(event_name,"GL_BUTTON_CB") == 0){
             cb = (Icallback) event_gl_button_cb;
-        }else if(event_name == "GL_ENTERWINDOW_CB"){
+        }else if(strcmp(event_name,"GL_ENTERWINDOW_CB") == 0){
             cb = (Icallback) event_gl_enterwindow_cb;
-        }else if(event_name == "GL_LEAVEWINDOW_CB"){
+        }else if(strcmp(event_name,"GL_LEAVEWINDOW_CB") == 0){
             cb = (Icallback) event_gl_leavewindow_cb;
-        }else if(event_name == "GL_MOTION_CB"){
+        }else if(strcmp(event_name,"GL_MOTION_CB") == 0){
             cb = (Icallback) event_gl_motion_cb;
-        }else if(event_name == "GL_WHEEL_CB"){
+        }else if(strcmp(event_name,"GL_WHEEL_CB") == 0){
             cb = (Icallback) event_gl_wheel_cb;
-        }else if(event_name == "HEIGHT_CB"){
+        }else if(strcmp(event_name,"HEIGHT_CB") == 0){
             cb = (Icallback) event_height_cb;
-        }else if(event_name == "HELP_CB"){
+        }else if(strcmp(event_name,"HELP_CB") == 0){
             cb = (Icallback) event_help_cb;
-        }else if(event_name == "HIGHLIGHT_CB"){
+        }else if(strcmp(event_name,"HIGHLIGHT_CB") == 0){
             cb = (Icallback) event_highlight_cb;
-        }else if(event_name == "HOTSPOTCLICK_CB"){
+        }else if(strcmp(event_name,"HOTSPOTCLICK_CB") == 0){
             cb = (Icallback) event_hotspotclick_cb;
-        }else if(event_name == "HSPAN_CB"){
+        }else if(strcmp(event_name,"HSPAN_CB") == 0){
             cb = (Icallback) event_hspan_cb;
-        }else if(event_name == "IMAGEVALUECHANGED_CB"){
+        }else if(strcmp(event_name,"IMAGEVALUECHANGED_CB") == 0){
             cb = (Icallback) event_imagevaluechanged_cb;
-        }else if(event_name == "KEYPRESS_CB"){
+        }else if(strcmp(event_name,"KEYPRESS_CB") == 0){
             cb = (Icallback) event_keypress_cb;
-        }else if(event_name == "KILLFOCUS_CB"){
+        }else if(strcmp(event_name,"KILLFOCUS_CB") == 0){
             cb = (Icallback) event_killfocus_cb;
-        }else if(event_name == "K_ANY"){
+        }else if(strcmp(event_name,"K_ANY") == 0){
             cb = (Icallback) event_k_any;
-        }else if(event_name == "LAYOUTUPDATE_CB"){
+        }else if(strcmp(event_name,"LAYOUTUPDATE_CB") == 0){
             cb = (Icallback) event_layoutupdate_cb;
-        }else if(event_name == "LEAVEWINDOW_CB"){
+        }else if(strcmp(event_name,"LEAVEWINDOW_CB") == 0){
             cb = (Icallback) event_leavewindow_cb;
-        }else if(event_name == "LINESCHANGED_CB"){
+        }else if(strcmp(event_name,"LINESCHANGED_CB") == 0){
             cb = (Icallback) event_lineschanged_cb;
-        }else if(event_name == "LISTACTION_CB"){
+        }else if(strcmp(event_name,"LISTACTION_CB") == 0){
             cb = (Icallback) event_listaction_cb;
-        }else if(event_name == "LISTCLICK_CB"){
+        }else if(strcmp(event_name,"LISTCLICK_CB") == 0){
             cb = (Icallback) event_listclick_cb;
-        }else if(event_name == "LISTDRAW_CB"){
+        }else if(strcmp(event_name,"LISTDRAW_CB") == 0){
             cb = (Icallback) event_listdraw_cb;
-        }else if(event_name == "LISTEDITION_CB"){
+        }else if(strcmp(event_name,"LISTEDITION_CB") == 0){
             cb = (Icallback) event_listedition_cb;
-        }else if(event_name == "LISTINSERT_CB"){
+        }else if(strcmp(event_name,"LISTINSERT_CB") == 0){
             cb = (Icallback) event_listinsert_cb;
-        }else if(event_name == "LISTRELEASE_CB"){
+        }else if(strcmp(event_name,"LISTRELEASE_CB") == 0){
             cb = (Icallback) event_listrelease_cb;
-        }else if(event_name == "LISTREMOVE_CB"){
+        }else if(strcmp(event_name,"LISTREMOVE_CB") == 0){
             cb = (Icallback) event_listremove_cb;
-        }else if(event_name == "MAP_CB"){
+        }else if(strcmp(event_name,"MAP_CB") == 0){
             cb = (Icallback) event_map_cb;
-        }else if(event_name == "MARGINCLICK_CB"){
+        }else if(strcmp(event_name,"MARGINCLICK_CB") == 0){
             cb = (Icallback) event_marginclick_cb;
-        }else if(event_name == "MARKERCHANGED_CB"){
+        }else if(strcmp(event_name,"MARKERCHANGED_CB") == 0){
             cb = (Icallback) event_markerchanged_cb;
-        }else if(event_name == "MASKFAIL_CB"){
+        }else if(strcmp(event_name,"MASKFAIL_CB") == 0){
             cb = (Icallback) event_maskfail_cb;
-        }else if(event_name == "MDIACTIVATE_CB"){
+        }else if(strcmp(event_name,"MDIACTIVATE_CB") == 0){
             cb = (Icallback) event_mdiactivate_cb;
-        }else if(event_name == "MENUCLOSE_CB"){
+        }else if(strcmp(event_name,"MENUCLOSE_CB") == 0){
             cb = (Icallback) event_menuclose_cb;
-        }else if(event_name == "MENUCONTEXTCLOSE_CB"){
+        }else if(strcmp(event_name,"MENUCONTEXTCLOSE_CB") == 0){
             cb = (Icallback) event_menucontextclose_cb;
-        }else if(event_name == "MENUCONTEXT_CB"){
+        }else if(strcmp(event_name,"MENUCONTEXT_CB") == 0){
             cb = (Icallback) event_menucontext_cb;
-        }else if(event_name == "MOTION_CB"){
+        }else if(strcmp(event_name,"MOTION_CB") == 0){
             cb = (Icallback) event_motion_cb;
-        }else if(event_name == "MOUSECLICK_CB"){
+        }else if(strcmp(event_name,"MOUSECLICK_CB") == 0){
             cb = (Icallback) event_mouseclick_cb;
-        }else if(event_name == "MOUSEMOTION_CB"){
+        }else if(strcmp(event_name,"MOUSEMOTION_CB") == 0){
             cb = (Icallback) event_mousemotion_cb;
-        }else if(event_name == "MOUSEMOVE_CB"){
+        }else if(strcmp(event_name,"MOUSEMOVE_CB") == 0){
             cb = (Icallback) event_mousemove_cb;
-        }else if(event_name == "MOVE_CB"){
+        }else if(strcmp(event_name,"MOVE_CB") == 0){
             cb = (Icallback) event_move_cb;
-        }else if(event_name == "MULTISELECT_CB"){
+        }else if(strcmp(event_name,"MULTISELECT_CB") == 0){
             cb = (Icallback) event_multiselect_cb;
-        }else if(event_name == "MULTITOUCH_CB"){
+        }else if(strcmp(event_name,"MULTITOUCH_CB") == 0){
             cb = (Icallback) event_multitouch_cb;
-        }else if(event_name == "NAVIGATE_CB"){
+        }else if(strcmp(event_name,"NAVIGATE_CB") == 0){
             cb = (Icallback) event_navigate_cb;
-        }else if(event_name == "NCOLS_CB"){
+        }else if(strcmp(event_name,"NCOLS_CB") == 0){
             cb = (Icallback) event_ncols_cb;
-        }else if(event_name == "NEWFILENAME_CB"){
+        }else if(strcmp(event_name,"NEWFILENAME_CB") == 0){
             cb = (Icallback) event_newfilename_cb;
-        }else if(event_name == "NEWTEXT_CB"){
+        }else if(strcmp(event_name,"NEWTEXT_CB") == 0){
             cb = (Icallback) event_newtext_cb;
-        }else if(event_name == "NEWWINDOW_CB"){
+        }else if(strcmp(event_name,"NEWWINDOW_CB") == 0){
             cb = (Icallback) event_newwindow_cb;
-        }else if(event_name == "NLINES_CB"){
+        }else if(strcmp(event_name,"NLINES_CB") == 0){
             cb = (Icallback) event_nlines_cb;
-        }else if(event_name == "NUMERICGETVALUE_CB"){
+        }else if(strcmp(event_name,"NUMERICGETVALUE_CB") == 0){
             cb = (Icallback) event_numericgetvalue_cb;
-        }else if(event_name == "NUMERICSETVALUE_CB"){
+        }else if(strcmp(event_name,"NUMERICSETVALUE_CB") == 0){
             cb = (Icallback) event_numericsetvalue_cb;
-        }else if(event_name == "OPENCLOSE_CB"){
+        }else if(strcmp(event_name,"OPENCLOSE_CB") == 0){
             cb = (Icallback) event_openclose_cb;
-        }else if(event_name == "OPEN_CB"){
+        }else if(strcmp(event_name,"OPEN_CB") == 0){
             cb = (Icallback) event_open_cb;
-        }else if(event_name == "PASTESIZE_CB"){
+        }else if(strcmp(event_name,"PASTESIZE_CB") == 0){
             cb = (Icallback) event_pastesize_cb;
-        }else if(event_name == "PLOTBUTTON_CB"){
+        }else if(strcmp(event_name,"PLOTBUTTON_CB") == 0){
             cb = (Icallback) event_plotbutton_cb;
-        }else if(event_name == "PLOTMOTION_CB"){
+        }else if(strcmp(event_name,"PLOTMOTION_CB") == 0){
             cb = (Icallback) event_plotmotion_cb;
-        }else if(event_name == "POSTDRAW_CB"){
+        }else if(strcmp(event_name,"POSTDRAW_CB") == 0){
             cb = (Icallback) event_postdraw_cb;
-        }else if(event_name == "PREDRAW_CB"){
+        }else if(strcmp(event_name,"PREDRAW_CB") == 0){
             cb = (Icallback) event_predraw_cb;
-        }else if(event_name == "PROPERTIESCHANGED_CB"){
+        }else if(strcmp(event_name,"PROPERTIESCHANGED_CB") == 0){
             cb = (Icallback) event_propertieschanged_cb;
-        }else if(event_name == "RESIZE_CB"){
+        }else if(strcmp(event_name,"RESIZE_CB") == 0){
             cb = (Icallback) event_resize_cb;
-        }else if(event_name == "RESTORED_CB"){
+        }else if(strcmp(event_name,"RESTORED_CB") == 0){
             cb = (Icallback) event_restored_cb;
-        }else if(event_name == "RESTOREMARKERS_CB"){
+        }else if(strcmp(event_name,"RESTOREMARKERS_CB") == 0){
             cb = (Icallback) event_restoremarkers_cb;
-        }else if(event_name == "RIGHTCLICK_CB"){
+        }else if(strcmp(event_name,"RIGHTCLICK_CB") == 0){
             cb = (Icallback) event_rightclick_cb;
-        }else if(event_name == "SAVEMARKERS_CB"){
+        }else if(strcmp(event_name,"SAVEMARKERS_CB") == 0){
             cb = (Icallback) event_savemarkers_cb;
-        }else if(event_name == "SAVEPOINT_CB"){
+        }else if(strcmp(event_name,"SAVEPOINT_CB") == 0){
             cb = (Icallback) event_savepoint_cb;
-        }else if(event_name == "SCROLLING_CB"){
+        }else if(strcmp(event_name,"SCROLLING_CB") == 0){
             cb = (Icallback) event_scrolling_cb;
-        }else if(event_name == "SCROLL_CB"){
+        }else if(strcmp(event_name,"SCROLL_CB") == 0){
             cb = (Icallback) event_scroll_cb;
-        }else if(event_name == "SELECTBEGIN_CB"){
+        }else if(strcmp(event_name,"SELECTBEGIN_CB") == 0){
             cb = (Icallback) event_selectbegin_cb;
-        }else if(event_name == "SELECTEND_CB"){
+        }else if(strcmp(event_name,"SELECTEND_CB") == 0){
             cb = (Icallback) event_selectend_cb;
-        }else if(event_name == "SELECTION_CB"){
+        }else if(strcmp(event_name,"SELECTION_CB") == 0){
             cb = (Icallback) event_selection_cb;
-        }else if(event_name == "SELECT_CB"){
+        }else if(strcmp(event_name,"SELECT_CB") == 0){
             cb = (Icallback) event_select_cb;
-        }else if(event_name == "SHOW_CB"){
+        }else if(strcmp(event_name,"SHOW_CB") == 0){
             cb = (Icallback) event_show_cb;
-        }else if(event_name == "SORTCOLUMNCOMPARE_CB"){
+        }else if(strcmp(event_name,"SORTCOLUMNCOMPARE_CB") == 0){
             cb = (Icallback) event_sortcolumncompare_cb;
-        }else if(event_name == "SPIN_CB"){
+        }else if(strcmp(event_name,"SPIN_CB") == 0){
             cb = (Icallback) event_spin_cb;
-        }else if(event_name == "SWAPBUFFERS_CB"){
+        }else if(strcmp(event_name,"SWAPBUFFERS_CB") == 0){
             cb = (Icallback) event_swapbuffers_cb;
-        }else if(event_name == "SWITCH_CB"){
+        }else if(strcmp(event_name,"SWITCH_CB") == 0){
             cb = (Icallback) event_switch_cb;
-        }else if(event_name == "TABCHANGEPOS_CB"){
+        }else if(strcmp(event_name,"TABCHANGEPOS_CB") == 0){
             cb = (Icallback) event_tabchangepos_cb;
-        }else if(event_name == "TABCHANGE_CB"){
+        }else if(strcmp(event_name,"TABCHANGE_CB") == 0){
             cb = (Icallback) event_tabchange_cb;
-        }else if(event_name == "TABCLOSE_CB"){
+        }else if(strcmp(event_name,"TABCLOSE_CB") == 0){
             cb = (Icallback) event_tabclose_cb;
-        }else if(event_name == "TOUCH_CB"){
+        }else if(strcmp(event_name,"TOUCH_CB") == 0){
             cb = (Icallback) event_touch_cb;
-        }else if(event_name == "TRAYCLICK_CB"){
+        }else if(strcmp(event_name,"TRAYCLICK_CB") == 0){
             cb = (Icallback) event_trayclick_cb;
-        }else if(event_name == "UNMAP_CB"){
+        }else if(strcmp(event_name,"UNMAP_CB") == 0){
             cb = (Icallback) event_unmap_cb;
-        }else if(event_name == "UPDATECONTENT_CB"){
+        }else if(strcmp(event_name,"UPDATECONTENT_CB") == 0){
             cb = (Icallback) event_updatecontent_cb;
-        }else if(event_name == "UPDATEHSCROLL_CB"){
+        }else if(strcmp(event_name,"UPDATEHSCROLL_CB") == 0){
             cb = (Icallback) event_updatehscroll_cb;
-        }else if(event_name == "UPDATESELECTION_CB"){
+        }else if(strcmp(event_name,"UPDATESELECTION_CB") == 0){
             cb = (Icallback) event_updateselection_cb;
-        }else if(event_name == "UPDATEVSCROLL_CB"){
+        }else if(strcmp(event_name,"UPDATEVSCROLL_CB") == 0){
             cb = (Icallback) event_updatevscroll_cb;
-        }else if(event_name == "VALUECHANGED_CB"){
+        }else if(strcmp(event_name,"VALUECHANGED_CB") == 0){
             cb = (Icallback) event_valuechanged_cb;
-        }else if(event_name == "VALUECHANGING_CB"){
+        }else if(strcmp(event_name,"VALUECHANGING_CB") == 0){
             cb = (Icallback) event_valuechanging_cb;
-        }else if(event_name == "VSPAN_CB"){
+        }else if(strcmp(event_name,"VSPAN_CB") == 0){
             cb = (Icallback) event_vspan_cb;
-        }else if(event_name == "WHEEL_CB"){
+        }else if(strcmp(event_name,"WHEEL_CB") == 0){
             cb = (Icallback) event_wheel_cb;
-        }else if(event_name == "WIDTH_CB"){
+        }else if(strcmp(event_name,"WIDTH_CB") == 0){
             cb = (Icallback) event_width_cb;
-        }else if(event_name == "WOM_CB"){
+        }else if(strcmp(event_name,"WOM_CB") == 0){
             cb = (Icallback) event_wom_cb;
-        }else if(event_name == "ZOOM_CB"){
+        }else if(strcmp(event_name,"ZOOM_CB") == 0){
             cb = (Icallback) event_zoom_cb;
         }else{
             php_error(E_ERROR, "Event name not support");
