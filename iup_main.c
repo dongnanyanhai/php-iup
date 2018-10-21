@@ -1240,15 +1240,23 @@ PHP_FUNCTION(IupSetAttributes)
     char *str = NULL;
     size_t str_len;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"rs",&ihandle_res,&str,&str_len) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!s",&ihandle_res,&str,&str_len) == FAILURE) {
         return;
     }
 
-    ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+    if(ihandle_res != NULL){
+        ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+    }else{
+        ih = NULL;
+    }
 
     re = IupSetAttributes(ih,str);
 
-    RETURN_RES(zend_register_resource(re, le_iup_ihandle));
+    if(re != NULL){
+        RETURN_RES(zend_register_resource(re, le_iup_ihandle));
+    }
+
+    RETURN_NULL();
 }
 /* }}} */
 
@@ -1265,15 +1273,23 @@ PHP_FUNCTION(IupGetAttributes)
 
     char * str;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!",&ihandle_res) == FAILURE) {
         return;
     }
 
-    ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+    if(ihandle_res != NULL){
+        ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+    }else{
+        ih = NULL;
+    }
 
     str = IupGetAttributes(ih);
 
-    RETURN_STRING(str);
+    if(str != NULL){
+        RETURN_STRING(str);
+    }
+
+    RETURN_NULL();
 }
 /* }}} */
 
@@ -1295,11 +1311,15 @@ PHP_FUNCTION(IupSetAttribute)
     char *value = NULL;
     size_t value_len;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"rss",&ihandle_res,&name,&name_len,&value,&value_len) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!ss",&ihandle_res,&name,&name_len,&value,&value_len) == FAILURE) {
         return;
     }
 
-    ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+    if(ihandle_res != NULL){
+        ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+    }else{
+        ih = NULL;
+    }
 
     IupSetAttribute(ih,name,value);
 
@@ -1502,15 +1522,23 @@ PHP_FUNCTION(IupGetAttribute)
 
     char * str;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"rs",&ihandle_res,&name,&name_len) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!s",&ihandle_res,&name,&name_len) == FAILURE) {
         return;
     }
 
-    ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+    if(ihandle_res != NULL){
+        ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+    }else{
+        ih = NULL;
+    }
 
     str = IupGetAttribute(ih,name);
 
-    RETURN_STRING(str);
+    if(str != NULL){
+        RETURN_STRING(str);
+    }
+
+    RETURN_NULL();
 }
 /* }}} */
 
@@ -1719,11 +1747,15 @@ PHP_FUNCTION(IupSetAttributeId)
     char *value = NULL;
     size_t value_len;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"rsls",&ihandle_res,&name,&name_len,&id,&value,&value_len) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!sls",&ihandle_res,&name,&name_len,&id,&value,&value_len) == FAILURE) {
         return;
     }
 
-    ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+    if(ihandle_res != NULL){
+        ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+    }else{
+        ih = NULL;
+    }
 
     IupSetAttributeId(ih,name,id,value);
 
@@ -1944,15 +1976,23 @@ PHP_FUNCTION(IupGetAttributeId)
 
     char * str;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"rsl",&ihandle_res,&name,&name_len,&id) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!sl",&ihandle_res,&name,&name_len,&id) == FAILURE) {
         return;
     }
 
-    ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+    if(ihandle_res != NULL){
+        ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+    }else{
+        ih = NULL;
+    }
 
     str = IupGetAttributeId(ih,name,id);
 
-    RETURN_STRING(str);
+    if(str != NULL){
+        RETURN_STRING(str);
+    }
+
+    RETURN_NULL();
 }
 /* }}} */
 
@@ -2108,11 +2148,15 @@ PHP_FUNCTION(IupSetAttributeId2)
     char *value = NULL;
     size_t value_len;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"rslls",&ihandle_res,&name,&name_len,&lin,&col,&value,&value_len) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!slls",&ihandle_res,&name,&name_len,&lin,&col,&value,&value_len) == FAILURE) {
         return;
     }
 
-    ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+    if(ihandle_res != NULL){
+        ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+    }else{
+        ih = NULL;
+    }
 
     IupSetAttributeId2(ih,name,lin,col,value);
 
@@ -2333,15 +2377,23 @@ PHP_FUNCTION(IupGetAttributeId2)
 
     char * str;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"rsll",&ihandle_res,&name,&name_len,&lin,&col) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!sll",&ihandle_res,&name,&name_len,&lin,&col) == FAILURE) {
         return;
     }
 
-    ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+    if(ihandle_res != NULL){
+        ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+    }else{
+        ih = NULL;
+    }
 
     str = IupGetAttributeId2(ih,name,lin,col);
 
-    RETURN_STRING(str);
+    if(str != NULL){
+        RETURN_STRING(str);
+    }
+
+    RETURN_NULL();
 }
 /* }}} */
 
@@ -3183,11 +3235,16 @@ PHP_FUNCTION(IupSetAttributeHandle)
 
     Ihandle *ih,*ih_named;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"rsr",&ihandle_res,&name,&name_len,&ihandle_res_named) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!sr",&ihandle_res,&name,&name_len,&ihandle_res_named) == FAILURE) {
         return;
     }
 
-    ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+    if(ihandle_res != NULL){
+        ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+    }else{
+        ih = NULL;
+    }
+
     ih_named = zend_fetch_resource_ex(ihandle_res_named,"iup-handle",le_iup_ihandle);
 
     IupSetAttributeHandle(ih,name,ih_named);
@@ -3210,15 +3267,23 @@ PHP_FUNCTION(IupGetAttributeHandle)
 
     Ihandle *ih,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"rs",&ihandle_res,&name,&name_len) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!s",&ihandle_res,&name,&name_len) == FAILURE) {
         return;
     }
 
-    ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+    if(ihandle_res != NULL){
+        ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+    }else{
+        ih = NULL;
+    }
 
     re = IupGetAttributeHandle(ih,name);
 
-    RETURN_RES(zend_register_resource(re, le_iup_ihandle));
+    if(re != NULL){
+        RETURN_RES(zend_register_resource(re, le_iup_ihandle));
+    }
+
+    RETURN_NULL();
 }
 /* }}} */
 
@@ -3239,11 +3304,16 @@ PHP_FUNCTION(IupSetAttributeHandleId)
 
     Ihandle *ih,*ih_named;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"rslr",&ihandle_res,&name,&name_len,&id,&ihandle_res_named) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!slr",&ihandle_res,&name,&name_len,&id,&ihandle_res_named) == FAILURE) {
         return;
     }
 
-    ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+    if(ihandle_res != NULL){
+        ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+    }else{
+        ih = NULL;
+    }
+
     ih_named = zend_fetch_resource_ex(ihandle_res_named,"iup-handle",le_iup_ihandle);
 
     IupSetAttributeHandleId(ih,name,id,ih_named);
@@ -3268,15 +3338,24 @@ PHP_FUNCTION(IupGetAttributeHandleId)
 
     Ihandle *ih,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"rsl",&ihandle_res,&name,&name_len,&id) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!sl",&ihandle_res,&name,&name_len,&id) == FAILURE) {
         return;
     }
 
-    ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+    if(ihandle_res != NULL){
+        ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+    }else{
+        ih = NULL;
+    }
 
     re = IupGetAttributeHandleId(ih,name,id);
 
-    RETURN_RES(zend_register_resource(re, le_iup_ihandle));
+    if(re != NULL){
+        RETURN_RES(zend_register_resource(re, le_iup_ihandle));
+    }
+
+    RETURN_NULL();
+
 }
 /* }}} */
 
@@ -3298,11 +3377,16 @@ PHP_FUNCTION(IupSetAttributeHandleId2)
 
     Ihandle *ih,*ih_named;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"rsllr",&ihandle_res,&name,&name_len,&lin,&col,&ihandle_res_named) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!sllr",&ihandle_res,&name,&name_len,&lin,&col,&ihandle_res_named) == FAILURE) {
         return;
     }
 
-    ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+    if(ihandle_res != NULL){
+        ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+    }else{
+        ih = NULL;
+    }
+
     ih_named = zend_fetch_resource_ex(ihandle_res_named,"iup-handle",le_iup_ihandle);
 
     IupSetAttributeHandleId2(ih,name,lin,col,ih_named);
@@ -3328,15 +3412,23 @@ PHP_FUNCTION(IupGetAttributeHandleId2)
 
     Ihandle *ih,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"rs",&ihandle_res,&name,&name_len,&lin,&col) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!sll",&ihandle_res,&name,&name_len,&lin,&col) == FAILURE) {
         return;
     }
 
-    ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+    if(ihandle_res != NULL){
+        ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+    }else{
+        ih = NULL;
+    }
 
     re = IupGetAttributeHandleId2(ih,name,lin,col);
 
-    RETURN_RES(zend_register_resource(re, le_iup_ihandle));
+    if(re != NULL){
+        RETURN_RES(zend_register_resource(re, le_iup_ihandle));
+    }
+
+    RETURN_NULL();
 }
 /* }}} */
 /* {{{ proto string IupGetClassName(resource ih)
