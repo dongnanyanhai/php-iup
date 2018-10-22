@@ -32,7 +32,6 @@ extern int le_iup_event;
 
 extern HashTable *iup_events;
 
-
 /* {{{ proto void IupOpen()
     */
 PHP_FUNCTION(IupOpen)
@@ -1701,10 +1700,10 @@ PHP_FUNCTION(IupGetRGB)
     char *name = NULL;
     size_t name_len;
 
-    unsigned char *r, *g, *b;
-    zval *rr,*gg,*bb;
+    unsigned char r, g, b;
+    zval rr,gg,bb;
 
-    HashTable *arr;
+    HashTable *arr = NULL;
 
     if (zend_parse_parameters(argc TSRMLS_DC,"rs",&ihandle_res,&name,&name_len) == FAILURE) {
         return;
@@ -1712,17 +1711,18 @@ PHP_FUNCTION(IupGetRGB)
 
     ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
 
-    IupGetRGB(ih,name,r,g,b);
+    IupGetRGB(ih,name,&r,&g,&b);
 
+    ALLOC_HASHTABLE(arr);
     zend_hash_init(arr,8,NULL,NULL,0);
 
-    ZVAL_LONG(rr,*r);
-    ZVAL_LONG(gg,*g);
-    ZVAL_LONG(bb,*b);
+    ZVAL_LONG(&rr,r);
+    ZVAL_LONG(&gg,g);
+    ZVAL_LONG(&bb,b);
 
-    zend_hash_str_add_new(arr,"r",2,rr);
-    zend_hash_str_add_new(arr,"g",2,gg);
-    zend_hash_str_add_new(arr,"b",2,bb);
+    zend_hash_str_add_new(arr,"r",2,&rr);
+    zend_hash_str_add_new(arr,"g",2,&gg);
+    zend_hash_str_add_new(arr,"b",2,&bb);
 
     RETURN_ARR(arr);
 }
@@ -2102,10 +2102,10 @@ PHP_FUNCTION(IupGetRGBId)
 
     zend_long id;
 
-    unsigned char *r, *g, *b;
-    zval *rr,*gg,*bb;
+    unsigned char r, g, b;
+    zval rr,gg,bb;
 
-    HashTable *arr;
+    HashTable *arr = NULL;
 
     if (zend_parse_parameters(argc TSRMLS_DC,"rsl",&ihandle_res,&name,&name_len,&id) == FAILURE) {
         return;
@@ -2113,17 +2113,18 @@ PHP_FUNCTION(IupGetRGBId)
 
     ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
 
-    IupGetRGBId(ih,name,id,r,g,b);
+    IupGetRGBId(ih,name,id,&r,&g,&b);
 
+    ALLOC_HASHTABLE(arr);
     zend_hash_init(arr,8,NULL,NULL,0);
 
-    ZVAL_LONG(rr,*r);
-    ZVAL_LONG(gg,*g);
-    ZVAL_LONG(bb,*b);
+    ZVAL_LONG(&rr,r);
+    ZVAL_LONG(&gg,g);
+    ZVAL_LONG(&bb,b);
 
-    zend_hash_str_add_new(arr,"r",2,rr);
-    zend_hash_str_add_new(arr,"g",2,gg);
-    zend_hash_str_add_new(arr,"b",2,bb);
+    zend_hash_str_add_new(arr,"r",2,&rr);
+    zend_hash_str_add_new(arr,"g",2,&gg);
+    zend_hash_str_add_new(arr,"b",2,&bb);
 
     RETURN_ARR(arr);
 }
@@ -2503,10 +2504,10 @@ PHP_FUNCTION(IupGetRGBId2)
 
     zend_long lin, col;
 
-    unsigned char *r, *g, *b;
-    zval *rr,*gg,*bb;
+    unsigned char r, g, b;
+    zval rr,gg,bb;
 
-    HashTable *arr;
+    HashTable *arr = NULL;
 
     if (zend_parse_parameters(argc TSRMLS_DC,"rsll",&ihandle_res,&name,&name_len,&lin,&col) == FAILURE) {
         return;
@@ -2514,17 +2515,18 @@ PHP_FUNCTION(IupGetRGBId2)
 
     ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
 
-    IupGetRGBId2(ih,name,lin,col,r,g,b);
+    IupGetRGBId2(ih,name,lin,col,&r,&g,&b);
 
+    ALLOC_HASHTABLE(arr);
     zend_hash_init(arr,8,NULL,NULL,0);
 
-    ZVAL_LONG(rr,*r);
-    ZVAL_LONG(gg,*g);
-    ZVAL_LONG(bb,*b);
+    ZVAL_LONG(&rr,r);
+    ZVAL_LONG(&gg,g);
+    ZVAL_LONG(&bb,b);
 
-    zend_hash_str_add_new(arr,"r",2,rr);
-    zend_hash_str_add_new(arr,"g",2,gg);
-    zend_hash_str_add_new(arr,"b",2,bb);
+    zend_hash_str_add_new(arr,"r",2,&rr);
+    zend_hash_str_add_new(arr,"g",2,&gg);
+    zend_hash_str_add_new(arr,"b",2,&bb);
 
     RETURN_ARR(arr);
 }
@@ -2723,6 +2725,8 @@ PHP_FUNCTION(IupSetCallback)
         return;
     }
 
+    Z_ADDREF_P(ihandle_res);
+
     call_params[0] = *ihandle_res;
     callable.param_count = 1;
     callable.params = call_params;
@@ -2733,7 +2737,7 @@ PHP_FUNCTION(IupSetCallback)
 
     ih_p_int = (intptr_t)ih;
 
-    sprintf(event_key_str,"%"SCNiPTR,ih_p_int);
+    sprintf(event_key_str,"IUP_%"SCNiPTR,ih_p_int);
     strcat(event_key_str,"_");
     strcat(event_key_str,event_name);
 
@@ -2741,7 +2745,6 @@ PHP_FUNCTION(IupSetCallback)
 
     // 判断事件数组中是否存有相同事件id
     if(!zend_hash_exists(iup_events,event_key)){
-
         // 判断是什么事件
         if(strcmp(event_name,"ACTION") == 0){
             cb = (Icallback) event_action;
@@ -5138,7 +5141,7 @@ PHP_FUNCTION(IupTextConvertLinColToPos)
 
     zend_long lin,col;
 
-    int *pos;
+    int pos;
 
     if (zend_parse_parameters(argc TSRMLS_DC,"rll",&ihandle_res,&lin,&col) == FAILURE) {
         return;
@@ -5146,9 +5149,9 @@ PHP_FUNCTION(IupTextConvertLinColToPos)
 
     ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
 
-    IupTextConvertLinColToPos(ih,lin,col,pos);
+    IupTextConvertLinColToPos(ih,lin,col,&pos);
 
-    RETURN_LONG(*pos);
+    RETURN_LONG(pos);
 }
 /* }}} */
 
@@ -5165,9 +5168,9 @@ PHP_FUNCTION(IupTextConvertPosToLinCol)
 
     zend_long pos;
 
-    int *lin,*col;
+    int lin,col;
 
-    zval *llin,*lcol;
+    zval llin,lcol;
 
     HashTable *arr;
 
@@ -5177,16 +5180,16 @@ PHP_FUNCTION(IupTextConvertPosToLinCol)
 
     ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
 
-    IupTextConvertPosToLinCol(ih,pos,lin,col);
+    IupTextConvertPosToLinCol(ih,pos,&lin,&col);
 
-    zend_hash_init(arr,8,NULL,NULL,0);
+    ALLOC_HASHTABLE(arr);
+    zend_hash_init(arr, 8, NULL, ZVAL_PTR_DTOR, 0);
 
+    ZVAL_LONG(&llin,lin);
+    ZVAL_LONG(&lcol,col);
 
-    ZVAL_LONG(llin,*lin);
-    ZVAL_LONG(lcol,*col);
-
-    zend_hash_str_add_new(arr,"lin",2,llin);
-    zend_hash_str_add_new(arr,"col",2,lcol);
+    zend_hash_str_add_new(arr,"lin",4,&llin);
+    zend_hash_str_add_new(arr,"col",4,&lcol);
 
     RETURN_ARR(arr);
 }
@@ -5639,30 +5642,32 @@ PHP_FUNCTION(IupGetColor)
 
     zend_long x,y;
 
-    unsigned char *r, *g, *b;
-    zval *rr,*gg,*bb;
+    unsigned char r, g, b;
+    zval rr,gg,bb;
 
-    HashTable *arr;
+    HashTable *arr = NULL;
 
     if (zend_parse_parameters(argc,"ll",&x,&y) == FAILURE) {
         return;
     }
 
-    IupGetColor(x,y,r,g,b);
+    IupGetColor(x,y,&r,&g,&b);
 
+    ALLOC_HASHTABLE(arr);
     zend_hash_init(arr,8,NULL,NULL,0);
 
-    ZVAL_LONG(rr,*r);
-    ZVAL_LONG(gg,*g);
-    ZVAL_LONG(bb,*b);
+    ZVAL_LONG(&rr,r);
+    ZVAL_LONG(&gg,g);
+    ZVAL_LONG(&bb,b);
 
-    zend_hash_str_add_new(arr,"r",2,rr);
-    zend_hash_str_add_new(arr,"g",2,gg);
-    zend_hash_str_add_new(arr,"b",2,bb);
+    zend_hash_str_add_new(arr,"r",2,&rr);
+    zend_hash_str_add_new(arr,"g",2,&gg);
+    zend_hash_str_add_new(arr,"b",2,&bb);
 
     RETURN_ARR(arr);
 }
 /* }}} */
+
 /* {{{ proto int IupGetParam()
    ;
  */

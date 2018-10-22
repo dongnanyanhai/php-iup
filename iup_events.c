@@ -52,7 +52,7 @@ int event_common( Ihandle *self , char * event_name)
 
     ih_p_int = (intptr_t)self;
 
-    sprintf(event_key_str,"%"SCNiPTR,ih_p_int);
+    sprintf(event_key_str,"IUP_%"SCNiPTR,ih_p_int);
 
     // 把两个字符串拼接
     strcat(event_key_str,"_");

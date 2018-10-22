@@ -37,7 +37,7 @@ int le_iup;
 int le_iup_ihandle = 0;
 int le_iup_event = 0;
 
-HashTable *iup_events = NULL;
+HashTable *iup_events;
 
 /* {{{ PHP_INI
  */
@@ -117,7 +117,7 @@ PHP_MINIT_FUNCTION(iup)
 
     // init array
     ALLOC_HASHTABLE(iup_events);
-    zend_hash_init(iup_events,2048,NULL,NULL,0);
+    zend_hash_init(iup_events,20480,NULL,NULL,0);
 
 
     /************************************************************************/

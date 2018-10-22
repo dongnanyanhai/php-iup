@@ -29,7 +29,7 @@ if (PHP_IUP != "no") {
     ){
         EXTENSION("iup", "iup.c", true, "/DZEND_ENABLE_STATIC_TSRMLS_CACHE=1");
 
-        ADD_SOURCES("ext/iup", "iup_main.c iup_events.c", "iup");
+        ADD_SOURCES("ext/iup", "iup_main.c iup_events.c iup_ext.c", "iup");
 
     }else{
         WARNING("iup.lib not found");
