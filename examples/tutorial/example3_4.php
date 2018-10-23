@@ -6,10 +6,31 @@ if (!extension_loaded("iup")){
     die("iup extension is unavailable");
 };
 
-sleep(5);
+// sleep(5);
 
 $dialogs = array();
 
+/********************************** Utilities *****************************************/
+function str_find($haystack, $needle, $offset = 0, $casesensitive = 1){
+    
+    if(empty($haystack) || $needle === ""){
+        return false;
+    }
+
+    if($offset > strlen($haystack)){
+        $offset = 0;
+    }
+
+    if($casesensitive){
+        $pos = strpos($haystack, $needle, $offset);
+    }else{
+        $pos = stripos($haystack, $needle, $offset);
+    }
+
+    return $pos;
+
+}
+/********************************** Callbacks *****************************************/
 function open_cb($hd){
 
     global $dialogs;
@@ -70,8 +91,92 @@ function saveas_cb($hd){
     return IUP_DEFAULT;
 }
 
-function goto_cb($hd){
+function goto_ok_cb($bt_ok){
+
     global $dialogs;
+
+
+
+    // $line_count = IupGetInt($bt_ok, "TEXT_LINECOUNT");
+    $wtf = IupGetAttribute($bt_ok, "WTF");
+    var_dump($wtf);
+    $line_count = IupGetInt($dialogs["BUTTONOK"], "TEXT_LINECOUNT");
+    // var_dump($line_count);
+
+    $txt = IupGetDialogChild($bt_ok,"LINE_TEXT");
+    $line = IupGetInt($txt,"VALUE");
+    // var_dump($line);
+
+    if($line < 1 || $line >= $line_count){
+        IupMessage("Error", "Invalid line number.");
+        return IUP_DEFAULT;
+    }
+
+    IupSetAttribute(IupGetDialog($bt_ok),"STATUS", "1");
+
+    return IUP_CLOSE;
+}
+
+function goto_cancel_cb($bt_cancel){
+
+    IupSetAttribute(IupGetDialog($bt_cancel), "STATUS", "0");
+
+    return IUP_CLOSE;
+}
+
+function goto_cb($item_goto){
+
+    global $dialogs;
+
+    $multitext = $dialogs["MULTITEXT"];
+
+    $line_count = IupGetInt($multitext,"LINECOUNT");
+
+    $lbl = IupLabel(NULL);
+    IupSetAttribute($lbl,"TITLE","Line Number [1-".$line_count."]");
+    $txt = IupText(NULL);
+    IupSetAttribute($txt, "MASK", IUP_MASK_UINT);  /* unsigned integer numbers only */
+    IupSetAttribute($txt, "NAME", "LINE_TEXT");
+    IupSetAttribute($txt, "VISIBLECOLUMNS", "20");
+    $bt_ok = IupButton("OK", NULL);
+    $dialogs["BUTTONOK"] = $bt_ok;
+
+    IupSetInt($bt_ok, "TEXT_LINECOUNT", $line_count);
+    IupSetAttribute($bt_ok, "PADDING", "10x2");
+    IupSetAttribute($bt_ok, "WTF", "aaaaaa");
+    IupSetCallback($bt_ok, "ACTION", "goto_ok_cb");
+    $bt_cancel = IupButton("Cancel", NULL);
+    IupSetCallback($bt_cancel, "ACTION", "goto_cancel_cb");
+    IupSetAttribute($bt_cancel, "PADDING", "10x2");
+
+    $hbox = IupHbox(IupFill());
+    IupAppend($hbox,$bt_ok);
+    IupAppend($hbox,$bt_cancel);
+    IupSetAttributes($hbox,"NORMALIZESIZE=HORIZONTAL");
+
+    $vbox = IupVbox($lbl);
+    IupAppend($vbox,$txt);
+    IupAppend($vbox,$hbox);
+    IupSetAttribute($vbox, "MARGIN", "10x10");
+    IupSetAttribute($vbox, "GAP", "5");
+
+    $dlg = IupDialog($vbox);
+    IupSetAttribute($dlg,"TITLE","Go To Line");
+    IupSetAttribute($dlg, "DIALOGFRAME", "Yes");
+    IupSetAttributeHandle($dlg, "DEFAULTENTER", $bt_ok);
+    IupSetAttributeHandle($dlg, "DEFAULTESC", $bt_cancel);
+    IupSetAttributeHandle($dlg, "PARENTDIALOG", IupGetDialog($item_goto));
+
+    IupPopup($dlg, IUP_CENTERPARENT, IUP_CENTERPARENT);
+
+    if(IupGetInt($dlg, "STATUS") === 1){
+        $line = IupGetInt($txt,"VALUE");
+        $pos = IupTextConvertLinColToPos($multitext,$line,0);
+        IupSetInt($multitext, "CARETPOS", $pos);
+        IupSetInt($multitext, "SCROLLTOPOS", $pos);
+    }
+
+    IupDestroy($dlg);
 
     return IUP_DEFAULT;
 }
@@ -92,35 +197,29 @@ function find_next_cb($bt_next){
     $find_case = IupGetDialogChild($bt_next,"Find_CASE");
     $casesensitive = IupGetInt($find_case,"VALUE");
 
-    // $pos = str_find($str, $str_to_find, $find_pos, $casesensitive);
-
-    
-    if($pos >= 0){
-        $pos = $pos + $find_pos;
-    }elseif($find_pos > 0){
-        // $pos = str_find($str, $str_to_find, $find_pos, $casesensitive);
-    }
+    $pos = str_find($str, $str_to_find, $find_pos, $casesensitive);
 
     if($pos === false){
-        IupMessage("Warning", "Text not found.");
-    }else{
-        $end_pos = $pos + strlen($str_to_find);
+        /* try again from the start */
+        $find_pos = 0;
 
-        IupSetInt($multitext,"FIND_POS",$end_pos);
+        $pos = str_find($str, $str_to_find, $find_pos, $casesensitive);
 
-        IupSetFocus($multitext);
-        IupSetAttribute($multitext,"SELECTIONPOS",$pos.":".$end_pos);
-        // var_dump($pos);
-        // var_dump($end_pos);
-
-        $temp_arr = IupTextConvertPosToLinCol($multitext,$pos);
-        // var_dump($temp_arr);
-        list($lin,$col) = $temp_arr;
-        // var_dump($lin,$col);
-        $pos = IupTextConvertLinColToPos($multitext,$lin,0);
-        // var_dump($pos);
-        IupSetInt($multitext, "SCROLLTOPOS", $pos);
+        if($pos === false){
+            IupMessage("Warning", "Text not found.");
+            return IUP_DEFAULT;
+        }
     }
+
+    $end_pos = $pos + strlen($str_to_find);
+    IupSetInt($multitext,"FIND_POS",$end_pos);
+
+    IupSetFocus($multitext);
+    IupSetAttribute($multitext,"SELECTIONPOS",$pos.":".$end_pos);
+
+    list($lin,$col) = IupTextConvertPosToLinCol($multitext,$pos);
+    $pos = IupTextConvertLinColToPos($multitext,$lin,0); /* position at col=0, just scroll lines */
+    IupSetInt($multitext, "SCROLLTOPOS", $pos);
 
     return IUP_DEFAULT;
 }
@@ -145,12 +244,12 @@ function find_cb($item_find){
         $txt = IupText(NULL);
         IupSetAttribute($txt, "NAME", "FIND_TEXT");
         IupSetAttribute($txt, "VISIBLECOLUMNS", "20");
+        IupSetStrAttribute($txt, "VALUE", "Abc");
 
         $find_case = IupToggle("Case sensitive",NULL);
         IupSetAttribute($find_case,"NAME","Find_CASE");
 
         $bt_next = IupButton("Find Next",NULL);
-        var_dump($bt_next);
         IupSetAttribute($bt_next,"PADDING","10x2");
         IupSetCallback($bt_next,"ACTION","find_next_cb");
 
@@ -219,6 +318,8 @@ function exit_cb($hd){
     return IUP_CLOSE;
 }
 
+/********************************** Main *****************************************/
+
 function main()
 {
     global $dialogs;
@@ -236,6 +337,10 @@ function main()
     IupSetAttribute($multitext, "EXPAND", "YES");
 
     IupSetAttribute($multitext, "NAME", "MULTITEXT");
+
+
+    // 测试时，默认添加一段字符串
+    IupSetStrAttribute($multitext, "VALUE", "123456789-123456789-AbcDefGhiJklMn-AbcDefGhiJklMn");
 
     $item_open = IupItem("Open", NULL);
     $item_saveas = IupItem("Save As", NULL);

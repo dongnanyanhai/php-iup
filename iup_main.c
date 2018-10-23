@@ -57,7 +57,7 @@ PHP_FUNCTION(IupClose)
     if (zend_parse_parameters_none() == FAILURE) {
         return;
     }
-    
+
     zend_hash_destroy(iup_events);
 
     IupClose();
@@ -1316,7 +1316,7 @@ PHP_FUNCTION(IupSetAttribute)
     char *value = NULL;
     size_t value_len;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r!ss",&ihandle_res,&name,&name_len,&value,&value_len) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!ss!",&ihandle_res,&name,&name_len,&value,&value_len) == FAILURE) {
         return;
     }
 
@@ -1753,7 +1753,7 @@ PHP_FUNCTION(IupSetAttributeId)
     char *value = NULL;
     size_t value_len;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r!sls",&ihandle_res,&name,&name_len,&id,&value,&value_len) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!sls!",&ihandle_res,&name,&name_len,&id,&value,&value_len) == FAILURE) {
         return;
     }
 
@@ -2155,7 +2155,7 @@ PHP_FUNCTION(IupSetAttributeId2)
     char *value = NULL;
     size_t value_len;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r!slls",&ihandle_res,&name,&name_len,&lin,&col,&value,&value_len) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!slls!",&ihandle_res,&name,&name_len,&lin,&col,&value,&value_len) == FAILURE) {
         return;
     }
 
@@ -2712,8 +2712,6 @@ PHP_FUNCTION(IupSetCallback)
 
     call_p = (zend_fcall_info *)malloc(sizeof(zend_fcall_info));
 
-    static zval call_params[1];
-
     intptr_t ih_p_int;
 
     char event_key_str[100];
@@ -2731,21 +2729,15 @@ PHP_FUNCTION(IupSetCallback)
         return;
     }
 
-    Z_ADDREF_P(ihandle_res);
-
-    call_params[0] = *ihandle_res;
-    callable.param_count = 1;
-    callable.params = call_params;
-
     *call_p = callable;
 
     ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
 
     ih_p_int = (intptr_t)ih;
 
-    sprintf(event_key_str,"IUP_%"SCNiPTR,ih_p_int);
-    strcat(event_key_str,"_");
-    strcat(event_key_str,event_name);
+    sprintf(event_key_str,"IUP_%s_%"SCNiPTR,event_name,ih_p_int);
+    // strcat(event_key_str,"_");
+    // strcat(event_key_str,event_name);
 
     event_key = zend_string_init(event_key_str, strlen(event_key_str), 0);
 
@@ -3244,7 +3236,7 @@ PHP_FUNCTION(IupSetAttributeHandle)
 
     Ihandle *ih,*ih_named;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r!sr",&ihandle_res,&name,&name_len,&ihandle_res_named) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!sr!",&ihandle_res,&name,&name_len,&ihandle_res_named) == FAILURE) {
         return;
     }
 
@@ -3313,7 +3305,7 @@ PHP_FUNCTION(IupSetAttributeHandleId)
 
     Ihandle *ih,*ih_named;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r!slr",&ihandle_res,&name,&name_len,&id,&ihandle_res_named) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!slr!",&ihandle_res,&name,&name_len,&id,&ihandle_res_named) == FAILURE) {
         return;
     }
 
@@ -3386,7 +3378,7 @@ PHP_FUNCTION(IupSetAttributeHandleId2)
 
     Ihandle *ih,*ih_named;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r!sllr",&ihandle_res,&name,&name_len,&lin,&col,&ihandle_res_named) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!sllr!",&ihandle_res,&name,&name_len,&lin,&col,&ihandle_res_named) == FAILURE) {
         return;
     }
 

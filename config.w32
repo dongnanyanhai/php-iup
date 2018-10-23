@@ -21,10 +21,10 @@ if (PHP_IUP != "no") {
         && CHECK_LIB("iuptuio.lib", "iup", PHP_IUP + ";" + configure_module_dirname + "/iup-3.25")
         && CHECK_LIB("iupweb.lib", "iup", PHP_IUP + ";" + configure_module_dirname + "/iup-3.25")
         && CHECK_LIB("iup_mglplot.lib", "iup", PHP_IUP + ";" + configure_module_dirname + "/iup-3.25")
-        && CHECK_LIB("iup_mglplot_debug.lib", "iup", PHP_IUP + ";" + configure_module_dirname + "/iup-3.25")
+        // && CHECK_LIB("iup_mglplot_debug.lib", "iup", PHP_IUP + ";" + configure_module_dirname + "/iup-3.25")
         && CHECK_LIB("iup_plot.lib", "iup", PHP_IUP + ";" + configure_module_dirname + "/iup-3.25")
         && CHECK_LIB("iup_scintilla.lib", "iup", PHP_IUP + ";" + configure_module_dirname + "/iup-3.25")
-        && CHECK_LIB("iup_scintilla_debug.lib", "iup", PHP_IUP + ";" + configure_module_dirname + "/iup-3.25")
+        // && CHECK_LIB("iup_scintilla_debug.lib", "iup", PHP_IUP + ";" + configure_module_dirname + "/iup-3.25")
         && CHECK_LIB("zlib1.lib", "iup", PHP_IUP + ";" + configure_module_dirname + "/iup-3.25")
     ){
         EXTENSION("iup", "iup.c", true, "/DZEND_ENABLE_STATIC_TSRMLS_CACHE=1");

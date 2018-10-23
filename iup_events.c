@@ -50,13 +50,13 @@ int event_common( Ihandle *self , char * event_name)
 
     zend_fcall_info * callable;
 
+    zval call_params[1];
+
     ih_p_int = (intptr_t)self;
 
-    sprintf(event_key_str,"IUP_%"SCNiPTR,ih_p_int);
-
-    // 把两个字符串拼接
-    strcat(event_key_str,"_");
-    strcat(event_key_str,event_name);
+    sprintf(event_key_str,"IUP_%s_%"SCNiPTR,event_name,ih_p_int);
+    // strcat(event_key_str,"_");
+    // strcat(event_key_str,event_name);
 
     event_key = zend_string_init(event_key_str, strlen(event_key_str), 0);
 
@@ -69,6 +69,11 @@ int event_common( Ihandle *self , char * event_name)
     }
 
     callable = zend_fetch_resource_ex(event_val,"iup-event",le_iup_event);
+
+    ZVAL_RES(&call_params[0],zend_register_resource(self, le_iup_ihandle));
+
+    callable->param_count = 1;
+    callable->params = call_params;
 
     callable->retval = &fun_result;
 
