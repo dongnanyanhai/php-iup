@@ -115,11 +115,6 @@ PHP_MINIT_FUNCTION(iup)
     le_iup_ihandle = zend_register_list_destructors_ex(iup_ihandle_dtor,NULL,"iup-handle", module_number);
     le_iup_event = zend_register_list_destructors_ex(iup_event_dtor,NULL,"iup-event", module_number);
 
-    // init array
-    ALLOC_HASHTABLE(iup_events);
-    zend_hash_init(iup_events,20480,NULL,NULL,0);
-
-
     /************************************************************************/
     /*                                iup.h                                 */
     /************************************************************************/

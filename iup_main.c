@@ -42,6 +42,10 @@ PHP_FUNCTION(IupOpen)
 
     IupOpen(NULL, NULL);
 
+    // init array
+    ALLOC_HASHTABLE(iup_events);
+    zend_hash_init(iup_events,20480,NULL,NULL,0);
+
     RETURN_BOOL(1);
 }
 /* }}} */
@@ -53,6 +57,8 @@ PHP_FUNCTION(IupClose)
     if (zend_parse_parameters_none() == FAILURE) {
         return;
     }
+    
+    zend_hash_destroy(iup_events);
 
     IupClose();
 

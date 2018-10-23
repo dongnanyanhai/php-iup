@@ -6,7 +6,7 @@ if (!extension_loaded("iup")){
     die("iup extension is unavailable");
 };
 
-sleep(10);
+sleep(5);
 
 $dialogs = array();
 
