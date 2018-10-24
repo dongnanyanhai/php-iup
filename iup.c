@@ -38,6 +38,7 @@ int le_iup_ihandle = 0;
 int le_iup_event = 0;
 
 HashTable *iup_events;
+HashTable *iup_callback;
 
 /* {{{ PHP_INI
  */
