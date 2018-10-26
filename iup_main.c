@@ -359,7 +359,7 @@ PHP_FUNCTION(IupExecute)
 
     int i;
 
-    if (zend_parse_parameters(argc, "ss", &filename, &filename_len, &parameters, &parameters_len) == FAILURE){
+    if (zend_parse_parameters(argc, "ss!", &filename, &filename_len, &parameters, &parameters_len) == FAILURE){
         return;
     }
 
@@ -384,7 +384,7 @@ PHP_FUNCTION(IupExecuteWait)
 
     int i;
 
-    if (zend_parse_parameters(argc, "ss", &filename, &filename_len, &parameters, &parameters_len) == FAILURE){
+    if (zend_parse_parameters(argc, "ss!", &filename, &filename_len, &parameters, &parameters_len) == FAILURE){
         return;
     }
 
@@ -2852,7 +2852,7 @@ PHP_FUNCTION(IupSetHandle)
     
     Ihandle *ih, *re;
 
-    if (zend_parse_parameters(argc, "sr", &name, &name_len,&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc, "sr!", &name, &name_len,&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -3457,7 +3457,7 @@ PHP_FUNCTION(IupRadio)
 
     Ihandle *child,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -3480,7 +3480,7 @@ PHP_FUNCTION(IupVbox)
 
     Ihandle *child,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -3504,7 +3504,7 @@ PHP_FUNCTION(IupVboxv)
 
     Ihandle *children,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -3528,7 +3528,7 @@ PHP_FUNCTION(IupZbox)
 
     Ihandle *child,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -3552,7 +3552,7 @@ PHP_FUNCTION(IupZboxv)
 
     Ihandle *children,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -3576,7 +3576,7 @@ PHP_FUNCTION(IupHbox)
 
     Ihandle *child,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -3600,7 +3600,7 @@ PHP_FUNCTION(IupHboxv)
 
     Ihandle *children,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -3623,7 +3623,7 @@ PHP_FUNCTION(IupNormalizer)
 
     Ihandle *ih_first,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -3647,7 +3647,7 @@ PHP_FUNCTION(IupNormalizerv)
 
     Ihandle *ih_list,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -3670,7 +3670,7 @@ PHP_FUNCTION(IupCbox)
 
     Ihandle *child,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -3693,7 +3693,7 @@ PHP_FUNCTION(IupCboxv)
 
     Ihandle *children,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -3716,7 +3716,7 @@ PHP_FUNCTION(IupSbox)
 
     Ihandle *child,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -3740,7 +3740,7 @@ PHP_FUNCTION(IupSplit)
 
     Ihandle *child1,*child2,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"rr",&ihandle_res_child1,&ihandle_res_child2) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!r!",&ihandle_res_child1,&ihandle_res_child2) == FAILURE) {
         return;
     }
 
@@ -3764,7 +3764,7 @@ PHP_FUNCTION(IupScrollBox)
 
     Ihandle *child,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -3787,7 +3787,7 @@ PHP_FUNCTION(IupFlatScrollBox)
 
     Ihandle *child,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -3810,7 +3810,7 @@ PHP_FUNCTION(IupGridBox)
 
     Ihandle *child,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -3833,7 +3833,7 @@ PHP_FUNCTION(IupGridBoxv)
 
     Ihandle *children,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -3856,7 +3856,7 @@ PHP_FUNCTION(IupExpander)
 
     Ihandle *child,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -3879,7 +3879,7 @@ PHP_FUNCTION(IupDetachBox)
 
     Ihandle *child,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -3902,7 +3902,7 @@ PHP_FUNCTION(IupBackgroundBox)
 
     Ihandle *child,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -3925,7 +3925,7 @@ PHP_FUNCTION(IupFrame)
 
     Ihandle *child,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -3948,7 +3948,7 @@ PHP_FUNCTION(IupFlatFrame)
 
     Ihandle *child,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -4008,7 +4008,7 @@ PHP_FUNCTION(IupItem)
 
     Ihandle *re;
 
-    if (zend_parse_parameters(argc, "ss", &name, &name_len, &action, &action_len) == FAILURE) {
+    if (zend_parse_parameters(argc, "s!s!", &name, &name_len, &action, &action_len) == FAILURE) {
         return;
     }
 
@@ -4032,7 +4032,7 @@ PHP_FUNCTION(IupSubmenu)
 
     Ihandle *child,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"sr", &name, &name_len, &ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"s!r!", &name, &name_len, &ihandle_res) == FAILURE) {
         return;
     }
 
@@ -4071,7 +4071,7 @@ PHP_FUNCTION(IupMenu)
 
     Ihandle *child,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -4121,7 +4121,7 @@ PHP_FUNCTION(IupButton)
 
     Ihandle *re;
 
-    if (zend_parse_parameters(argc, "ss", &title, &title_len, &action, &action_len) == FAILURE) {
+    if (zend_parse_parameters(argc, "s!s!", &title, &title_len, &action, &action_len) == FAILURE) {
         return;
     }
 
@@ -4143,7 +4143,7 @@ PHP_FUNCTION(IupFlatButton)
 
     Ihandle *re;
 
-    if (zend_parse_parameters(argc, "s", &title, &title_len) == FAILURE) {
+    if (zend_parse_parameters(argc, "s!", &title, &title_len) == FAILURE) {
         return;
     }
 
@@ -4165,7 +4165,7 @@ PHP_FUNCTION(IupFlatToggle)
 
     Ihandle *re;
 
-    if (zend_parse_parameters(argc, "s", &title, &title_len) == FAILURE) {
+    if (zend_parse_parameters(argc, "s!", &title, &title_len) == FAILURE) {
         return;
     }
 
@@ -4186,7 +4186,7 @@ PHP_FUNCTION(IupDropButton)
 
     Ihandle *dropchild,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -4210,7 +4210,7 @@ PHP_FUNCTION(IupFlatLabel)
 
     Ihandle *re;
 
-    if (zend_parse_parameters(argc, "s", &title, &title_len) == FAILURE) {
+    if (zend_parse_parameters(argc, "s!", &title, &title_len) == FAILURE) {
         return;
     }
 
@@ -4248,7 +4248,7 @@ PHP_FUNCTION(IupCanvas)
 
     Ihandle *re;
 
-    if (zend_parse_parameters(argc, "s", &action, &action_len) == FAILURE) {
+    if (zend_parse_parameters(argc, "s!", &action, &action_len) == FAILURE) {
         return;
     }
 
@@ -4269,7 +4269,7 @@ PHP_FUNCTION(IupDialog)
 
     Ihandle *child,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -4309,7 +4309,7 @@ PHP_FUNCTION(IupLabel)
 
     Ihandle *re;
 
-    if (zend_parse_parameters(argc, "s", &title, &title_len) == FAILURE) {
+    if (zend_parse_parameters(argc, "s!", &title, &title_len) == FAILURE) {
         return;
     }
 
@@ -4332,7 +4332,7 @@ PHP_FUNCTION(IupList)
 
     Ihandle *re;
 
-    if (zend_parse_parameters(argc, "s", &action, &action_len) == FAILURE) {
+    if (zend_parse_parameters(argc, "s!", &action, &action_len) == FAILURE) {
         return;
     }
 
@@ -4354,7 +4354,7 @@ PHP_FUNCTION(IupText)
 
     Ihandle *re;
 
-    if (zend_parse_parameters(argc, "s", &action, &action_len) == FAILURE) {
+    if (zend_parse_parameters(argc, "s!", &action, &action_len) == FAILURE) {
         return;
     }
 
@@ -4401,7 +4401,7 @@ PHP_FUNCTION(IupToggle)
 
     Ihandle *re;
 
-    if (zend_parse_parameters(argc, "ss", &title, &title_len, &action, &action_len) == FAILURE) {
+    if (zend_parse_parameters(argc, "s!s!", &title, &title_len, &action, &action_len) == FAILURE) {
         return;
     }
 
@@ -4473,7 +4473,7 @@ PHP_FUNCTION(IupVal)
 
     Ihandle *re;
 
-    if (zend_parse_parameters(argc, "s", &type, &type_len) == FAILURE) {
+    if (zend_parse_parameters(argc, "s!", &type, &type_len) == FAILURE) {
         return;
     }
 
@@ -4494,7 +4494,7 @@ PHP_FUNCTION(IupTabs)
 
     Ihandle *child,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -4517,7 +4517,7 @@ PHP_FUNCTION(IupTabsv)
 
     Ihandle *children,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -4540,7 +4540,7 @@ PHP_FUNCTION(IupFlatTabs)
 
     Ihandle *first,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -4563,7 +4563,7 @@ PHP_FUNCTION(IupFlatTabsv)
 
     Ihandle *children,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -4606,7 +4606,7 @@ PHP_FUNCTION(IupLink)
 
     Ihandle *re;
 
-    if (zend_parse_parameters(argc, "ss", &url, &url_len, &title, &title_len) == FAILURE) {
+    if (zend_parse_parameters(argc, "s!s!", &url, &url_len, &title, &title_len) == FAILURE) {
         return;
     }
 
@@ -4627,7 +4627,7 @@ PHP_FUNCTION(IupAnimatedLabel)
 
     Ihandle *animation,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -4716,7 +4716,7 @@ PHP_FUNCTION(IupDial)
 
     Ihandle *re;
 
-    if (zend_parse_parameters(argc, "s", &type, &type_len) == FAILURE) {
+    if (zend_parse_parameters(argc, "s!", &type, &type_len) == FAILURE) {
         return;
     }
 
@@ -5450,7 +5450,7 @@ PHP_FUNCTION(IupLayoutDialog)
 
     Ihandle *dialog,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!",&ihandle_res) == FAILURE) {
         return;
     }
 
