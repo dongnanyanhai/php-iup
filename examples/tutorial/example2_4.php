@@ -6,6 +6,8 @@ if (!extension_loaded("iup")){
     die("iup extension is unavailable");
 };
 
+sleep(6);
+
 function btn_exit_cb($self)
 {
   /* Exits the main loop */

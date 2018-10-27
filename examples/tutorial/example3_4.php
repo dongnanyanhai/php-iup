@@ -6,7 +6,7 @@ if (!extension_loaded("iup")){
     die("iup extension is unavailable");
 };
 
-// sleep(5);
+// sleep(10);
 
 $dialogs = array();
 
@@ -93,19 +93,10 @@ function saveas_cb($hd){
 
 function goto_ok_cb($bt_ok){
 
-    global $dialogs;
-
-
-
-    // $line_count = IupGetInt($bt_ok, "TEXT_LINECOUNT");
-    $wtf = IupGetAttribute($bt_ok, "WTF");
-    var_dump($wtf);
-    $line_count = IupGetInt($dialogs["BUTTONOK"], "TEXT_LINECOUNT");
-    // var_dump($line_count);
+    $line_count = IupGetInt($bt_ok, "TEXT_LINECOUNT");
 
     $txt = IupGetDialogChild($bt_ok,"LINE_TEXT");
     $line = IupGetInt($txt,"VALUE");
-    // var_dump($line);
 
     if($line < 1 || $line >= $line_count){
         IupMessage("Error", "Invalid line number.");
@@ -143,7 +134,6 @@ function goto_cb($item_goto){
 
     IupSetInt($bt_ok, "TEXT_LINECOUNT", $line_count);
     IupSetAttribute($bt_ok, "PADDING", "10x2");
-    IupSetAttribute($bt_ok, "WTF", "aaaaaa");
     IupSetCallback($bt_ok, "ACTION", "goto_ok_cb");
     $bt_cancel = IupButton("Cancel", NULL);
     IupSetCallback($bt_cancel, "ACTION", "goto_cancel_cb");
@@ -180,7 +170,6 @@ function goto_cb($item_goto){
 
     return IUP_DEFAULT;
 }
-
 
 function find_next_cb($bt_next){
 
@@ -244,7 +233,6 @@ function find_cb($item_find){
         $txt = IupText(NULL);
         IupSetAttribute($txt, "NAME", "FIND_TEXT");
         IupSetAttribute($txt, "VISIBLECOLUMNS", "20");
-        IupSetStrAttribute($txt, "VALUE", "Abc");
 
         $find_case = IupToggle("Case sensitive",NULL);
         IupSetAttribute($find_case,"NAME","Find_CASE");
@@ -338,10 +326,6 @@ function main()
 
     IupSetAttribute($multitext, "NAME", "MULTITEXT");
 
-
-    // 测试时，默认添加一段字符串
-    IupSetStrAttribute($multitext, "VALUE", "123456789-123456789-AbcDefGhiJklMn-AbcDefGhiJklMn");
-
     $item_open = IupItem("Open", NULL);
     $item_saveas = IupItem("Save As", NULL);
     $item_exit = IupItem("Exit", NULL);
@@ -403,11 +387,6 @@ function main()
 
     IupClose();
 
-}
-
-
-function hello(){
-    echo "Hello";
 }
 
 main();
