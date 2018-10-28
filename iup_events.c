@@ -165,7 +165,11 @@ int event_common_s(char * event_name, Ihandle *ih , char *str)
 {
     zval call_params[2];
 
-    ZVAL_STR(&call_params[1],str);
+    zend_string * zstring;
+
+    zstring = zend_string_init(str, strlen(str), 0);
+
+    ZVAL_STR(&call_params[1],zstring);
 
     return event_base(event_name,ih,2,&call_params);
 }
@@ -185,9 +189,7 @@ int event_common_Ii(char * event_name, Ihandle *ih , int *pi1, int i1)
 {
     zval call_params[3];
 
-    int i;
-
-    zend_long index;
+    zval zlong1;
 
     HashTable *arr1;
 
@@ -196,8 +198,10 @@ int event_common_Ii(char * event_name, Ihandle *ih , int *pi1, int i1)
 
     for (int i = 0; i < i1; ++i)
     {
-        ZVAL_LONG(&index,i);
-        zend_hash_index_add(arr1,index,pi1[i]);
+
+        ZVAL_LONG(&zlong1,pi1[i]);
+
+        zend_hash_index_add(arr1,i,&zlong1);
     }
 
     ZVAL_ARR(&call_params[1],arr1);
@@ -211,8 +215,11 @@ int event_common_is(char * event_name, Ihandle *ih , int i, char *str)
 {
     zval call_params[3];
 
+    zend_string * zstring;
+    zstring = zend_string_init(str, strlen(str), 0);
+
     ZVAL_LONG(&call_params[1],i);
-    ZVAL_STR(&call_params[2],str);
+    ZVAL_STR(&call_params[2],zstring);
 
     return event_base(event_name,ih,3,&call_params);
 }
@@ -221,7 +228,10 @@ int event_common_si(char * event_name, Ihandle *ih , char *str, int i)
 {
     zval call_params[3];
 
-    ZVAL_STR(&call_params[1],str);
+    zend_string * zstring;
+    zstring = zend_string_init(str, strlen(str), 0);
+
+    ZVAL_STR(&call_params[1],zstring);
     ZVAL_LONG(&call_params[2],i);
 
     return event_base(event_name,ih,3,&call_params);
@@ -265,10 +275,14 @@ int event_common_iis(char * event_name, Ihandle *ih , int i1, int i2, char * str
 {
     zval call_params[4];
 
+    zend_string * zstring;
+    zstring = zend_string_init(str, strlen(str), 0);
+
     ZVAL_LONG(&call_params[1],i1);
     ZVAL_LONG(&call_params[2],i2);
 
-    ZVAL_STR(&call_params[3],str);
+
+    ZVAL_STR(&call_params[3],zstring);
 
     return event_base(event_name,ih,4,&call_params);
 }
@@ -300,8 +314,18 @@ int event_common_sCi(char * event_name, Ihandle *ih , char *str, void* data, int
 {
     zval call_params[4];
 
-    ZVAL_STR(&call_params[1],str);
-    ZVAL_STR(&call_params[2],(char *)data);
+    char *data_str;
+
+    data_str = (char *)malloc(i);
+
+    data_str = (char *)data;
+
+    zend_string *zstring1,*zstring2;
+    zstring1 = zend_string_init(str, strlen(str), 0);
+    zstring2 = zend_string_init(data_str, strlen(data_str), 0);
+
+    ZVAL_STR(&call_params[1],zstring1);
+    ZVAL_STR(&call_params[2],zstring2);
     ZVAL_LONG(&call_params[3],i);
 
     return event_base(event_name,ih,4,&call_params);
@@ -311,7 +335,10 @@ int event_common_siii(char * event_name, Ihandle *ih , char *str, int i1, int i2
 {
     zval call_params[5];
 
-    ZVAL_STR(&call_params[1],str);
+    zend_string * zstring;
+    zstring = zend_string_init(str, strlen(str), 0);
+
+    ZVAL_STR(&call_params[1],zstring);
 
     ZVAL_LONG(&call_params[2],i1);
     ZVAL_LONG(&call_params[3],i2);
@@ -324,12 +351,15 @@ int event_common_fiis(char * event_name, Ihandle *ih , float f1, int i1, int i2,
 {
     zval call_params[5];
 
+    zend_string * zstring;
+    zstring = zend_string_init(str, strlen(str), 0);
+
     ZVAL_DOUBLE(&call_params[1],f1);
 
     ZVAL_LONG(&call_params[2],i1);
     ZVAL_LONG(&call_params[3],i2);
 
-    ZVAL_STR(&call_params[4],str);
+    ZVAL_STR(&call_params[4],zstring);
 
     return event_base(event_name,ih,5,&call_params);
 }
@@ -350,24 +380,25 @@ int event_common_iiis(char * event_name, Ihandle *ih , int i1, int i2, int i3, c
 {
     zval call_params[5];
 
+    zend_string * zstring;
+    zstring = zend_string_init(str, strlen(str), 0);
+
     ZVAL_LONG(&call_params[1],i1);
     ZVAL_LONG(&call_params[2],i2);
     ZVAL_LONG(&call_params[3],i3);
 
-    ZVAL_STR(&call_params[4],str);
+    ZVAL_STR(&call_params[4],zstring);
 
     return event_base(event_name,ih,5,&call_params);
 }
 
-int event_common_iIII(char * event_name, Ihandle *ih , int i1, int *pi1, int *pi2, int *pi3)
+int event_common_iIIII(char * event_name, Ihandle *ih , int i1, int *pi1, int *pi2, int *pi3, int *pi4)
 {
-    zval call_params[5];
+    zval call_params[6];
 
-    int i;
+    zval zlong1,zlong2,zlong3,zlong4;
 
-    zend_long index;
-
-    HashTable *arr1, *arr2, *arr3;
+    HashTable *arr1, *arr2, *arr3, *arr4;
 
     ALLOC_HASHTABLE(arr1);
     zend_hash_init(arr1,i1,NULL,NULL,0);
@@ -378,12 +409,23 @@ int event_common_iIII(char * event_name, Ihandle *ih , int i1, int *pi1, int *pi
     ALLOC_HASHTABLE(arr3);
     zend_hash_init(arr3,i1,NULL,NULL,0);
 
+    ALLOC_HASHTABLE(arr4);
+    zend_hash_init(arr4,i1,NULL,NULL,0);
+
     for (int i = 0; i < i1; ++i)
     {
-        ZVAL_LONG(&index,i);
-        zend_hash_index_add(arr1,index,pi1[i]);
-        zend_hash_index_add(arr2,index,pi2[i]);
-        zend_hash_index_add(arr3,index,pi3[i]);
+
+        ZVAL_LONG(&zlong1,pi1[i]);
+        zend_hash_index_add(arr1,i,&zlong1);
+
+        ZVAL_LONG(&zlong2,pi2[i]);
+        zend_hash_index_add(arr2,i,&zlong2);
+
+        ZVAL_LONG(&zlong3,pi3[i]);
+        zend_hash_index_add(arr3,i,&zlong3);
+
+        ZVAL_LONG(&zlong4,pi4[i]);
+        zend_hash_index_add(arr4,i,&zlong4);
     }
 
     ZVAL_LONG(&call_params[1],i1);
@@ -391,8 +433,9 @@ int event_common_iIII(char * event_name, Ihandle *ih , int i1, int *pi1, int *pi
     ZVAL_ARR(&call_params[2],arr1);
     ZVAL_ARR(&call_params[3],arr2);
     ZVAL_ARR(&call_params[4],arr3);
+    ZVAL_ARR(&call_params[5],arr4);
 
-    return event_base(event_name,ih,5,&call_params);
+    return event_base(event_name,ih,6,&call_params);
 }
 
 
@@ -400,12 +443,15 @@ int event_common_iiiis(char * event_name, Ihandle *ih , int i1, int i2, int i3, 
 {
     zval call_params[6];
 
+    zend_string * zstring;
+    zstring = zend_string_init(str, strlen(str), 0);
+
     ZVAL_LONG(&call_params[1],i1);
     ZVAL_LONG(&call_params[2],i2);
     ZVAL_LONG(&call_params[3],i3);
     ZVAL_LONG(&call_params[4],i4);
 
-    ZVAL_STR(&call_params[5],str);
+    ZVAL_STR(&call_params[5],zstring);
 
     return event_base(event_name,ih,6,&call_params);
 }
@@ -618,7 +664,7 @@ int event_elements_touch_cb( Ihandle *ih, int id, int x, int y, char* state){
 }
 
 int event_elements_multitouch_cb( Ihandle *ih, int count, int* pid, int* px, int* py, int* pstate){
-    return event_common_iIII("MULTITOUCH_CB",ih,count,pid,px,py,pstate);
+    return event_common_iIIII("MULTITOUCH_CB",ih,count,pid,px,py,pstate);
 }
 
 
@@ -630,7 +676,7 @@ int event_elements_wom_cb( Ihandle *ih, int state){
     return event_common_i("WOM_CB",ih,state);
 }
 
-int event_elements_dropfiles_cb( Ihandle *ih, const char* filename, int num, int x, int y){
+int event_elements_dropfiles_cb( Ihandle *ih, char* filename, int num, int x, int y){
     return event_common_siii("DROPFILES_CB",ih,filename,num,x,y);
 }
 
@@ -738,11 +784,11 @@ int event_elements_showrename_cb( Ihandle *ih, int id){
 }
 
 int event_elements_rename_cb( Ihandle *ih, int id, char *title){
-    return event_common_i("RENAME_CB",ih,id,title);
+    return event_common_is("RENAME_CB",ih,id,title);
 }
 
 int event_elements_noderemoved_cb( Ihandle *ih, void* userdata){
-    return event_common_i("NODEREMOVED_CB",ih,(int)userdataid);
+    return event_common_i("NODEREMOVED_CB",ih,(int)userdata);
 }
 
 int event_elements_togglevalue_cb( Ihandle *ih, int id, int state){
@@ -757,7 +803,7 @@ int event_elements_extended_cb( Ihandle *ih, int cell){
     return event_common_i("EXTENDED_CB",ih,cell);
 }
 
-int event_elements_SELECT_CB( Ihandle *ih, int cell, int type){
+int event_elements_select_cb( Ihandle *ih, int cell, int type){
     return event_common_ii("SELECT_CB",ih,cell,type);
 }
 
@@ -781,10 +827,6 @@ int event_elements_change_cb( Ihandle *ih, unsigned char r, unsigned char g, uns
     return event_common_ccc("CHANGE_CB",ih,r,g,b);
 }
 
-int event_elements_change_cb( Ihandle *ih, unsigned char r, unsigned char g, unsigned char b){
-    return event_common_ccc("CHANGE_CB",ih,r,g,b);
-}
-
 int event_elements_drag_cb( Ihandle *ih, unsigned char r, unsigned char g, unsigned char b){
     return event_common_ccc("DRAG_CB",ih,r,g,b);
 }
@@ -793,8 +835,6 @@ int event_elements_drag_cb( Ihandle *ih, unsigned char r, unsigned char g, unsig
 void event_register_callback()
 {
     zval event_callback;
-
-    Icallback cb;
 
     // ======================================== common事件 ========================================
     ZVAL_PTR(&event_callback,(Icallback) event_common_action);
