@@ -29,13 +29,33 @@ function str_find($haystack, $needle, $offset = 0, $casesensitive = 1){
 
 }
 /********************************** Callbacks *****************************************/
-function open_cb($hd){
+
+function dialog_key_any_cb($ih,$c){
+    if($c == K_cO){
+        open_cb($ih);
+    }else if($c == K_cS){
+        saveas_cb($ih);
+    }else if($c == K_cF){
+        find_cb($ih);
+    }else if($c == K_cG){
+        goto_cb($ih);
+    }else 
+    return IUP_CONTINUE;
+}
+function multitext_caret_cb($ih,$lin,$col){
+
+    $lbl_statusbar = IupGetDialogChild($ih, "STATUSBAR");
+    IupSetAttribute($lbl_statusbar, "TITLE", "Lin $lin, Col $col");
+    return IUP_DEFAULT;
+}
+
+function open_cb($ih){
 
     global $dialogs;
 
     $multitext = $dialogs["MULTITEXT"];
     // or
-    // $multitext = IupGetDialogChild($hd,"MULTITEXT");
+    // $multitext = IupGetDialogChild($ih,"MULTITEXT");
 
     $filedlg = IupFileDlg();
     IupSetAttribute($filedlg,"DIALOGTYPE", "OPEN");
@@ -59,13 +79,13 @@ function open_cb($hd){
     return IUP_DEFAULT;
 }
 
-function saveas_cb($hd){
+function saveas_cb($ih){
 
     global $dialogs;
 
     $multitext = $dialogs["MULTITEXT"];
     // or
-    // $multitext = IupGetDialogChild($hd,"MULTITEXT");
+    // $multitext = IupGetDialogChild($ih,"MULTITEXT");
 
     $filedlg = IupFileDlg();
     IupSetAttribute($filedlg,"DIALOGTYPE", "SAVE");
@@ -272,11 +292,11 @@ function find_cb($item_find){
     return IUP_DEFAULT;
 }
 
-function font_cb($hd){
+function font_cb($ih){
 
     $fontdlg = IupFontDlg();
 
-    $multitext = IupGetDialogChild($hd,"MULTITEXT");
+    $multitext = IupGetDialogChild($ih,"MULTITEXT");
 
     $font = IupGetAttribute($multitext,"FONT");
 
@@ -295,12 +315,12 @@ function font_cb($hd){
     return IUP_DEFAULT;
 }
 
-function about_cb($hd){
+function about_cb($ih){
     IupMessage("About", "   Simple Notepad\n\nAutors:\n   Gustavo Lyrio\n   Antonio Scuri");
     return IUP_DEFAULT;
 }
 
-function exit_cb($hd){
+function exit_cb($ih){
     return IUP_CLOSE;
 }
 
@@ -311,6 +331,8 @@ function main()
     global $dialogs;
 
     IupOpen();
+
+    IupImageLibOpen();
     
     IupSetGlobal("UTF8MODE","Yes");
     
@@ -319,27 +341,61 @@ function main()
     $dialogs["MULTITEXT"] = $multitext;
 
     IupSetAttribute($multitext, "MULTILINE", "YES");
-
     IupSetAttribute($multitext, "EXPAND", "YES");
-
     IupSetAttribute($multitext, "NAME", "MULTITEXT");
 
-    $item_open = IupItem("Open", NULL);
-    $item_saveas = IupItem("Save As", NULL);
-    $item_exit = IupItem("Exit", NULL);
-    $item_find = IupItem("Find..", NULL);
-    $item_goto = IupItem("Go To...", NULL);
+    $lbl_statusbar = IupLabel("Lin 1, Col 1");
+    IupSetAttribute($lbl_statusbar, "NAME", "STATUSBAR");  
+    IupSetAttribute($lbl_statusbar, "EXPAND", "HORIZONTAL");
+    IupSetAttribute($lbl_statusbar, "PADDING", "10x5");
 
-    $item_font = IupItem("Font...", NULL);
-    $item_about = IupItem("About...", NULL);
+    $item_open = IupItem("&Open...\tCtrl+O", NULL);
+    $btn_open = IupButton(NULL,NULL);
+    IupSetAttribute($btn_open, "IMAGE", "IUP_FileOpen");
+    IupSetAttribute($btn_open, "FLAT", "Yes");
+    IupSetAttribute($btn_open, "TIP", "Open (Ctrl+O)");
+    IupSetAttribute($btn_open, "CANFOCUS", "No");
+
+    $item_saveas = IupItem("Save &As...\tCtrl+S", NULL);
+    $btn_save = IupButton(NULL, NULL);
+    IupSetAttribute($btn_save, "IMAGE", "IUP_FileSave");
+    IupSetAttribute($btn_save, "FLAT", "Yes");
+    IupSetAttribute($btn_save, "TIP", "Save (Ctrl+S)");
+    IupSetAttribute($btn_save, "CANFOCUS", "No");
+
+    $item_exit = IupItem("E&xit", NULL);
+
+    $item_find = IupItem("&Find..\tCtrl+F", NULL);
+    $btn_find = IupButton(NULL, NULL);
+    IupSetAttribute($btn_find, "IMAGE", "IUP_EditFind");
+    IupSetAttribute($btn_find, "FLAT", "Yes");
+    IupSetAttribute($btn_find, "TIP", "Find (Ctrl+F)");
+    IupSetAttribute($btn_find, "CANFOCUS", "No");
+
+    $toolbar_hb = IupHbox($btn_open);
+    IupAppend($toolbar_hb,$btn_save);
+    IupAppend($toolbar_hb,IupSetAttributes(IupLabel(NULL), "SEPARATOR=VERTICAL"));
+    IupAppend($toolbar_hb,$btn_find);
+    IupSetAttribute($toolbar_hb, "MARGIN", "5x5");
+    IupSetAttribute($toolbar_hb, "GAP", "2");
+
+
+    $item_goto = IupItem("&Go To...\tCtrl+G", NULL);
+
+    $item_font = IupItem("&Font...", NULL);
+    $item_about = IupItem("&About...", NULL);
 
     IupSetCallback($item_open, "ACTION", "open_cb");
+    IupSetCallback($btn_open, "ACTION", "open_cb");
     IupSetCallback($item_saveas, "ACTION", "saveas_cb");
+    IupSetCallback($btn_save, "ACTION", "saveas_cb");
     IupSetCallback($item_exit, "ACTION", "exit_cb");
     IupSetCallback($item_find, "ACTION", "find_cb");
+    IupSetCallback($btn_find, "ACTION", "find_cb"); 
     IupSetCallback($item_goto, "ACTION", "goto_cb");
     IupSetCallback($item_font, "ACTION", "font_cb");
     IupSetCallback($item_about, "ACTION", "about_cb");
+    IupSetCallback($multitext, "CARET_CB", "multitext_caret_cb");
 
 
     $file_menu = IupMenu($item_open);
@@ -354,17 +410,19 @@ function main()
 
     $help_menu = IupMenu($item_about);
 
-    $sub_menu_file = IupSubmenu("File", $file_menu);
-    $sub_menu_edit = IupSubmenu("Edit", $edit_menu);
-    $sub_menu_format = IupSubmenu("Format", $format_menu);
-    $sub_menu_help = IupSubmenu("Help", $help_menu);
+    $sub_menu_file = IupSubmenu("&File", $file_menu);
+    $sub_menu_edit = IupSubmenu("&Edit", $edit_menu);
+    $sub_menu_format = IupSubmenu("F&ormat", $format_menu);
+    $sub_menu_help = IupSubmenu("&Help", $help_menu);
     
     $menu = IupMenu($sub_menu_file);
     IupAppend($menu,$sub_menu_edit);
     IupAppend($menu,$sub_menu_format);
     IupAppend($menu,$sub_menu_help);
 
-    $vbox = IupVbox($multitext);
+    $vbox = IupVbox($toolbar_hb);
+    IupAppend($vbox,$multitext);
+    IupAppend($vbox,$lbl_statusbar);
 
     $dlg = IupDialog($vbox);
 
@@ -376,6 +434,13 @@ function main()
 
     /* parent for pre-defined dialogs in closed functions (IupMessage) */
     IupSetAttributeHandle(NULL, "PARENTDIALOG", $dlg);
+
+    // IupSetCallback($dlg, "K_cO", "open_cb");
+    // IupSetCallback($dlg, "K_cS", "saveas_cb");
+    // IupSetCallback($dlg, "K_cF", "find_cb");
+    // IupSetCallback($dlg, "K_cG", "goto_cb");
+
+    IupSetCallback($dlg, "K_ANY", "dialog_key_any_cb");
 
     IupShowXY($dlg, IUP_CENTERPARENT, IUP_CENTERPARENT);
 

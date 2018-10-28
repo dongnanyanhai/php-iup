@@ -49,7 +49,7 @@ PHP_FUNCTION(IupOpen)
 
     // 注册回调函数
     ALLOC_HASHTABLE(iup_callback);
-    zend_hash_init(iup_callback,1024,NULL,NULL,0);
+    zend_hash_init(iup_callback,512,NULL,NULL,0);
     event_register_callback();
 
     RETURN_BOOL(1);

@@ -6,8 +6,6 @@ if (!extension_loaded("iup")){
     die("iup extension is unavailable");
 };
 
-sleep(7);
-
 $dialogs = array();
 
 /********************************** Utilities *****************************************/
@@ -33,18 +31,9 @@ function str_find($haystack, $needle, $offset = 0, $casesensitive = 1){
 /********************************** Callbacks *****************************************/
 
 function multitext_caret_cb($ih,$lin,$col){
-    // IupMessage("Error", "Hello: ");
-
-    // echo "Hello";
 
     $lbl_statusbar = IupGetDialogChild($ih, "STATUSBAR");
     IupSetAttribute($lbl_statusbar, "TITLE", "Lin $lin, Col $col");
-    return IUP_DEFAULT;
-}
-
-function multitext_k_any($ih,$i){
-    echo $i ."\n";
-
     return IUP_DEFAULT;
 }
 
@@ -392,7 +381,6 @@ function main()
     IupSetCallback($item_font, "ACTION", "font_cb");
     IupSetCallback($item_about, "ACTION", "about_cb");
     IupSetCallback($multitext, "CARET_CB", "multitext_caret_cb");
-    // IupSetCallback($multitext, "K_ANY", "multitext_k_any");
 
 
     $file_menu = IupMenu($item_open);
