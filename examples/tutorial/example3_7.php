@@ -6,6 +6,7 @@ if (!extension_loaded("iup")){
     die("iup extension is unavailable");
 };
 
+// sleep(10);
 $dialogs = array();
 
 /********************************** Utilities *****************************************/
@@ -29,6 +30,25 @@ function str_find($haystack, $needle, $offset = 0, $casesensitive = 1){
 
 }
 /********************************** Callbacks *****************************************/
+
+function config_recent_cb($ih){
+
+    global $dialogs;
+
+    $filename = IupGetAttribute($ih,"TITLE");
+
+    // echo $filename;
+    $str = file_get_contents($filename);
+
+    if($str){
+        $multitext = $dialogs["MULTITEXT"];
+        IupSetAttribute($multitext,"VALUE",$str);
+    }
+
+    var_dump(IupGetAttribute($ih,"APP_FILENAME"));
+
+    return IUP_DEFAULT;
+}
 
 function dialog_key_any_cb($ih,$c){
     if($c == K_cO){
@@ -70,6 +90,9 @@ function open_cb($ih){
         if($str === false){
             IupMessage("Error", "Fail when reading from file: ".$filename );
         }else{
+            $config = $dialogs["CONFIG"];
+            IupConfigRecentUpdate($config,$filename);
+
             IupSetStrAttribute($multitext, "VALUE", $str);
         }
     }
@@ -101,7 +124,11 @@ function saveas_cb($ih){
         $re = file_put_contents($filename, $str);
         if($re === false){
             IupMessage("Error", "Fail when writing to file: ".$filename);
+        }else{
+            $config = $dialogs["CONFIG"];
+            IupConfigRecentUpdate($config,$filename);
         }
+        
     }
 
     IupDestroy($filedlg);
@@ -293,6 +320,8 @@ function find_cb($item_find){
 }
 
 function font_cb($ih){
+    global $dialogs;
+    $config = $dialogs["CONFIG"];
 
     $fontdlg = IupFontDlg();
 
@@ -308,6 +337,8 @@ function font_cb($ih){
         $font = IupGetAttribute($fontdlg,"VALUE");
 
         IupSetAttribute($multitext,"FONT",$font);
+
+        IupConfigSetVariableStr($config,"MainWindow","Font",$font);
     }
 
     IupDestroy($fontdlg);
@@ -321,6 +352,15 @@ function about_cb($ih){
 }
 
 function exit_cb($ih){
+
+    global $dialogs;
+
+    $dlg = $dialogs["DIALOG"];
+    $config = $dialogs["CONFIG"];
+    IupConfigDialogClosed($config,$dlg,"MainWindow");
+    IupConfigSave($config);
+    IupDestroy($config);
+
     return IUP_CLOSE;
 }
 
@@ -335,6 +375,11 @@ function main()
     IupImageLibOpen();
     
     IupSetGlobal("UTF8MODE","Yes");
+
+    $config = IupConfig();
+    $dialogs["CONFIG"] = $config;
+    IupSetAttribute($config,"APP_NAME","simple_notepad");
+    IupConfigLoad($config);
     
     $multitext = IupText(NULL);
 
@@ -343,6 +388,11 @@ function main()
     IupSetAttribute($multitext, "MULTILINE", "YES");
     IupSetAttribute($multitext, "EXPAND", "YES");
     IupSetAttribute($multitext, "NAME", "MULTITEXT");
+
+    $font = IupConfigGetVariableStr($config,"MainWindow","Font");
+    if(!empty($font)){
+        IupSetAttribute($multitext,"FONT",$font);
+    }
 
     $lbl_statusbar = IupLabel("Lin 1, Col 1");
     IupSetAttribute($lbl_statusbar, "NAME", "STATUSBAR");  
@@ -397,10 +447,12 @@ function main()
     IupSetCallback($item_about, "ACTION", "about_cb");
     IupSetCallback($multitext, "CARET_CB", "multitext_caret_cb");
 
+    $recent_menu = IupMenu(NULL);
 
     $file_menu = IupMenu($item_open);
     IupAppend($file_menu,$item_saveas);
     IupAppend($file_menu,IupSeparator());
+    IupAppend($file_menu,IupSubmenu("Recent &Files", $recent_menu));
     IupAppend($file_menu,$item_exit);
 
     $edit_menu = IupMenu($item_find);
@@ -426,11 +478,15 @@ function main()
 
     $dlg = IupDialog($vbox);
 
+    $dialogs["DIALOG"] = $dlg;
+
     IupSetAttributeHandle($dlg, "MENU", $menu);
 
     IupSetAttribute($dlg, "TITLE", "Simple Notepad");
 
     IupSetAttribute($dlg, "SIZE", "HALFxHALF");
+
+    IupSetCallback($dlg, "CLOSE_CB", "exit_cb");
 
     /* parent for pre-defined dialogs in closed functions (IupMessage) */
     IupSetAttributeHandle(NULL, "PARENTDIALOG", $dlg);
@@ -441,7 +497,10 @@ function main()
     // IupSetCallback($dlg, "K_cG", "goto_cb");
     IupSetCallback($dlg, "K_ANY", "dialog_key_any_cb");
 
-    IupShowXY($dlg, IUP_CENTERPARENT, IUP_CENTERPARENT);
+    IupConfigRecentInit($config, $recent_menu, "config_recent_cb", 10);
+
+    IupConfigDialogShow($config, $dlg, "MainWindow");
+    // IupShowXY($dlg, IUP_CENTERPARENT, IUP_CENTERPARENT);
 
     IupSetAttribute($dlg, "USERSIZE", NULL);
 

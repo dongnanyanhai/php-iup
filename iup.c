@@ -970,6 +970,38 @@ const zend_function_entry iup_functions[] = {
     PHP_FE(IupLayoutDialog,  NULL)
     PHP_FE(IupElementPropertiesDialog,  NULL)
 
+    // more
+    PHP_FE(IupConfig, NULL)
+    PHP_FE(IupConfigLoad, NULL)
+    PHP_FE(IupConfigSave, NULL)
+    PHP_FE(IupConfigSetVariableStr, NULL)
+    PHP_FE(IupConfigSetVariableStrId, NULL)
+    PHP_FE(IupConfigSetVariableInt, NULL)
+    PHP_FE(IupConfigSetVariableIntId, NULL)
+    PHP_FE(IupConfigSetVariableDouble, NULL)
+    PHP_FE(IupConfigSetVariableDoubleId, NULL)
+    PHP_FE(IupConfigGetVariableStr, NULL)
+    PHP_FE(IupConfigGetVariableStrId, NULL)
+    PHP_FE(IupConfigGetVariableInt, NULL)
+    PHP_FE(IupConfigGetVariableIntId, NULL)
+    PHP_FE(IupConfigGetVariableDouble, NULL)
+    PHP_FE(IupConfigGetVariableDoubleId, NULL)
+    PHP_FE(IupConfigGetVariableStrDef, NULL)
+    PHP_FE(IupConfigGetVariableStrIdDef, NULL)
+    PHP_FE(IupConfigGetVariableIntDef, NULL)
+    PHP_FE(IupConfigGetVariableIntIdDef, NULL)
+    PHP_FE(IupConfigGetVariableDoubleDef, NULL)
+    PHP_FE(IupConfigGetVariableDoubleIdDef, NULL)
+    PHP_FE(IupConfigCopy, NULL)
+    PHP_FE(IupConfigSetListVariable, NULL)
+    PHP_FE(IupConfigRecentInit, NULL)
+    PHP_FE(IupConfigRecentUpdate, NULL)
+    PHP_FE(IupConfigDialogShow, NULL)
+    PHP_FE(IupConfigDialogClosed, NULL)
+    PHP_FE(IupScintillaOpen, NULL)
+    PHP_FE(IupScintilla, NULL)
+    PHP_FE(IupScintillaDlg, NULL)
+
 	PHP_FE_END	/* Must be the last line in iup_functions[] */
 };
 /* }}} */

@@ -2856,7 +2856,11 @@ PHP_FUNCTION(IupSetHandle)
         return;
     }
 
-    ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+    if(ihandle_res == NULL){
+        ih = NULL;
+    }else{
+        ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+    }
 
     re = IupSetHandle(name,ih);
 
@@ -2964,7 +2968,11 @@ PHP_FUNCTION(IupSetAttributeHandle)
         ih = NULL;
     }
 
-    ih_named = zend_fetch_resource_ex(ihandle_res_named,"iup-handle",le_iup_ihandle);
+    if(ihandle_res_named != NULL){
+        ih_named = zend_fetch_resource_ex(ihandle_res_named,"iup-handle",le_iup_ihandle);
+    }else{
+        ih_named = NULL;
+    }
 
     IupSetAttributeHandle(ih,name,ih_named);
 
@@ -3033,7 +3041,11 @@ PHP_FUNCTION(IupSetAttributeHandleId)
         ih = NULL;
     }
 
-    ih_named = zend_fetch_resource_ex(ihandle_res_named,"iup-handle",le_iup_ihandle);
+    if(ihandle_res_named != NULL){
+        ih_named = zend_fetch_resource_ex(ihandle_res_named,"iup-handle",le_iup_ihandle);
+    }else{
+        ih_named = NULL;
+    }
 
     IupSetAttributeHandleId(ih,name,id,ih_named);
 
@@ -3106,7 +3118,11 @@ PHP_FUNCTION(IupSetAttributeHandleId2)
         ih = NULL;
     }
 
-    ih_named = zend_fetch_resource_ex(ihandle_res_named,"iup-handle",le_iup_ihandle);
+    if(ihandle_res_named != NULL){
+        ih_named = zend_fetch_resource_ex(ihandle_res_named,"iup-handle",le_iup_ihandle);
+    }else{
+        ih_named = NULL;
+    }
 
     IupSetAttributeHandleId2(ih,name,lin,col,ih_named);
 
@@ -3461,9 +3477,13 @@ PHP_FUNCTION(IupRadio)
         return;
     }
 
-    child = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+    if(ihandle_res == NULL){
+        re = IupRadio(NULL);
+    }else{
+        child = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
 
-    re = IupRadio(child);
+        re = IupRadio(child);
+    }
 
     RETURN_RES(zend_register_resource(re, le_iup_ihandle));
 }
@@ -3484,9 +3504,14 @@ PHP_FUNCTION(IupVbox)
         return;
     }
 
-    child = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+    if(ihandle_res == NULL){
+        re = IupVbox(NULL);
+    }else{
+        child = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
 
-    re = IupVbox(child,NULL);
+        re = IupVbox(child,NULL);        
+    }
+
 
     RETURN_RES(zend_register_resource(re, le_iup_ihandle));
 }
@@ -3508,9 +3533,13 @@ PHP_FUNCTION(IupVboxv)
         return;
     }
 
-    children = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+    if(ihandle_res == NULL){
+        re = IupVboxv(NULL);
+    }else{
+        children = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
 
-    re = IupVboxv(&children);
+        re = IupVboxv(&children);
+    }
 
     RETURN_RES(zend_register_resource(re, le_iup_ihandle));
 }
@@ -3532,9 +3561,12 @@ PHP_FUNCTION(IupZbox)
         return;
     }
 
-    child = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
-
-    re = IupZbox(child,NULL);
+    if(ihandle_res == NULL){
+        re = IupZbox(NULL);
+    }else{
+        child = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+        re = IupZbox(child,NULL);
+    }
 
     RETURN_RES(zend_register_resource(re, le_iup_ihandle));
 }
@@ -3556,9 +3588,12 @@ PHP_FUNCTION(IupZboxv)
         return;
     }
 
-    children = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
-
-    re = IupZboxv(&children);
+    if(ihandle_res == NULL){
+        re = IupZboxv(NULL);
+    }else{
+        children = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+        re = IupZboxv(&children);
+    }
 
     RETURN_RES(zend_register_resource(re, le_iup_ihandle));
 }
@@ -3580,9 +3615,12 @@ PHP_FUNCTION(IupHbox)
         return;
     }
 
-    child = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
-
-    re = IupHbox(child,NULL);
+    if(ihandle_res == NULL){
+        re = IupHbox(NULL);
+    }else{
+        child = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+        re = IupHbox(child,NULL);
+    }
 
     RETURN_RES(zend_register_resource(re, le_iup_ihandle));
 }
@@ -3604,9 +3642,12 @@ PHP_FUNCTION(IupHboxv)
         return;
     }
 
-    children = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
-
-    re = IupHboxv(&children);
+    if(ihandle_res == NULL){
+        re = IupHboxv(NULL);
+    }else{
+        children = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+        re = IupHboxv(&children);
+    }
 
     RETURN_RES(zend_register_resource(re, le_iup_ihandle));
 }
@@ -3627,9 +3668,13 @@ PHP_FUNCTION(IupNormalizer)
         return;
     }
 
-    ih_first = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+    if(ihandle_res == NULL){
+        re = IupNormalizer(NULL);
+    }else{
+        ih_first = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
 
-    re = IupNormalizer(ih_first,NULL);
+        re = IupNormalizer(ih_first,NULL);
+    }
 
     RETURN_RES(zend_register_resource(re, le_iup_ihandle));
 }
@@ -3651,9 +3696,12 @@ PHP_FUNCTION(IupNormalizerv)
         return;
     }
 
-    ih_list = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
-
-    re = IupNormalizerv(&ih_list);
+    if(ihandle_res == NULL){
+        re = IupNormalizerv(NULL);
+    }else{
+        ih_list = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+        re = IupNormalizerv(&ih_list);
+    }
 
     RETURN_RES(zend_register_resource(re, le_iup_ihandle));
 }
@@ -3674,9 +3722,13 @@ PHP_FUNCTION(IupCbox)
         return;
     }
 
-    child = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+    if(ihandle_res == NULL){
+        re = IupCbox(NULL);
+    }else{
+        child = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
 
-    re = IupCbox(child,NULL);
+        re = IupCbox(child,NULL);
+    }
 
     RETURN_RES(zend_register_resource(re, le_iup_ihandle));
 }
@@ -3697,9 +3749,12 @@ PHP_FUNCTION(IupCboxv)
         return;
     }
 
-    children = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
-
-    re = IupCboxv(&children);
+    if(ihandle_res == NULL){
+        re = IupCboxv(NULL);
+    }else{
+        children = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+        re = IupCboxv(&children);
+    }
 
     RETURN_RES(zend_register_resource(re, le_iup_ihandle));
 }
@@ -3720,9 +3775,12 @@ PHP_FUNCTION(IupSbox)
         return;
     }
 
-    child = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
-
-    re = IupSbox(child);
+    if(ihandle_res == NULL){
+        re = IupSbox(NULL);
+    }else{
+        child = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+        re = IupSbox(child);
+    }
 
     RETURN_RES(zend_register_resource(re, le_iup_ihandle));
 }
@@ -3744,8 +3802,17 @@ PHP_FUNCTION(IupSplit)
         return;
     }
 
-    child1 = zend_fetch_resource_ex(ihandle_res_child1,"iup-handle",le_iup_ihandle);
-    child2 = zend_fetch_resource_ex(ihandle_res_child2,"iup-handle",le_iup_ihandle);
+    if(ihandle_res_child1 == NULL){
+        child1 = NULL;
+    }else{
+        child1 = zend_fetch_resource_ex(ihandle_res_child1,"iup-handle",le_iup_ihandle);
+    }
+
+    if(ihandle_res_child2 == NULL){
+        child2 = NULL;
+    }else{
+        child2 = zend_fetch_resource_ex(ihandle_res_child2,"iup-handle",le_iup_ihandle);
+    }
 
     re = IupSplit(child1,child2);
 
@@ -3768,9 +3835,12 @@ PHP_FUNCTION(IupScrollBox)
         return;
     }
 
-    child = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
-
-    re = IupScrollBox(child);
+    if(ihandle_res == NULL){
+        re = IupScrollBox(NULL);
+    }else{
+        child = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+        re = IupScrollBox(child);
+    }
 
     RETURN_RES(zend_register_resource(re, le_iup_ihandle));
 }
@@ -3791,9 +3861,12 @@ PHP_FUNCTION(IupFlatScrollBox)
         return;
     }
 
-    child = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
-
-    re = IupFlatScrollBox(child);
+    if(ihandle_res == NULL){
+        re = IupFlatScrollBox(NULL);
+    }else{
+        child = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+        re = IupFlatScrollBox(child);
+    }
 
     RETURN_RES(zend_register_resource(re, le_iup_ihandle));
 }
@@ -3814,9 +3887,12 @@ PHP_FUNCTION(IupGridBox)
         return;
     }
 
-    child = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
-
-    re = IupGridBox(child,NULL);
+    if(ihandle_res == NULL){
+        re = IupGridBox(NULL);
+    }else{
+        child = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+        re = IupGridBox(child,NULL);
+    }
 
     RETURN_RES(zend_register_resource(re, le_iup_ihandle));
 }
@@ -3837,9 +3913,12 @@ PHP_FUNCTION(IupGridBoxv)
         return;
     }
 
-    children = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
-
-    re = IupGridBoxv(&children);
+    if(ihandle_res == NULL){
+        re = IupGridBoxv(NULL);
+    }else{
+        children = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+        re = IupGridBoxv(&children);
+    }
 
     RETURN_RES(zend_register_resource(re, le_iup_ihandle));
 }
@@ -3860,9 +3939,12 @@ PHP_FUNCTION(IupExpander)
         return;
     }
 
-    child = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
-
-    re = IupExpander(child);
+    if(ihandle_res == NULL){
+        re = IupExpander(NULL);
+    }else{
+        child = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+        re = IupExpander(child);
+    }
 
     RETURN_RES(zend_register_resource(re, le_iup_ihandle));
 }
@@ -3883,9 +3965,12 @@ PHP_FUNCTION(IupDetachBox)
         return;
     }
 
-    child = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
-
-    re = IupDetachBox(child);
+    if(ihandle_res == NULL){
+        re = IupDetachBox(NULL);
+    }else{
+        child = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+        re = IupDetachBox(child);
+    }
 
     RETURN_RES(zend_register_resource(re, le_iup_ihandle));
 }
@@ -3906,10 +3991,13 @@ PHP_FUNCTION(IupBackgroundBox)
         return;
     }
 
-    child = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
-
-    re = IupBackgroundBox(child);
-
+    if(ihandle_res == NULL){
+        re = IupBackgroundBox(NULL);    
+    }else{
+        child = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+        re = IupBackgroundBox(child);    
+    }
+    
     RETURN_RES(zend_register_resource(re, le_iup_ihandle));
 }
 /* }}} */
@@ -3929,9 +4017,12 @@ PHP_FUNCTION(IupFrame)
         return;
     }
 
-    child = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
-
-    re = IupFrame(child);
+    if(ihandle_res == NULL){
+        re = IupFrame(NULL);        
+    }else{
+        child = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+        re = IupFrame(child);        
+    }
 
     RETURN_RES(zend_register_resource(re, le_iup_ihandle));
 }
@@ -3951,10 +4042,12 @@ PHP_FUNCTION(IupFlatFrame)
     if (zend_parse_parameters(argc TSRMLS_DC,"r!",&ihandle_res) == FAILURE) {
         return;
     }
-
-    child = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
-
-    re = IupFlatFrame(child);
+    if(ihandle_res == NULL){
+        re = IupFlatFrame(NULL);
+    }else{
+        child = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+        re = IupFlatFrame(child);
+    }
 
     RETURN_RES(zend_register_resource(re, le_iup_ihandle));
 }
@@ -4036,7 +4129,12 @@ PHP_FUNCTION(IupSubmenu)
         return;
     }
 
-    child = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+    if(ihandle_res == NULL){
+        child = NULL;
+    }else{
+        child = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+    }
+
 
     re = IupSubmenu(name,child);
 
@@ -4075,9 +4173,12 @@ PHP_FUNCTION(IupMenu)
         return;
     }
 
-    child = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
-
-    re = IupMenu(child,NULL);
+    if(ihandle_res == NULL){
+        re = IupMenu(NULL);
+    }else{
+        child = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+        re = IupMenu(child,NULL);
+    }
 
     RETURN_RES(zend_register_resource(re, le_iup_ihandle));
 }
@@ -4190,9 +4291,13 @@ PHP_FUNCTION(IupDropButton)
         return;
     }
 
-    dropchild = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+    if(ihandle_res == NULL){
+        re = IupDropButton(NULL);
+    }else{
+        dropchild = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+        re = IupDropButton(dropchild);        
+    }
 
-    re = IupDropButton(dropchild);
 
     RETURN_RES(zend_register_resource(re, le_iup_ihandle));
 }
@@ -4273,9 +4378,14 @@ PHP_FUNCTION(IupDialog)
         return;
     }
 
-    child = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+    if(ihandle_res == NULL){
+        re = IupDialog(NULL);
+    }else{
+        child = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
 
-    re = IupDialog(child);
+        re = IupDialog(child);
+    }
+
 
     RETURN_RES(zend_register_resource(re, le_iup_ihandle));
 }
@@ -4498,9 +4608,12 @@ PHP_FUNCTION(IupTabs)
         return;
     }
 
-    child = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
-
-    re = IupTabs(child,NULL);
+    if(ihandle_res == NULL){
+        re = IupTabs(NULL);
+    }else{
+        child = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+        re = IupTabs(child,NULL);        
+    }
 
     RETURN_RES(zend_register_resource(re, le_iup_ihandle));
 }
@@ -4521,9 +4634,12 @@ PHP_FUNCTION(IupTabsv)
         return;
     }
 
-    children = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
-
-    re = IupTabsv(&children);
+    if(ihandle_res == NULL){
+        re = IupTabsv(NULL);
+    }else{
+        children = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+        re = IupTabsv(&children);        
+    }
 
     RETURN_RES(zend_register_resource(re, le_iup_ihandle));
 }
@@ -4544,9 +4660,12 @@ PHP_FUNCTION(IupFlatTabs)
         return;
     }
 
-    first = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
-
-    re = IupFlatTabs(first,NULL);
+    if(ihandle_res == NULL){
+        re = IupFlatTabs(NULL);
+    }else{
+        first = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+        re = IupFlatTabs(first,NULL);
+    }
 
     RETURN_RES(zend_register_resource(re, le_iup_ihandle));
 }
@@ -4567,9 +4686,14 @@ PHP_FUNCTION(IupFlatTabsv)
         return;
     }
 
-    children = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+    if(ihandle_res == NULL){
+        re = IupFlatTabsv(NULL);
+    }else{
+        children = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+        re = IupFlatTabsv(&children);
+    }
 
-    re = IupFlatTabsv(&children);
+
 
     RETURN_RES(zend_register_resource(re, le_iup_ihandle));
 }
@@ -4631,9 +4755,12 @@ PHP_FUNCTION(IupAnimatedLabel)
         return;
     }
 
-    animation = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
-
-    re = IupAnimatedLabel(animation);
+    if(ihandle_res == NULL){
+        re = IupAnimatedLabel(NULL);
+    }else{
+        animation = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+        re = IupAnimatedLabel(animation);
+    }
 
     RETURN_RES(zend_register_resource(re, le_iup_ihandle));
 }
@@ -5259,6 +5386,8 @@ PHP_FUNCTION(IupMessageAlarm)
         return;
     }
 
+    parent = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+
     i = IupMessageAlarm(parent,title,message,buttons);
 
     RETURN_LONG(i);
@@ -5454,9 +5583,12 @@ PHP_FUNCTION(IupLayoutDialog)
         return;
     }
 
-    dialog = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
-
-    re = IupLayoutDialog(dialog);
+    if(ihandle_res == NULL){
+        re = IupLayoutDialog(NULL);
+    }else{
+        dialog = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+        re = IupLayoutDialog(dialog);
+    }
 
     RETURN_RES(zend_register_resource(re, le_iup_ihandle));
 }

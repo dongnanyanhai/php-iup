@@ -76,10 +76,7 @@ ZEND_TSRMLS_CACHE_EXTERN()
 
 void event_register_callback();
 int event_set_callback(Ihandle *ih , char * event_name);
-
-
-int event_action( Ihandle *self );
-int event_common_action( Ihandle *self );
+int event_common(char * event_name, Ihandle *ih);
 
 PHP_FUNCTION(IupOpen);
 PHP_FUNCTION(IupClose);
@@ -312,6 +309,41 @@ PHP_FUNCTION(IupParamBox);
 PHP_FUNCTION(IupParamBoxv);
 PHP_FUNCTION(IupLayoutDialog);
 PHP_FUNCTION(IupElementPropertiesDialog);
+
+
+// more.c
+
+PHP_FUNCTION(IupConfig);
+PHP_FUNCTION(IupConfigLoad);
+PHP_FUNCTION(IupConfigSave);
+PHP_FUNCTION(IupConfigSetVariableStr);
+PHP_FUNCTION(IupConfigSetVariableStrId);
+PHP_FUNCTION(IupConfigSetVariableInt);
+PHP_FUNCTION(IupConfigSetVariableIntId);
+PHP_FUNCTION(IupConfigSetVariableDouble);
+PHP_FUNCTION(IupConfigSetVariableDoubleId);
+PHP_FUNCTION(IupConfigGetVariableStr);
+PHP_FUNCTION(IupConfigGetVariableStrId);
+PHP_FUNCTION(IupConfigGetVariableInt);
+PHP_FUNCTION(IupConfigGetVariableIntId);
+PHP_FUNCTION(IupConfigGetVariableDouble);
+PHP_FUNCTION(IupConfigGetVariableDoubleId);
+PHP_FUNCTION(IupConfigGetVariableStrDef);
+PHP_FUNCTION(IupConfigGetVariableStrIdDef);
+PHP_FUNCTION(IupConfigGetVariableIntDef);
+PHP_FUNCTION(IupConfigGetVariableIntIdDef);
+PHP_FUNCTION(IupConfigGetVariableDoubleDef);
+PHP_FUNCTION(IupConfigGetVariableDoubleIdDef);
+PHP_FUNCTION(IupConfigCopy);
+PHP_FUNCTION(IupConfigSetListVariable);
+PHP_FUNCTION(IupConfigRecentInit);
+PHP_FUNCTION(IupConfigRecentUpdate);
+PHP_FUNCTION(IupConfigDialogShow);
+PHP_FUNCTION(IupConfigDialogClosed);
+
+PHP_FUNCTION(IupScintillaOpen);
+PHP_FUNCTION(IupScintilla);
+PHP_FUNCTION(IupScintillaDlg);
 
 
 #endif	/* PHP_IUP_H */
