@@ -184,14 +184,14 @@ function goto_cb($item_goto){
     IupSetCallback($bt_cancel, "ACTION", "goto_cancel_cb");
     IupSetAttribute($bt_cancel, "PADDING", "10x2");
 
-    $hbox = IupHbox(IupFill());
-    IupAppend($hbox,$bt_ok);
-    IupAppend($hbox,$bt_cancel);
+    $hbox = IupHbox(IupFill(),$bt_ok,$bt_cancel);
+    // IupAppend($hbox,$bt_ok);
+    // IupAppend($hbox,$bt_cancel);
     IupSetAttributes($hbox,"NORMALIZESIZE=HORIZONTAL");
 
-    $vbox = IupVbox($lbl);
-    IupAppend($vbox,$txt);
-    IupAppend($vbox,$hbox);
+    $vbox = IupVbox($lbl,$txt,$hbox);
+    // IupAppend($vbox,$txt);
+    // IupAppend($vbox,$hbox);
     IupSetAttribute($vbox, "MARGIN", "10x10");
     IupSetAttribute($vbox, "GAP", "5");
 
@@ -290,16 +290,16 @@ function find_cb($item_find){
         IupSetAttribute($bt_close,"PADDING","10x2");
         IupSetCallback($bt_close,"ACTION","find_close_cb");
 
-        $hbox = IupHbox(IupFill());
-        IupAppend($hbox,$bt_next);
-        IupAppend($hbox,$bt_close);
+        $hbox = IupHbox(IupFill(),$bt_next,$bt_close);
+        // IupAppend($hbox,$bt_next);
+        // IupAppend($hbox,$bt_close);
         IupSetAttributes($hbox,"NORMALIZESIZE=HORIZONTAL");
 
         $label = IupLabel("Find What:");
-        $vbox = IupVbox($label);
-        IupAppend($vbox,$txt);
-        IupAppend($vbox,$find_case);
-        IupAppend($vbox,$hbox);
+        $vbox = IupVbox($label,$txt,$find_case,$hbox);
+        // IupAppend($vbox,$txt);
+        // IupAppend($vbox,$find_case);
+        // IupAppend($vbox,$hbox);
 
         IupSetAttribute($vbox,"MARGIN", "10x10");
         IupSetAttribute($vbox,"GAP", "5");
@@ -422,10 +422,10 @@ function main()
     IupSetAttribute($btn_find, "TIP", "Find (Ctrl+F)");
     IupSetAttribute($btn_find, "CANFOCUS", "No");
 
-    $toolbar_hb = IupHbox($btn_open);
-    IupAppend($toolbar_hb,$btn_save);
-    IupAppend($toolbar_hb,IupSetAttributes(IupLabel(NULL), "SEPARATOR=VERTICAL"));
-    IupAppend($toolbar_hb,$btn_find);
+    $toolbar_hb = IupHbox($btn_open,$btn_save,IupSetAttributes(IupLabel(NULL), "SEPARATOR=VERTICAL"),$btn_find);
+    // IupAppend($toolbar_hb,$btn_save);
+    // IupAppend($toolbar_hb,IupSetAttributes(IupLabel(NULL), "SEPARATOR=VERTICAL"));
+    // IupAppend($toolbar_hb,$btn_find);
     IupSetAttribute($toolbar_hb, "MARGIN", "5x5");
     IupSetAttribute($toolbar_hb, "GAP", "2");
 
@@ -447,16 +447,16 @@ function main()
     IupSetCallback($item_about, "ACTION", "about_cb");
     IupSetCallback($multitext, "CARET_CB", "multitext_caret_cb");
 
-    $recent_menu = IupMenu(NULL);
+    $recent_menu = IupMenu();
 
-    $file_menu = IupMenu($item_open);
-    IupAppend($file_menu,$item_saveas);
-    IupAppend($file_menu,IupSeparator());
-    IupAppend($file_menu,IupSubmenu("Recent &Files", $recent_menu));
-    IupAppend($file_menu,$item_exit);
+    $file_menu = IupMenu($item_open,$item_saveas,IupSeparator(),IupSubmenu("Recent &Files", $recent_menu),$item_exit);
+    // IupAppend($file_menu,$item_saveas);
+    // IupAppend($file_menu,IupSeparator());
+    // IupAppend($file_menu,IupSubmenu("Recent &Files", $recent_menu));
+    // IupAppend($file_menu,$item_exit);
 
-    $edit_menu = IupMenu($item_find);
-    IupAppend($edit_menu,$item_goto);
+    $edit_menu = IupMenu($item_find,$item_goto);
+    // IupAppend($edit_menu,$item_goto);
 
     $format_menu = IupMenu($item_font);
 
@@ -467,14 +467,14 @@ function main()
     $sub_menu_format = IupSubmenu("F&ormat", $format_menu);
     $sub_menu_help = IupSubmenu("&Help", $help_menu);
     
-    $menu = IupMenu($sub_menu_file);
-    IupAppend($menu,$sub_menu_edit);
-    IupAppend($menu,$sub_menu_format);
-    IupAppend($menu,$sub_menu_help);
+    $menu = IupMenu($sub_menu_file,$sub_menu_edit,$sub_menu_format,$sub_menu_help);
+    // IupAppend($menu,$sub_menu_edit);
+    // IupAppend($menu,$sub_menu_format);
+    // IupAppend($menu,$sub_menu_help);
 
-    $vbox = IupVbox($toolbar_hb);
-    IupAppend($vbox,$multitext);
-    IupAppend($vbox,$lbl_statusbar);
+    $vbox = IupVbox($toolbar_hb,$multitext,$lbl_statusbar);
+    // IupAppend($vbox,$multitext);
+    // IupAppend($vbox,$lbl_statusbar);
 
     $dlg = IupDialog($vbox);
 

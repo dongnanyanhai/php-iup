@@ -2777,7 +2777,7 @@ PHP_FUNCTION(IupSetCallback)
 PHP_FUNCTION(IupGetCallback)
 {
 
-    php_error(E_WARNING, "IupGetCallback1: not yet implemented");
+    php_error(E_WARNING, "IupGetCallback: not yet implemented");
 
 }
 /* }}} */
@@ -2799,7 +2799,7 @@ PHP_FUNCTION(IupSetCallbacks)
 PHP_FUNCTION(IupGetFunction)
 {
 
-    php_error(E_WARNING, "IupGetFunction1: not yet implemented");
+    php_error(E_WARNING, "IupGetFunction: not yet implemented");
 
 }
 /* }}} */
@@ -2810,7 +2810,7 @@ PHP_FUNCTION(IupGetFunction)
 PHP_FUNCTION(IupSetFunction)
 {
 
-    php_error(E_WARNING, "IupSetFunction1: not yet implemented");
+    php_error(E_WARNING, "IupSetFunction: not yet implemented");
 
 }
 /* }}} */
@@ -3494,29 +3494,35 @@ PHP_FUNCTION(IupRadio)
  */
 PHP_FUNCTION(IupVbox)
 {
-    int argc = ZEND_NUM_ARGS();
 
-    zval *ihandle_res = NULL;
+    zval *args;
+    int argc;
+    int i;
 
     Ihandle *child,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r!",&ihandle_res) == FAILURE) {
-        return;
-    }
+    ZEND_PARSE_PARAMETERS_START(0, -1)
+        Z_PARAM_VARIADIC('+', args, argc)
+    ZEND_PARSE_PARAMETERS_END();
 
-    if(ihandle_res == NULL){
+    if(argc < 1){
         re = IupVbox(NULL);
     }else{
-        child = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+        for (i = 0; i < argc; i++) {
 
-        re = IupVbox(child,NULL);        
+            child = zend_fetch_resource_ex(&args[i],"iup-handle",le_iup_ihandle);
+
+            if(i == 0){
+                re = IupVbox(child,NULL);
+            }else{
+                IupAppend(re,child);
+            }
+        }        
     }
-
 
     RETURN_RES(zend_register_resource(re, le_iup_ihandle));
 }
 /* }}} */
-
 
 /* {{{ proto resource IupVboxv(resource children)
    ;
@@ -3545,33 +3551,40 @@ PHP_FUNCTION(IupVboxv)
 }
 /* }}} */
 
-
 /* {{{ proto resource IupZbox(resource child)
    ;
  */
 PHP_FUNCTION(IupZbox)
 {
-    int argc = ZEND_NUM_ARGS();
 
-    zval *ihandle_res = NULL;
+    zval *args;
+    int argc;
+    int i;
 
     Ihandle *child,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r!",&ihandle_res) == FAILURE) {
-        return;
-    }
+    ZEND_PARSE_PARAMETERS_START(0, -1)
+        Z_PARAM_VARIADIC('+', args, argc)
+    ZEND_PARSE_PARAMETERS_END();
 
-    if(ihandle_res == NULL){
+    if(argc < 1){
         re = IupZbox(NULL);
     }else{
-        child = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
-        re = IupZbox(child,NULL);
+        for (i = 0; i < argc; i++) {
+
+            child = zend_fetch_resource_ex(&args[i],"iup-handle",le_iup_ihandle);
+
+            if(i == 0){
+                re = IupZbox(child,NULL);
+            }else{
+                IupAppend(re,child);
+            }
+        }        
     }
 
     RETURN_RES(zend_register_resource(re, le_iup_ihandle));
 }
 /* }}} */
-
 
 /* {{{ proto resource IupZboxv(resource children)
    ;
@@ -3599,33 +3612,40 @@ PHP_FUNCTION(IupZboxv)
 }
 /* }}} */
 
-
 /* {{{ proto resource IupHbox(resource child)
    ;
  */
 PHP_FUNCTION(IupHbox)
 {
-    int argc = ZEND_NUM_ARGS();
 
-    zval *ihandle_res = NULL;
+    zval *args;
+    int argc;
+    int i;
 
     Ihandle *child,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r!",&ihandle_res) == FAILURE) {
-        return;
-    }
+    ZEND_PARSE_PARAMETERS_START(0, -1)
+        Z_PARAM_VARIADIC('+', args, argc)
+    ZEND_PARSE_PARAMETERS_END();
 
-    if(ihandle_res == NULL){
+    if(argc < 1){
         re = IupHbox(NULL);
     }else{
-        child = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
-        re = IupHbox(child,NULL);
+        for (i = 0; i < argc; i++) {
+
+            child = zend_fetch_resource_ex(&args[i],"iup-handle",le_iup_ihandle);
+
+            if(i == 0){
+                re = IupHbox(child,NULL);
+            }else{
+                IupAppend(re,child);
+            }
+        }        
     }
 
     RETURN_RES(zend_register_resource(re, le_iup_ihandle));
 }
 /* }}} */
-
 
 /* {{{ proto resource IupHboxv(resource children)
    ;
@@ -3653,33 +3673,40 @@ PHP_FUNCTION(IupHboxv)
 }
 /* }}} */
 
-/* {{{ proto resource IupNormalizer(resource ih_first)
+/* {{{ proto resource IupNormalizer(resource child)
    ;
  */
 PHP_FUNCTION(IupNormalizer)
 {
-    int argc = ZEND_NUM_ARGS();
 
-    zval *ihandle_res = NULL;
+    zval *args;
+    int argc;
+    int i;
 
-    Ihandle *ih_first,*re;
+    Ihandle *child,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r!",&ihandle_res) == FAILURE) {
-        return;
-    }
+    ZEND_PARSE_PARAMETERS_START(0, -1)
+        Z_PARAM_VARIADIC('+', args, argc)
+    ZEND_PARSE_PARAMETERS_END();
 
-    if(ihandle_res == NULL){
+    if(argc < 1){
         re = IupNormalizer(NULL);
     }else{
-        ih_first = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+        for (i = 0; i < argc; i++) {
 
-        re = IupNormalizer(ih_first,NULL);
+            child = zend_fetch_resource_ex(&args[i],"iup-handle",le_iup_ihandle);
+
+            if(i == 0){
+                re = IupNormalizer(child,NULL);
+            }else{
+                IupAppend(re,child);
+            }
+        }        
     }
 
     RETURN_RES(zend_register_resource(re, le_iup_ihandle));
 }
 /* }}} */
-
 
 /* {{{ proto resource IupNormalizerv(resource ih_list)
    ;
@@ -3712,22 +3739,30 @@ PHP_FUNCTION(IupNormalizerv)
  */
 PHP_FUNCTION(IupCbox)
 {
-    int argc = ZEND_NUM_ARGS();
 
-    zval *ihandle_res = NULL;
+    zval *args;
+    int argc;
+    int i;
 
     Ihandle *child,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r!",&ihandle_res) == FAILURE) {
-        return;
-    }
+    ZEND_PARSE_PARAMETERS_START(0, -1)
+        Z_PARAM_VARIADIC('+', args, argc)
+    ZEND_PARSE_PARAMETERS_END();
 
-    if(ihandle_res == NULL){
+    if(argc < 1){
         re = IupCbox(NULL);
     }else{
-        child = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+        for (i = 0; i < argc; i++) {
 
-        re = IupCbox(child,NULL);
+            child = zend_fetch_resource_ex(&args[i],"iup-handle",le_iup_ihandle);
+
+            if(i == 0){
+                re = IupCbox(child,NULL);
+            }else{
+                IupAppend(re,child);
+            }
+        }        
     }
 
     RETURN_RES(zend_register_resource(re, le_iup_ihandle));
@@ -3877,21 +3912,30 @@ PHP_FUNCTION(IupFlatScrollBox)
  */
 PHP_FUNCTION(IupGridBox)
 {
-    int argc = ZEND_NUM_ARGS();
 
-    zval *ihandle_res = NULL;
+    zval *args;
+    int argc;
+    int i;
 
     Ihandle *child,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r!",&ihandle_res) == FAILURE) {
-        return;
-    }
+    ZEND_PARSE_PARAMETERS_START(0, -1)
+        Z_PARAM_VARIADIC('+', args, argc)
+    ZEND_PARSE_PARAMETERS_END();
 
-    if(ihandle_res == NULL){
+    if(argc < 1){
         re = IupGridBox(NULL);
     }else{
-        child = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
-        re = IupGridBox(child,NULL);
+        for (i = 0; i < argc; i++) {
+
+            child = zend_fetch_resource_ex(&args[i],"iup-handle",le_iup_ihandle);
+
+            if(i == 0){
+                re = IupGridBox(child,NULL);
+            }else{
+                IupAppend(re,child);
+            }
+        }        
     }
 
     RETURN_RES(zend_register_resource(re, le_iup_ihandle));
@@ -4163,21 +4207,30 @@ PHP_FUNCTION(IupSeparator)
  */
 PHP_FUNCTION(IupMenu)
 {
-    int argc = ZEND_NUM_ARGS();
 
-    zval *ihandle_res = NULL;
+    zval *args;
+    int argc;
+    int i;
 
     Ihandle *child,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r!",&ihandle_res) == FAILURE) {
-        return;
-    }
+    ZEND_PARSE_PARAMETERS_START(0, -1)
+        Z_PARAM_VARIADIC('+', args, argc)
+    ZEND_PARSE_PARAMETERS_END();
 
-    if(ihandle_res == NULL){
+    if(argc < 1){
         re = IupMenu(NULL);
     }else{
-        child = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
-        re = IupMenu(child,NULL);
+        for (i = 0; i < argc; i++) {
+
+            child = zend_fetch_resource_ex(&args[i],"iup-handle",le_iup_ihandle);
+
+            if(i == 0){
+                re = IupMenu(child,NULL);
+            }else{
+                IupAppend(re,child);
+            }
+        }        
     }
 
     RETURN_RES(zend_register_resource(re, le_iup_ihandle));
@@ -4598,21 +4651,30 @@ PHP_FUNCTION(IupVal)
  */
 PHP_FUNCTION(IupTabs)
 {
-    int argc = ZEND_NUM_ARGS();
 
-    zval *ihandle_res = NULL;
+    zval *args;
+    int argc;
+    int i;
 
     Ihandle *child,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r!",&ihandle_res) == FAILURE) {
-        return;
-    }
+    ZEND_PARSE_PARAMETERS_START(0, -1)
+        Z_PARAM_VARIADIC('+', args, argc)
+    ZEND_PARSE_PARAMETERS_END();
 
-    if(ihandle_res == NULL){
+    if(argc < 1){
         re = IupTabs(NULL);
     }else{
-        child = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
-        re = IupTabs(child,NULL);        
+        for (i = 0; i < argc; i++) {
+
+            child = zend_fetch_resource_ex(&args[i],"iup-handle",le_iup_ihandle);
+
+            if(i == 0){
+                re = IupTabs(child,NULL);
+            }else{
+                IupAppend(re,child);
+            }
+        }        
     }
 
     RETURN_RES(zend_register_resource(re, le_iup_ihandle));
@@ -4645,26 +4707,35 @@ PHP_FUNCTION(IupTabsv)
 }
 /* }}} */
 
-/* {{{ proto resource IupFlatTabs(resource first)
+/* {{{ proto resource IupFlatTabs(resource child)
    ;
  */
 PHP_FUNCTION(IupFlatTabs)
 {
-    int argc = ZEND_NUM_ARGS();
 
-    zval *ihandle_res = NULL;
+    zval *args;
+    int argc;
+    int i;
 
-    Ihandle *first,*re;
+    Ihandle *child,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r!",&ihandle_res) == FAILURE) {
-        return;
-    }
+    ZEND_PARSE_PARAMETERS_START(0, -1)
+        Z_PARAM_VARIADIC('+', args, argc)
+    ZEND_PARSE_PARAMETERS_END();
 
-    if(ihandle_res == NULL){
+    if(argc < 1){
         re = IupFlatTabs(NULL);
     }else{
-        first = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
-        re = IupFlatTabs(first,NULL);
+        for (i = 0; i < argc; i++) {
+
+            child = zend_fetch_resource_ex(&args[i],"iup-handle",le_iup_ihandle);
+
+            if(i == 0){
+                re = IupFlatTabs(child,NULL);
+            }else{
+                IupAppend(re,child);
+            }
+        }        
     }
 
     RETURN_RES(zend_register_resource(re, le_iup_ihandle));
@@ -5064,13 +5135,14 @@ PHP_FUNCTION(IupConvertXYToPos)
     RETURN_LONG(i);
 }
 /* }}} */
+
 /* {{{ proto int IupStoreGlobal()
    ;
  */
 PHP_FUNCTION(IupStoreGlobal)
 {
 
-    php_error(E_WARNING, "IupStoreGlobal: not yet implemented");
+    php_error(E_WARNING, "IupStoreGlobal: OLD names, kept for backward compatibility, will never be implemented.");
 
 }
 /* }}} */
@@ -5081,7 +5153,7 @@ PHP_FUNCTION(IupStoreGlobal)
 PHP_FUNCTION(IupStoreAttribute)
 {
 
-    php_error(E_WARNING, "IupStoreAttribute: not yet implemented");
+    php_error(E_WARNING, "IupStoreAttribute: OLD names, kept for backward compatibility, will never be implemented.");
 
 }
 /* }}} */
@@ -5092,7 +5164,7 @@ PHP_FUNCTION(IupStoreAttribute)
 PHP_FUNCTION(IupSetfAttribute)
 {
 
-    php_error(E_WARNING, "IupSetfAttribute: not yet implemented");
+    php_error(E_WARNING, "IupSetfAttribute: OLD names, kept for backward compatibility, will never be implemented.");
 
 }
 /* }}} */
@@ -5103,7 +5175,7 @@ PHP_FUNCTION(IupSetfAttribute)
 PHP_FUNCTION(IupStoreAttributeId)
 {
 
-    php_error(E_WARNING, "IupStoreAttributeId: not yet implemented");
+    php_error(E_WARNING, "IupStoreAttributeId: OLD names, kept for backward compatibility, will never be implemented.");
 
 }
 /* }}} */
@@ -5114,7 +5186,7 @@ PHP_FUNCTION(IupStoreAttributeId)
 PHP_FUNCTION(IupSetfAttributeId)
 {
 
-    php_error(E_WARNING, "IupSetfAttributeId: not yet implemented");
+    php_error(E_WARNING, "IupSetfAttributeId: OLD names, kept for backward compatibility, will never be implemented.");
 
 }
 /* }}} */
@@ -5125,7 +5197,7 @@ PHP_FUNCTION(IupSetfAttributeId)
 PHP_FUNCTION(IupStoreAttributeId2)
 {
 
-    php_error(E_WARNING, "IupStoreAttributeId2: not yet implemented");
+    php_error(E_WARNING, "IupStoreAttributeId2: OLD names, kept for backward compatibility, will never be implemented.");
 
 }
 /* }}} */
@@ -5136,40 +5208,103 @@ PHP_FUNCTION(IupStoreAttributeId2)
 PHP_FUNCTION(IupSetfAttributeId2)
 {
 
-    php_error(E_WARNING, "IupSetfAttributeId2: not yet implemented");
+    php_error(E_WARNING, "IupSetfAttributeId2: OLD names, kept for backward compatibility, will never be implemented.");
 
 }
 /* }}} */
-/* {{{ proto int IupTreeSetUserId()
+
+/* {{{ proto string IupTreeSetUserId(resource ih, int id, int userid)
    ;
  */
 PHP_FUNCTION(IupTreeSetUserId)
 {
+    int argc = ZEND_NUM_ARGS();
 
-    php_error(E_WARNING, "IupTreeSetUserId: not yet implemented");
+    zval *ihandle_res = NULL;
 
+    Ihandle *ih;
+
+    zend_long id,userid;
+
+    int *uid;
+
+    int i;
+
+    if (zend_parse_parameters(argc TSRMLS_DC,"rll!",&ihandle_res,&id,&userid) == FAILURE) {
+        return;
+    }
+
+    ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+
+    uid = (int *)malloc(sizeof(int));
+
+    *uid = userid;
+
+    i = IupTreeSetUserId(ih,id,uid);
+
+    RETURN_LONG(i);
 }
 /* }}} */
 
-/* {{{ proto int IupTreeGetUserId()
+
+/* {{{ proto string IupTreeGetUserId(resource ih, int id)
    ;
  */
 PHP_FUNCTION(IupTreeGetUserId)
 {
+    int argc = ZEND_NUM_ARGS();
 
-    php_error(E_WARNING, "IupTreeGetUserId: not yet implemented");
+    zval *ihandle_res = NULL;
 
+    Ihandle *ih;
+
+    zend_long id;
+
+    int i;
+
+    if (zend_parse_parameters(argc TSRMLS_DC,"rl",&ihandle_res,&id) == FAILURE) {
+        return;
+    }
+
+    ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+
+    i = IupTreeGetUserId(ih,id);
+
+    RETURN_LONG(i);
 }
 /* }}} */
 
-/* {{{ proto int IupTreeGetId()
+
+/* {{{ proto string IupTreeGetId(resource ih, int userid)
    ;
  */
 PHP_FUNCTION(IupTreeGetId)
 {
+    int argc = ZEND_NUM_ARGS();
 
-    php_error(E_WARNING, "IupTreeGetId: not yet implemented");
+    zval *ihandle_res = NULL;
 
+    Ihandle *ih;
+
+    zend_long userid;
+
+    int *uid;
+
+    int i;
+
+    if (zend_parse_parameters(argc TSRMLS_DC,"rl",&ihandle_res,&userid) == FAILURE) {
+        return;
+    }
+
+    ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+
+    uid = (int *)malloc(sizeof(int));
+
+    *uid = userid;
+
+    i = IupTreeGetId(ih,uid);
+
+    RETURN_LONG(i);
 }
 /* }}} */
 
@@ -5179,7 +5314,7 @@ PHP_FUNCTION(IupTreeGetId)
 PHP_FUNCTION(IupTreeSetAttributeHandle)
 {
 
-    php_error(E_WARNING, "IupTreeSetAttributeHandle: not yet implemented");
+    php_error(E_WARNING, "IupTreeSetAttributeHandle: deprecated, use IupSetAttributeHandleId.");
 
 }
 /* }}} */
