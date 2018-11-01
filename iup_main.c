@@ -1210,31 +1210,34 @@ PHP_FUNCTION(IupGetAllAttributes)
  */
 PHP_FUNCTION(IupSetAtt)
 {
-    int argc = ZEND_NUM_ARGS();
 
-    char *handle_name = NULL;
-    size_t handle_name_len;
+    php_error(E_WARNING, "IupSetAtt: not yet implemented");
+
+    // int argc = ZEND_NUM_ARGS();
+
+    // char *handle_name = NULL;
+    // size_t handle_name_len;
 
 
-    zval *ihandle_res = NULL;
+    // zval *ihandle_res = NULL;
 
-    Ihandle *ih,*re;
+    // Ihandle *ih,*re;
 
-    char *name = NULL;
-    size_t name_len;
+    // char *name = NULL;
+    // size_t name_len;
 
-    char *value = NULL;
-    size_t value_len;
+    // char *value = NULL;
+    // size_t value_len;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"srss",&handle_name,&handle_name_len,&ihandle_res,&name,&name_len,&value,&value_len) == FAILURE) {
-        return;
-    }
+    // if (zend_parse_parameters(argc TSRMLS_DC,"srss",&handle_name,&handle_name_len,&ihandle_res,&name,&name_len,&value,&value_len) == FAILURE) {
+    //     return;
+    // }
 
-    ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+    // ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
 
-    re = IupSetAtt(handle_name,ih,name,value);
+    // re = IupSetAtt(handle_name,ih,name,value);
 
-    RETURN_RES(zend_register_resource(re, le_iup_ihandle));
+    // RETURN_RES(zend_register_resource(re, le_iup_ihandle));
 }
 /* }}} */
 
@@ -1373,27 +1376,30 @@ PHP_FUNCTION(IupSetStrAttribute)
  */
 PHP_FUNCTION(IupSetStrf)
 {
-    int argc = ZEND_NUM_ARGS();
 
-    zval *ihandle_res = NULL;
+    php_error(E_WARNING, "IupSetStrf: not yet implemented");
 
-    Ihandle *ih;
+    // int argc = ZEND_NUM_ARGS();
 
-    char *name = NULL;
-    size_t name_len;
+    // zval *ihandle_res = NULL;
 
-    char *format = NULL;
-    size_t format_len;
+    // Ihandle *ih;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"rss",&ihandle_res,&name,&name_len,&format,&format_len) == FAILURE) {
-        return;
-    }
+    // char *name = NULL;
+    // size_t name_len;
 
-    ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+    // char *format = NULL;
+    // size_t format_len;
 
-    IupSetStrf(ih,name,format,NULL);
+    // if (zend_parse_parameters(argc TSRMLS_DC,"rss",&ihandle_res,&name,&name_len,&format,&format_len) == FAILURE) {
+    //     return;
+    // }
 
-    RETURN_BOOL(1);
+    // ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+
+    // IupSetStrf(ih,name,format,NULL);
+
+    // RETURN_BOOL(1);
 }
 /* }}} */
 
@@ -1812,29 +1818,32 @@ PHP_FUNCTION(IupSetStrAttributeId)
  */
 PHP_FUNCTION(IupSetStrfId)
 {
-    int argc = ZEND_NUM_ARGS();
 
-    zval *ihandle_res = NULL;
+    php_error(E_WARNING, "IupSetStrfId: not yet implemented");
 
-    Ihandle *ih;
+    // int argc = ZEND_NUM_ARGS();
 
-    char *name = NULL;
-    size_t name_len;
+    // zval *ihandle_res = NULL;
 
-    zend_long id;
+    // Ihandle *ih;
 
-    char *format = NULL;
-    size_t format_len;
+    // char *name = NULL;
+    // size_t name_len;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"rsls",&ihandle_res,&name,&name_len,&id,&format,&format_len) == FAILURE) {
-        return;
-    }
+    // zend_long id;
 
-    ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+    // char *format = NULL;
+    // size_t format_len;
 
-    IupSetStrfId(ih,name,id,format,NULL);
+    // if (zend_parse_parameters(argc TSRMLS_DC,"rsls",&ihandle_res,&name,&name_len,&id,&format,&format_len) == FAILURE) {
+    //     return;
+    // }
 
-    RETURN_BOOL(1);
+    // ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+
+    // IupSetStrfId(ih,name,id,format,NULL);
+
+    // RETURN_BOOL(1);
 }
 /* }}} */
 
@@ -2214,29 +2223,31 @@ PHP_FUNCTION(IupSetStrAttributeId2)
  */
 PHP_FUNCTION(IupSetStrfId2)
 {
-    int argc = ZEND_NUM_ARGS();
+    php_error(E_WARNING, "IupSetStrfId2: not yet implemented");
 
-    zval *ihandle_res = NULL;
+    // int argc = ZEND_NUM_ARGS();
 
-    Ihandle *ih;
+    // zval *ihandle_res = NULL;
 
-    char *name = NULL;
-    size_t name_len;
+    // Ihandle *ih;
 
-    zend_long lin,col;
+    // char *name = NULL;
+    // size_t name_len;
 
-    char *format = NULL;
-    size_t format_len;
+    // zend_long lin,col;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"rslls",&ihandle_res,&name,&name_len,&lin,&col,&format,&format_len) == FAILURE) {
-        return;
-    }
+    // char *format = NULL;
+    // size_t format_len;
 
-    ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+    // if (zend_parse_parameters(argc TSRMLS_DC,"rslls",&ihandle_res,&name,&name_len,&lin,&col,&format,&format_len) == FAILURE) {
+    //     return;
+    // }
 
-    IupSetStrfId2(ih,name,lin,col,format,NULL);
+    // ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
 
-    RETURN_BOOL(1);
+    // IupSetStrfId2(ih,name,lin,col,format,NULL);
+
+    // RETURN_BOOL(1);
 }
 /* }}} */
 
@@ -5448,24 +5459,27 @@ PHP_FUNCTION(IupMessage)
  */
 PHP_FUNCTION(IupMessagef)
 {
-    int argc = ZEND_NUM_ARGS();
 
-    char *title = NULL;
-    size_t title_len;
+    php_error(E_WARNING, "IupMessagef: not implemented, use IupMessage instead");
+    
+    // int argc = ZEND_NUM_ARGS();
 
-    char *format = NULL;
-    size_t format_len;
+    // char *title = NULL;
+    // size_t title_len;
 
-    char *msg = NULL;
-    size_t msg_len;
+    // char *format = NULL;
+    // size_t format_len;
 
-    if (zend_parse_parameters(argc, "sss", &title, &title_len, &format, &format_len, &msg, &msg_len) == FAILURE) {
-        return;
-    }
+    // char *msg = NULL;
+    // size_t msg_len;
 
-    IupMessagef(title,format,msg);
+    // if (zend_parse_parameters(argc, "sss", &title, &title_len, &format, &format_len, &msg, &msg_len) == FAILURE) {
+    //     return;
+    // }
 
-    RETURN_BOOL(1);
+    // IupMessagef(title,format,msg);
+
+    // RETURN_BOOL(1);
 }
 /* }}} */
 
