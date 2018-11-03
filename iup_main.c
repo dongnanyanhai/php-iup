@@ -2728,8 +2728,6 @@ PHP_FUNCTION(IupSetCallback)
 
     zend_fcall_info * call_p;
 
-    call_p = (zend_fcall_info *)malloc(sizeof(zend_fcall_info));
-
     intptr_t ih_p_int;
 
     char event_key_str[100];
@@ -2738,14 +2736,9 @@ PHP_FUNCTION(IupSetCallback)
 
     zval event_val;
 
-    zval * event_val_old;
-    zend_fcall_info * callable_old;
-
-    if (zend_parse_parameters(argc TSRMLS_DC,"rsf",&ihandle_res, &event_name, &event_name_len, &callable, &call_cache) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"rsf!",&ihandle_res, &event_name, &event_name_len, &callable, &call_cache) == FAILURE) {
         return;
     }
-
-    *call_p = callable;
 
     ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
 
@@ -2755,24 +2748,32 @@ PHP_FUNCTION(IupSetCallback)
 
     event_key = zend_string_init(event_key_str, strlen(event_key_str), 0);
 
-    // 判断事件数组中是否存有相同事件id
-    if(!zend_hash_exists(iup_events,event_key)){
-        // 绑定事件
-        event_set_callback(ih, event_name);
-    }else{
-        // 释放旧事件方法占用的内容
-        event_val_old = zend_hash_find(iup_events,event_key);
+    if(callable.size == 0){
 
-        if(event_val_old != NULL){
+        if(zend_hash_exists(iup_events,event_key)){
+            // 释放旧事件方法占用的内存
+            event_del_callback(event_key);
 
-            callable_old = zend_fetch_resource_ex(event_val_old,"iup-event",le_iup_event);
-
-            if(callable_old != NULL){
-                free(callable_old);
-            }
+            // 然后再删除事件
+            zend_hash_del(iup_events,event_key);            
         }
 
+        IupSetCallback(ih,event_name,NULL);
+
+        RETURN_BOOL(1);
     }
+
+    // 判断事件数组中是否存有相同事件id
+    if(zend_hash_exists(iup_events,event_key)){
+        // 释放旧事件方法占用的内容
+        event_del_callback(event_key);
+    }else{
+        // 绑定事件
+        event_set_callback(ih, event_name);
+    }
+
+    call_p = (zend_fcall_info *)malloc(sizeof(zend_fcall_info));
+    *call_p = callable;
 
     ZVAL_RES(&event_val,zend_register_resource(call_p, le_iup_event));
     zend_hash_update(iup_events, event_key, &event_val);

@@ -33,6 +33,23 @@ extern int le_iup_event;
 extern HashTable *iup_events;
 extern HashTable *iup_callback;
 
+void event_del_callback(zend_string * event_key)
+{
+
+    zval * event_val_old;
+    zend_fcall_info * callable_old;
+
+    event_val_old = zend_hash_find(iup_events,event_key);
+
+    if(event_val_old != NULL){
+        callable_old = zend_fetch_resource_ex(event_val_old,"iup-event",le_iup_event);
+        if(callable_old != NULL){
+            free(callable_old);
+        }
+    }
+
+}
+
 int event_set_callback(Ihandle *ih , char * event_name)
 {
     Icallback cb;

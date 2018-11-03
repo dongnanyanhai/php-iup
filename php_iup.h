@@ -76,6 +76,7 @@ ZEND_TSRMLS_CACHE_EXTERN()
 
 void event_register_callback();
 int event_set_callback(Ihandle *ih , char * event_name);
+void event_del_callback(zend_string * event_key);
 int event_common(char * event_name, Ihandle *ih);
 
 PHP_FUNCTION(IupOpen);
