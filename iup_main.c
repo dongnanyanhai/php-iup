@@ -5590,13 +5590,129 @@ PHP_FUNCTION(IupScanf)
 }
 /* }}} */
 
-/* {{{ proto int IupListDialog()
+/* {{{ proto int IupListDialog(int type, const char *title, int size, const char** list, int op, int max_col, int max_lin, int* marks)
    ;
  */
 PHP_FUNCTION(IupListDialog)
 {
 
-    php_error(E_WARNING, "IupListDialog: not yet implemented");
+    int argc = ZEND_NUM_ARGS();
+
+    zend_long type,size,op,max_col,max_lin;
+
+    char *title = NULL;
+    size_t title_len;
+
+    HashTable *arr_list,*arr_marks;
+
+    char **list;
+
+    int *marks;
+
+    // 用以遍历arr_list数组
+    long num_key;
+    zval *val,*marks_val;
+    zend_string *key;
+
+    // 执行结果
+    int error,i;
+
+    if (zend_parse_parameters(argc, "lslhlllz!", &type,&title, &title_len,&size,&arr_list,&op,&max_col,&max_lin,&marks_val) == FAILURE) {
+        return;
+    }
+
+    // 先根据数组的数量，申请内存
+    list = (char **)malloc(sizeof(char *) * size);
+
+    i = 0;
+
+    // 将php的字符串数组转换为c的字符串数组
+    ZEND_HASH_FOREACH_KEY_VAL(arr_list, num_key, key, val) {
+
+        if(Z_TYPE_P(val) == IS_STRING && i < size) {
+
+            list[i] = (char *)malloc(sizeof(char) * Z_STRLEN_P(val));
+
+            list[i] = Z_STRVAL_P(val);
+
+            i ++;
+        }
+    } ZEND_HASH_FOREACH_END();
+
+    // 初始化marks，默认全部不选中
+    marks = (int *)malloc(sizeof(int) * size);
+
+    for (i = 0; i < size; i ++ )
+    {
+        marks[i] = 0;
+    }
+
+    if(type == 2)
+    {
+
+        if(marks_val == NULL)
+        {
+            php_error(E_ERROR, "IupListDialog: when 'type' is 2, 'marks' must be array.");
+
+            RETURN_BOOL(0);
+        }
+
+        if(Z_TYPE_P(marks_val) == IS_ARRAY)
+        {
+            arr_marks = Z_ARRVAL_P(marks_val);
+            // 遍历数组
+            i = 0;
+            // 将php的字符串数组转换为c的字符串数组
+            ZEND_HASH_FOREACH_KEY_VAL(arr_marks, num_key, key, val) {
+                if(Z_TYPE_P(val) == IS_LONG && i < size) {
+                    if(Z_LVAL_P(val) > 0){
+                        marks[i] = 1;
+                    }else{
+                        marks[i] = 0;
+                    }
+                    i ++;
+                }
+            } ZEND_HASH_FOREACH_END();
+        }else{
+            php_error(E_ERROR, "IupListDialog: 'marks' must be array.");
+            RETURN_BOOL(0);
+        }
+    }
+
+    error = IupListDialog(type,title,size,list,op,max_col,max_lin,marks);
+
+    // 判断返回结果，如果是类型2，并且用户有所选中
+    if(type == 2 && error == 1 && marks_val != NULL){
+
+        zval marks_re;
+
+        // PHP 7.2 的特殊要求
+        // 参考swoole的解决方案 c7109880427f9773b9925b046629e4e8344bdc34
+        #ifdef HT_ALLOW_COW_VIOLATION
+            HT_ALLOW_COW_VIOLATION(Z_ARRVAL_P(marks_val));
+        #endif
+
+        // 修改引用数组的值
+        for (i = 0; i < size; i ++ )
+        {
+            ZVAL_LONG(&marks_re,marks[i]);
+            zend_hash_index_update(Z_ARRVAL_P(marks_val),i,&marks_re);
+        }
+    }
+
+    // 释放内存
+    // for (i = 0; i < size ; i++)
+    // {
+    //     if(list[i] != NULL){
+    //        free(list[i]);
+    //     }
+    // }
+
+    free(list);
+
+    free(marks);
+
+    RETURN_LONG(error);
 
 }
 /* }}} */
