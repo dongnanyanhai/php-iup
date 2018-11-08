@@ -780,6 +780,18 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_IupGetColor, 0, 0, 1)
     ZEND_ARG_PASS_INFO(1)
 ZEND_END_ARG_INFO()
 
+
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_IupListDialog, 0, 0, 1)
+    ZEND_ARG_PASS_INFO(0)
+    ZEND_ARG_PASS_INFO(0)
+    ZEND_ARG_PASS_INFO(0)
+    ZEND_ARG_PASS_INFO(0)
+    ZEND_ARG_PASS_INFO(0)
+    ZEND_ARG_PASS_INFO(0)
+    ZEND_ARG_PASS_INFO(0)
+    ZEND_ARG_PASS_INFO(1)
+ZEND_END_ARG_INFO()
 /* {{{ iup_functions[]
  *
  * Every user visible function must have an entry in iup_functions[].
@@ -1008,7 +1020,7 @@ const zend_function_entry iup_functions[] = {
     PHP_FE(IupMessageAlarm,  NULL)
     PHP_FE(IupAlarm,  NULL)
     PHP_FE(IupScanf,  NULL)
-    PHP_FE(IupListDialog,  NULL)
+    PHP_FE(IupListDialog,  arginfo_IupListDialog)
     PHP_FE(IupGetText,  NULL)
     PHP_FE(IupGetColor,  arginfo_IupGetColor)
     PHP_FE(IupGetParam,  NULL)

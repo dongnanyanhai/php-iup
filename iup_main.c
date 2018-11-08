@@ -5580,6 +5580,7 @@ PHP_FUNCTION(IupScanf)
 }
 /* }}} */
 
+
 /* {{{ proto int IupListDialog(int type, const char *title, int size, const char** list, int op, int max_col, int max_lin, int* marks)
    ;
  */
@@ -5639,14 +5640,6 @@ PHP_FUNCTION(IupListDialog)
 
     if(type == 2)
     {
-
-        if(marks_val == NULL)
-        {
-            php_error(E_ERROR, "IupListDialog: when 'type' is 2, 'marks' must be array.");
-
-            RETURN_BOOL(0);
-        }
-
         if(Z_TYPE_P(marks_val) == IS_ARRAY)
         {
             arr_marks = Z_ARRVAL_P(marks_val);
@@ -5664,7 +5657,7 @@ PHP_FUNCTION(IupListDialog)
                 }
             } ZEND_HASH_FOREACH_END();
         }else{
-            php_error(E_ERROR, "IupListDialog: 'marks' must be array.");
+            php_error(E_ERROR, "IupListDialog: when 'type' is 2, 'marks' must be array.");
             RETURN_BOOL(0);
         }
     }
@@ -5706,6 +5699,7 @@ PHP_FUNCTION(IupListDialog)
 
 }
 /* }}} */
+
 
 /* {{{ proto string IupGetText(string title, string text, int maxsize)
    ;
