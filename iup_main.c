@@ -1186,22 +1186,72 @@ PHP_FUNCTION(IupGetAllAttributes)
 
     Ihandle *ih;
 
-    char *name = NULL;
-    size_t name_len;
+    // 用以遍历arr_list数组
+    long num_key;
+    zval *val,*names_val;
+    zend_string *key;
+
+    const char **names;
 
     zend_long n;
 
-    int i;
+    int max_num,re,i;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"rsl",&ihandle_res,&name,&name_len,&n) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"rz!l",&ihandle_res,&names_val,&n) == FAILURE) {
         return;
     }
 
     ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
 
-    i = IupGetAllAttributes(ih,&name,n);
+    max_num = IupGetAllAttributes(ih,NULL,0);
 
-    RETURN_LONG(i);
+    // 当未提供接收数据的数组时，直接返回最大属性数量
+    if(names_val == NULL || n == 0 || n == -1){
+        RETURN_LONG(max_num);
+    }
+
+    // 当设定的行数大于最大数量时，设定为最大值
+    if(n > max_num){
+        n = max_num;
+    }
+
+    names = (char **)malloc(sizeof(char *)* n);
+
+    for (i = 0; i < n; i ++ )
+    {
+        names[i] = (char *)malloc(sizeof(char) * 100);
+    }
+
+    re = IupGetAllAttributes(ih,names,n);
+
+    if(re != -1){
+
+        zval names_re;
+
+        zend_string * zstring;
+
+        // PHP 7.2 的特殊要求
+        // 参考swoole的解决方案 c7109880427f9773b9925b046629e4e8344bdc34
+        #ifdef HT_ALLOW_COW_VIOLATION
+            HT_ALLOW_COW_VIOLATION(Z_ARRVAL_P(names_val));
+        #endif
+
+        // 修改引用数组的值
+        for (i = 0; i < n; i ++ )
+        {
+            // php_error(E_WARNING, names[i]);
+
+            zstring = zend_string_init(names[i], strlen(names[i]), 0);
+
+            ZVAL_STR(&names_re,zstring);
+
+            zend_hash_index_update(Z_ARRVAL_P(names_val),i,&names_re);
+        }
+    }
+
+    free(names);
+
+    RETURN_LONG(re);
 }
 /* }}} */
 
@@ -5580,7 +5630,6 @@ PHP_FUNCTION(IupScanf)
 }
 /* }}} */
 
-
 /* {{{ proto int IupListDialog(int type, const char *title, int size, const char** list, int op, int max_col, int max_lin, int* marks)
    ;
  */
@@ -5700,7 +5749,6 @@ PHP_FUNCTION(IupListDialog)
 }
 /* }}} */
 
-
 /* {{{ proto string IupGetText(string title, string text, int maxsize)
    ;
  */
@@ -5742,7 +5790,7 @@ PHP_FUNCTION(IupGetColor)
 
     HashTable *arr = NULL;
 
-    if (zend_parse_parameters(argc,"ll",&x,&y) == FAILURE) {
+    if (zend_parse_parameters(argc,"llzzz",&x,&y) == FAILURE) {
         return;
     }
 

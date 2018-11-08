@@ -1020,7 +1020,7 @@ const zend_function_entry iup_functions[] = {
     PHP_FE(IupMessageAlarm,  NULL)
     PHP_FE(IupAlarm,  NULL)
     PHP_FE(IupScanf,  NULL)
-    PHP_FE(IupListDialog,  arginfo_IupListDialog)
+    PHP_FE(IupListDialog,  NULL)
     PHP_FE(IupGetText,  NULL)
     PHP_FE(IupGetColor,  arginfo_IupGetColor)
     PHP_FE(IupGetParam,  NULL)
