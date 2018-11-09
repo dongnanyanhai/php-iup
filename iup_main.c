@@ -1263,31 +1263,6 @@ PHP_FUNCTION(IupSetAtt)
 
     php_error(E_WARNING, "IupSetAtt: not yet implemented");
 
-    // int argc = ZEND_NUM_ARGS();
-
-    // char *handle_name = NULL;
-    // size_t handle_name_len;
-
-
-    // zval *ihandle_res = NULL;
-
-    // Ihandle *ih,*re;
-
-    // char *name = NULL;
-    // size_t name_len;
-
-    // char *value = NULL;
-    // size_t value_len;
-
-    // if (zend_parse_parameters(argc TSRMLS_DC,"srss",&handle_name,&handle_name_len,&ihandle_res,&name,&name_len,&value,&value_len) == FAILURE) {
-    //     return;
-    // }
-
-    // ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
-
-    // re = IupSetAtt(handle_name,ih,name,value);
-
-    // RETURN_RES(zend_register_resource(re, le_iup_ihandle));
 }
 /* }}} */
 
@@ -1429,27 +1404,6 @@ PHP_FUNCTION(IupSetStrf)
 
     php_error(E_WARNING, "IupSetStrf: not yet implemented");
 
-    // int argc = ZEND_NUM_ARGS();
-
-    // zval *ihandle_res = NULL;
-
-    // Ihandle *ih;
-
-    // char *name = NULL;
-    // size_t name_len;
-
-    // char *format = NULL;
-    // size_t format_len;
-
-    // if (zend_parse_parameters(argc TSRMLS_DC,"rss",&ihandle_res,&name,&name_len,&format,&format_len) == FAILURE) {
-    //     return;
-    // }
-
-    // ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
-
-    // IupSetStrf(ih,name,format,NULL);
-
-    // RETURN_BOOL(1);
 }
 /* }}} */
 
@@ -1867,29 +1821,6 @@ PHP_FUNCTION(IupSetStrfId)
 
     php_error(E_WARNING, "IupSetStrfId: not yet implemented");
 
-    // int argc = ZEND_NUM_ARGS();
-
-    // zval *ihandle_res = NULL;
-
-    // Ihandle *ih;
-
-    // char *name = NULL;
-    // size_t name_len;
-
-    // zend_long id;
-
-    // char *format = NULL;
-    // size_t format_len;
-
-    // if (zend_parse_parameters(argc TSRMLS_DC,"rsls",&ihandle_res,&name,&name_len,&id,&format,&format_len) == FAILURE) {
-    //     return;
-    // }
-
-    // ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
-
-    // IupSetStrfId(ih,name,id,format,NULL);
-
-    // RETURN_BOOL(1);
 }
 /* }}} */
 
@@ -1982,7 +1913,6 @@ PHP_FUNCTION(IupSetDoubleId)
     RETURN_BOOL(1);
 }
 /* }}} */
-
 
 /* {{{ proto resource IupSetRGBId(resource ih, string name, int id, int r, int g, int b)
    ;
@@ -2267,30 +2197,6 @@ PHP_FUNCTION(IupSetStrAttributeId2)
 PHP_FUNCTION(IupSetStrfId2)
 {
     php_error(E_WARNING, "IupSetStrfId2: not yet implemented");
-
-    // int argc = ZEND_NUM_ARGS();
-
-    // zval *ihandle_res = NULL;
-
-    // Ihandle *ih;
-
-    // char *name = NULL;
-    // size_t name_len;
-
-    // zend_long lin,col;
-
-    // char *format = NULL;
-    // size_t format_len;
-
-    // if (zend_parse_parameters(argc TSRMLS_DC,"rslls",&ihandle_res,&name,&name_len,&lin,&col,&format,&format_len) == FAILURE) {
-    //     return;
-    // }
-
-    // ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
-
-    // IupSetStrfId2(ih,name,lin,col,format,NULL);
-
-    // RETURN_BOOL(1);
 }
 /* }}} */
 
@@ -2422,8 +2328,6 @@ PHP_FUNCTION(IupSetRGBId2)
     IupSetRGBId2(ih,name,lin,col,rr,gg,bb);
 
     RETURN_BOOL(1);
-
-    // php_error(E_ERROR, "IupSetRGB: this function requested is not supported");
 }
 /* }}} */
 
@@ -3076,7 +2980,6 @@ PHP_FUNCTION(IupGetName)
 }
 /* }}} */
 
-
 /* {{{ proto resource IupSetAttributeHandle(resource ih, string name, resource ih_named)
    ;
  */
@@ -3224,7 +3127,6 @@ PHP_FUNCTION(IupGetAttributeHandleId)
 }
 /* }}} */
 
-
 /* {{{ proto resource IupSetAttributeHandleId2(resource ih, string name, int lin, int col, resource ih_named)
    ;
  */
@@ -3264,7 +3166,6 @@ PHP_FUNCTION(IupSetAttributeHandleId2)
 }
 /* }}} */
 
-
 /* {{{ proto resource IupGetAttributeHandleId2(resource ih, string name, int lin, int col)
    ;
  */
@@ -3300,6 +3201,7 @@ PHP_FUNCTION(IupGetAttributeHandleId2)
     RETURN_NULL();
 }
 /* }}} */
+
 /* {{{ proto string IupGetClassName(resource ih)
    ;
  */
@@ -3616,7 +3518,6 @@ PHP_FUNCTION(IupCopyClassAttributes)
     RETURN_BOOL(1);
 }
 /* }}} */
-
 
 /* {{{ proto string IupSetClassDefaultAttribute(string classname, string name, string value)
    ;
@@ -4626,7 +4527,6 @@ PHP_FUNCTION(IupDropButton)
         re = IupDropButton(dropchild);        
     }
 
-
     RETURN_RES(zend_register_resource(re, le_iup_ihandle));
 }
 /* }}} */
@@ -4757,7 +4657,6 @@ PHP_FUNCTION(IupLabel)
 }
 /* }}} */
 
-
 /* {{{ proto string IupList(string action)
    ;
  */
@@ -4865,7 +4764,6 @@ PHP_FUNCTION(IupTimer)
 }
 /* }}} */
 
-
 /* {{{ proto string IupClipboard()
    ;
 */
@@ -4881,7 +4779,6 @@ PHP_FUNCTION(IupClipboard)
     RETURN_RES(zend_register_resource(re, le_iup_ihandle));
 }
 /* }}} */
-
 
 /* {{{ proto string IupProgressBar()
    ;
@@ -5313,7 +5210,6 @@ PHP_FUNCTION(IupSaveImageAsText)
     i = IupSaveImageAsText(ih,file_name,format,name);
 
     RETURN_LONG(i);
-    
 }
 /* }}} */
 
@@ -5521,7 +5417,6 @@ PHP_FUNCTION(IupTreeSetUserId)
 }
 /* }}} */
 
-
 /* {{{ proto string IupTreeGetUserId(resource ih, int id)
    ;
  */
@@ -5548,7 +5443,6 @@ PHP_FUNCTION(IupTreeGetUserId)
     RETURN_LONG(i);
 }
 /* }}} */
-
 
 /* {{{ proto string IupTreeGetId(resource ih, int userid)
    ;
