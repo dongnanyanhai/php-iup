@@ -1219,7 +1219,7 @@ PHP_FUNCTION(IupGetAllAttributes)
 
     for (i = 0; i < n; i ++ )
     {
-        names[i] = (char *)malloc(sizeof(char) * 100);
+        names[i] = (char *)malloc(sizeof(char) * 200);
     }
 
     re = IupGetAllAttributes(ih,names,n);
@@ -2921,51 +2921,133 @@ PHP_FUNCTION(IupSetHandle)
 }
 /* }}} */
 
-/* {{{ proto int IupGetAllNames(string name, int n)
+/* {{{ proto resource IupGetAllNames(ref names, int n)
    ;
  */
 PHP_FUNCTION(IupGetAllNames)
 {
     int argc = ZEND_NUM_ARGS();
 
-    char *name = NULL;
-    size_t name_len;
+    // 用以遍历arr_list数组
+    long num_key;
+    zval *val,*names_val;
+    zend_string *key;
+
+    const char **names;
 
     zend_long n;
 
-    int i;
+    int max_num,re,i;
 
-    if (zend_parse_parameters(argc, "sl", &name, &name_len,&n) == FAILURE) {
+    if (zend_parse_parameters(argc,"z!l",&names_val,&n) == FAILURE) {
         return;
     }
 
-    i = IupGetAllNames(&name,n);
+    max_num = IupGetAllNames(NULL,0);
 
-    RETURN_LONG(i);
+    // 当未提供接收数据的数组时，直接返回最大属性数量
+    if(names_val == NULL || n == 0 || n == -1){
+        RETURN_LONG(max_num);
+    }
+
+    // 当设定的行数大于最大数量时，设定为最大值
+    if(n > max_num){
+        n = max_num;
+    }
+
+    names = (char **)malloc(sizeof(char *)* n);
+
+    for (i = 0; i < n; i ++ )
+    {
+        names[i] = (char *)malloc(sizeof(char) * 200);
+    }
+
+    re = IupGetAllNames(names,n);
+    
+    zval names_re;
+    zend_string * zstring;
+    // PHP 7.2 的特殊要求
+    // 参考swoole的解决方案 c7109880427f9773b9925b046629e4e8344bdc34
+    #ifdef HT_ALLOW_COW_VIOLATION
+        HT_ALLOW_COW_VIOLATION(Z_ARRVAL_P(names_val));
+    #endif
+    // 修改引用数组的值
+    for (i = 0; i < n; i ++ )
+    {
+        // php_error(E_WARNING, names[i]);
+        zstring = zend_string_init(names[i], strlen(names[i]), 0);
+        ZVAL_STR(&names_re,zstring);
+        zend_hash_index_update(Z_ARRVAL_P(names_val),i,&names_re);
+    }
+
+    free(names);
+
+    RETURN_LONG(re);
 }
 /* }}} */
 
-/* {{{ proto int IupGetAllDialogs(string name, int n)
+/* {{{ proto resource IupGetAllDialogs(ref names, int n)
    ;
  */
 PHP_FUNCTION(IupGetAllDialogs)
 {
     int argc = ZEND_NUM_ARGS();
 
-    char *name = NULL;
-    size_t name_len;
+    // 用以遍历arr_list数组
+    long num_key;
+    zval *val,*names_val;
+    zend_string *key;
+
+    const char **names;
 
     zend_long n;
 
-    int i;
+    int max_num,re,i;
 
-    if (zend_parse_parameters(argc, "sl", &name, &name_len,&n) == FAILURE) {
+    if (zend_parse_parameters(argc,"z!l",&names_val,&n) == FAILURE) {
         return;
     }
 
-    i = IupGetAllDialogs(&name,n);
+    max_num = IupGetAllDialogs(NULL,0);
 
-    RETURN_LONG(i);
+    // 当未提供接收数据的数组时，直接返回最大属性数量
+    if(names_val == NULL || n == 0 || n == -1){
+        RETURN_LONG(max_num);
+    }
+
+    // 当设定的行数大于最大数量时，设定为最大值
+    if(n > max_num){
+        n = max_num;
+    }
+
+    names = (char **)malloc(sizeof(char *)* n);
+
+    for (i = 0; i < n; i ++ )
+    {
+        names[i] = (char *)malloc(sizeof(char) * 200);
+    }
+
+    re = IupGetAllDialogs(names,n);
+    
+    zval names_re;
+    zend_string * zstring;
+    // PHP 7.2 的特殊要求
+    // 参考swoole的解决方案 c7109880427f9773b9925b046629e4e8344bdc34
+    #ifdef HT_ALLOW_COW_VIOLATION
+        HT_ALLOW_COW_VIOLATION(Z_ARRVAL_P(names_val));
+    #endif
+    // 修改引用数组的值
+    for (i = 0; i < n; i ++ )
+    {
+        // php_error(E_WARNING, names[i]);
+        zstring = zend_string_init(names[i], strlen(names[i]), 0);
+        ZVAL_STR(&names_re,zstring);
+        zend_hash_index_update(Z_ARRVAL_P(names_val),i,&names_re);
+    }
+
+    free(names);
+
+    RETURN_LONG(re);
 }
 /* }}} */
 
@@ -3268,81 +3350,222 @@ PHP_FUNCTION(IupGetClassType)
 }
 /* }}} */
 
-/* {{{ proto int IupGetAllClasses(string name, int n)
+/* {{{ proto resource IupGetAllClasses(ref names, int n)
    ;
  */
 PHP_FUNCTION(IupGetAllClasses)
 {
     int argc = ZEND_NUM_ARGS();
 
-    char *name = NULL;
-    size_t name_len;
+    // 用以遍历arr_list数组
+    long num_key;
+    zval *val,*names_val;
+    zend_string *key;
+
+    const char **names;
 
     zend_long n;
 
-    int i;
+    int max_num,re,i;
 
-    if (zend_parse_parameters(argc, "sl", &name, &name_len,&n) == FAILURE) {
+    if (zend_parse_parameters(argc,"z!l",&names_val,&n) == FAILURE) {
         return;
     }
 
-    i = IupGetAllClasses(&name,n);
+    max_num = IupGetAllClasses(NULL,0);
 
-    RETURN_LONG(i);
+    // 当未提供接收数据的数组时，直接返回最大属性数量
+    if(names_val == NULL || n == 0 || n == -1){
+        RETURN_LONG(max_num);
+    }
+
+    // 当设定的行数大于最大数量时，设定为最大值
+    if(n > max_num){
+        n = max_num;
+    }
+
+    names = (char **)malloc(sizeof(char *)* n);
+
+    for (i = 0; i < n; i ++ )
+    {
+        names[i] = (char *)malloc(sizeof(char) * 200);
+    }
+
+    re = IupGetAllClasses(names,n);
+    
+    zval names_re;
+    zend_string * zstring;
+    // PHP 7.2 的特殊要求
+    // 参考swoole的解决方案 c7109880427f9773b9925b046629e4e8344bdc34
+    #ifdef HT_ALLOW_COW_VIOLATION
+        HT_ALLOW_COW_VIOLATION(Z_ARRVAL_P(names_val));
+    #endif
+    // 修改引用数组的值
+    for (i = 0; i < n; i ++ )
+    {
+        // php_error(E_WARNING, names[i]);
+        zstring = zend_string_init(names[i], strlen(names[i]), 0);
+        ZVAL_STR(&names_re,zstring);
+        zend_hash_index_update(Z_ARRVAL_P(names_val),i,&names_re);
+    }
+
+    free(names);
+
+    RETURN_LONG(re);
 }
 /* }}} */
 
-/* {{{ proto int IupGetClassAttributes(string classname, string name, int n)
+/* {{{ proto resource IupGetClassAttributes(string name, ref names, int n)
    ;
  */
 PHP_FUNCTION(IupGetClassAttributes)
 {
     int argc = ZEND_NUM_ARGS();
 
-    char *classname = NULL;
-    size_t classname_len;
-
     char *name = NULL;
     size_t name_len;
 
+    // 用以遍历arr_list数组
+    long num_key;
+    zval *val,*names_val;
+    zend_string *key;
+
+    const char **names;
+
     zend_long n;
 
-    int i;
+    int max_num,re,i;
 
-    if (zend_parse_parameters(argc, "ssl", &classname, &classname_len,&name, &name_len,&n) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"sz!l",&name,&name_len,&names_val,&n) == FAILURE) {
         return;
     }
 
-    i = IupGetClassAttributes(classname,&name,n);
+    max_num = IupGetClassAttributes(name,NULL,0);
 
-    RETURN_LONG(i);
+    // 当未提供接收数据的数组时，直接返回最大属性数量
+    if(names_val == NULL || n == 0 || n == -1){
+        RETURN_LONG(max_num);
+    }
+
+    // 当设定的行数大于最大数量时，设定为最大值
+    if(n > max_num){
+        n = max_num;
+    }
+
+    names = (char **)malloc(sizeof(char *)* n);
+
+    for (i = 0; i < n; i ++ )
+    {
+        names[i] = (char *)malloc(sizeof(char) * 200);
+    }
+
+    re = IupGetClassAttributes(name,names,n);
+
+    if(re != -1){
+
+        zval names_re;
+
+        zend_string * zstring;
+
+        // PHP 7.2 的特殊要求
+        // 参考swoole的解决方案 c7109880427f9773b9925b046629e4e8344bdc34
+        #ifdef HT_ALLOW_COW_VIOLATION
+            HT_ALLOW_COW_VIOLATION(Z_ARRVAL_P(names_val));
+        #endif
+
+        // 修改引用数组的值
+        for (i = 0; i < n; i ++ )
+        {
+            // php_error(E_WARNING, names[i]);
+
+            zstring = zend_string_init(names[i], strlen(names[i]), 0);
+
+            ZVAL_STR(&names_re,zstring);
+
+            zend_hash_index_update(Z_ARRVAL_P(names_val),i,&names_re);
+        }
+    }
+
+    free(names);
+
+    RETURN_LONG(re);
 }
 /* }}} */
 
-/* {{{ proto int IupGetClassCallbacks(string classname, string name, int n)
+/* {{{ proto resource IupGetClassCallbacks(string name, ref names, int n)
    ;
  */
 PHP_FUNCTION(IupGetClassCallbacks)
 {
     int argc = ZEND_NUM_ARGS();
 
-    char *classname = NULL;
-    size_t classname_len;
-
     char *name = NULL;
     size_t name_len;
 
+    // 用以遍历arr_list数组
+    long num_key;
+    zval *val,*names_val;
+    zend_string *key;
+
+    const char **names;
+
     zend_long n;
 
-    int i;
+    int max_num,re,i;
 
-    if (zend_parse_parameters(argc, "ssl", &classname, &classname_len,&name, &name_len,&n) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"sz!l",&name,&name_len,&names_val,&n) == FAILURE) {
         return;
     }
 
-    i = IupGetClassCallbacks(classname,&name,n);
+    max_num = IupGetClassCallbacks(name,NULL,0);
 
-    RETURN_LONG(i);
+    // 当未提供接收数据的数组时，直接返回最大属性数量
+    if(names_val == NULL || n == 0 || n == -1){
+        RETURN_LONG(max_num);
+    }
+
+    // 当设定的行数大于最大数量时，设定为最大值
+    if(n > max_num){
+        n = max_num;
+    }
+
+    names = (char **)malloc(sizeof(char *)* n);
+
+    for (i = 0; i < n; i ++ )
+    {
+        names[i] = (char *)malloc(sizeof(char) * 200);
+    }
+
+    re = IupGetClassCallbacks(name,names,n);
+
+    if(re != -1){
+
+        zval names_re;
+
+        zend_string * zstring;
+
+        // PHP 7.2 的特殊要求
+        // 参考swoole的解决方案 c7109880427f9773b9925b046629e4e8344bdc34
+        #ifdef HT_ALLOW_COW_VIOLATION
+            HT_ALLOW_COW_VIOLATION(Z_ARRVAL_P(names_val));
+        #endif
+
+        // 修改引用数组的值
+        for (i = 0; i < n; i ++ )
+        {
+            // php_error(E_WARNING, names[i]);
+
+            zstring = zend_string_init(names[i], strlen(names[i]), 0);
+
+            ZVAL_STR(&names_re,zstring);
+
+            zend_hash_index_update(Z_ARRVAL_P(names_val),i,&names_re);
+        }
+    }
+
+    free(names);
+
+    RETURN_LONG(re);
 }
 /* }}} */
 
