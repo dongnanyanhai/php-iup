@@ -37,7 +37,7 @@ function multitext_caret_cb($ih,$lin,$col){
     return IUP_DEFAULT;
 }
 
-function open_cb($ih){
+function item_open_action_cb($ih){
 
     global $dialogs;
 
@@ -67,7 +67,7 @@ function open_cb($ih){
     return IUP_DEFAULT;
 }
 
-function saveas_cb($ih){
+function item_saveas_action_cb($ih){
 
     global $dialogs;
 
@@ -97,7 +97,7 @@ function saveas_cb($ih){
     return IUP_DEFAULT;
 }
 
-function goto_ok_cb($bt_ok){
+function goto_ok_action_cb($bt_ok){
 
     $line_count = IupGetInt($bt_ok, "TEXT_LINECOUNT");
 
@@ -114,14 +114,14 @@ function goto_ok_cb($bt_ok){
     return IUP_CLOSE;
 }
 
-function goto_cancel_cb($bt_cancel){
+function goto_cancel_action_cb($bt_cancel){
 
     IupSetAttribute(IupGetDialog($bt_cancel), "STATUS", "0");
 
     return IUP_CLOSE;
 }
 
-function goto_cb($item_goto){
+function item_goto_action_cb($item_goto){
 
     global $dialogs;
 
@@ -140,9 +140,9 @@ function goto_cb($item_goto){
 
     IupSetInt($bt_ok, "TEXT_LINECOUNT", $line_count);
     IupSetAttribute($bt_ok, "PADDING", "10x2");
-    IupSetCallback($bt_ok, "ACTION", "goto_ok_cb");
+    IupSetCallback($bt_ok, "ACTION", "goto_ok_action_cb");
     $bt_cancel = IupButton("Cancel", NULL);
-    IupSetCallback($bt_cancel, "ACTION", "goto_cancel_cb");
+    IupSetCallback($bt_cancel, "ACTION", "goto_cancel_action_cb");
     IupSetAttribute($bt_cancel, "PADDING", "10x2");
 
     $hbox = IupHbox(IupFill());
@@ -177,7 +177,7 @@ function goto_cb($item_goto){
     return IUP_DEFAULT;
 }
 
-function find_next_cb($bt_next){
+function find_next_action_cb($bt_next){
 
     global $dialogs;
 
@@ -219,14 +219,14 @@ function find_next_cb($bt_next){
     return IUP_DEFAULT;
 }
 
-function find_close_cb($bt_close){
+function find_close_action_cb($bt_close){
 
     IupHide(IupGetDialog($bt_close));
 
     return IUP_DEFAULT;
 
 }
-function find_cb($item_find){
+function item_find_action_cb($item_find){
 
     global $dialogs;
 
@@ -245,11 +245,11 @@ function find_cb($item_find){
 
         $bt_next = IupButton("Find Next",NULL);
         IupSetAttribute($bt_next,"PADDING","10x2");
-        IupSetCallback($bt_next,"ACTION","find_next_cb");
+        IupSetCallback($bt_next,"ACTION","find_next_action_cb");
 
         $bt_close = IupButton("Close",NULL);
         IupSetAttribute($bt_close,"PADDING","10x2");
-        IupSetCallback($bt_close,"ACTION","find_close_cb");
+        IupSetCallback($bt_close,"ACTION","find_close_action_cb");
 
         $hbox = IupHbox(IupFill());
         IupAppend($hbox,$bt_next);
@@ -280,7 +280,7 @@ function find_cb($item_find){
     return IUP_DEFAULT;
 }
 
-function font_cb($ih){
+function item_font_action_cb($ih){
 
     $fontdlg = IupFontDlg();
 
@@ -303,12 +303,12 @@ function font_cb($ih){
     return IUP_DEFAULT;
 }
 
-function about_cb($ih){
+function item_about_action_cb($ih){
     IupMessage("About", "   Simple Notepad\n\nAutors:\n   Gustavo Lyrio\n   Antonio Scuri");
     return IUP_DEFAULT;
 }
 
-function exit_cb($ih){
+function item_exit_action_cb($ih){
     return IUP_CLOSE;
 }
 
@@ -370,16 +370,16 @@ function main()
     $item_font = IupItem("Font...", NULL);
     $item_about = IupItem("About...", NULL);
 
-    IupSetCallback($item_open, "ACTION", "open_cb");
-    IupSetCallback($btn_open, "ACTION", "open_cb");
-    IupSetCallback($item_saveas, "ACTION", "saveas_cb");
-    IupSetCallback($btn_save, "ACTION", "saveas_cb");
-    IupSetCallback($item_exit, "ACTION", "exit_cb");
-    IupSetCallback($item_find, "ACTION", "find_cb");
-    IupSetCallback($btn_find, "ACTION", "find_cb"); 
-    IupSetCallback($item_goto, "ACTION", "goto_cb");
-    IupSetCallback($item_font, "ACTION", "font_cb");
-    IupSetCallback($item_about, "ACTION", "about_cb");
+    IupSetCallback($item_open, "ACTION", "item_open_action_cb");
+    IupSetCallback($btn_open, "ACTION", "item_open_action_cb");
+    IupSetCallback($item_saveas, "ACTION", "item_saveas_action_cb");
+    IupSetCallback($btn_save, "ACTION", "item_saveas_action_cb");
+    IupSetCallback($item_exit, "ACTION", "item_exit_action_cb");
+    IupSetCallback($item_find, "ACTION", "item_find_action_cb");
+    IupSetCallback($btn_find, "ACTION", "item_find_action_cb"); 
+    IupSetCallback($item_goto, "ACTION", "item_goto_action_cb");
+    IupSetCallback($item_font, "ACTION", "item_font_action_cb");
+    IupSetCallback($item_about, "ACTION", "item_about_action_cb");
     IupSetCallback($multitext, "CARET_CB", "multitext_caret_cb");
 
 

@@ -31,6 +31,41 @@ function str_find($haystack, $needle, $offset = 0, $casesensitive = 1){
 }
 /********************************** Callbacks *****************************************/
 
+function edit_menu_open_cb($ih)
+{
+    $clipboard = IupClipboard();
+    $item_paste = IupGetDialogChild($ih, "ITEM_PASTE");
+    $item_cut = IupGetDialogChild($ih, "ITEM_CUT");
+    $item_delete = IupGetDialogChild($ih, "ITEM_DELETE");
+    $item_copy = IupGetDialogChild($ih, "ITEM_COPY");
+
+    $multitext = IupGetDialogChild($ih,"MULTITEXT");
+
+    if( !IupGetInt($clipboard, "TEXTAVAILABLE"))
+    {
+        IupSetAttribute($item_paste, "ACTIVE", "NO");
+    }else{
+        IupSetAttribute($item_paste, "ACTIVE", "YES");
+    }
+
+    if(!IupGetAttribute($multitext, "SELECTEDTEXT"))
+  {
+    IupSetAttribute($item_cut, "ACTIVE", "NO");
+    IupSetAttribute($item_delete, "ACTIVE", "NO");
+    IupSetAttribute($item_copy, "ACTIVE", "NO");
+  }
+  else 
+  {
+    IupSetAttribute($item_cut, "ACTIVE", "YES");
+    IupSetAttribute($item_delete, "ACTIVE", "YES");
+    IupSetAttribute($item_copy, "ACTIVE", "YES");
+  }
+
+  IupDestroy($clipboard);
+
+  return IUP_DEFAULT;
+}
+
 function config_recent_cb($ih){
 
     global $dialogs;
@@ -319,6 +354,49 @@ function item_find_action_cb($item_find){
     return IUP_DEFAULT;
 }
 
+function item_copy_action_cb($item_copy)
+{
+    $multitext = IupGetDialogChild($item_copy, "MULTITEXT");
+    $clipboard = IupClipboard();
+    IupSetAttribute($clipboard, "TEXT", IupGetAttribute($multitext, "SELECTEDTEXT"));
+    IupDestroy($clipboard);
+    return IUP_DEFAULT;
+}
+
+function item_paste_action_cb($item_paste) 
+{
+    $multitext = IupGetDialogChild($item_paste, "MULTITEXT");
+    $clipboard = IupClipboard();
+    IupSetAttribute($multitext, "INSERT", IupGetAttribute($clipboard, "TEXT"));
+    IupDestroy($clipboard);
+    return IUP_DEFAULT;
+}
+
+function item_cut_action_cb($item_cut) 
+{
+    $multitext = IupGetDialogChild($item_cut, "MULTITEXT");
+    $clipboard = IupClipboard();
+    IupSetAttribute($clipboard, "TEXT", IupGetAttribute($multitext, "SELECTEDTEXT"));
+    IupSetAttribute($multitext, "SELECTEDTEXT", "");
+    IupDestroy($clipboard);
+    return IUP_DEFAULT;
+}
+
+function item_delete_action_cb($item_delete) 
+{
+    $multitext = IupGetDialogChild($item_delete, "MULTITEXT");
+    IupSetAttribute($multitext, "SELECTEDTEXT", "");
+    return IUP_DEFAULT;
+}
+
+function item_select_all_action_cb($item_select_all) 
+{
+    $multitext = IupGetDialogChild($item_select_all, "MULTITEXT");
+    IupSetFocus($multitext);
+    IupSetAttribute($multitext, "SELECTION", "ALL");
+    return IUP_DEFAULT;
+}
+
 function item_font_action_cb($ih){
     global $dialogs;
     $config = $dialogs["CONFIG"];
@@ -422,6 +500,16 @@ function main()
     IupSetAttribute($btn_find, "TIP", "Find (Ctrl+F)");
     IupSetAttribute($btn_find, "CANFOCUS", "No");
 
+    $item_copy = IupItem ("Copy\tCtrl+C", NULL);
+    IupSetAttribute($item_copy, "NAME", "ITEM_COPY");
+    $item_paste = IupItem ("Paste\tCtrl+V", NULL);
+    IupSetAttribute($item_paste, "NAME", "ITEM_PASTE");
+    $item_cut = IupItem ("Cut\tCtrl+X", NULL);
+    IupSetAttribute($item_cut, "NAME", "ITEM_CUT");  
+    $item_delete = IupItem ("Delete\tDel", NULL);
+    IupSetAttribute($item_delete, "NAME", "ITEM_DELETE");
+    $item_select_all = IupItem ("Select All\tCtrl+A", NULL);
+
     $toolbar_hb = IupHbox($btn_open,$btn_save,IupSetAttributes(IupLabel(NULL), "SEPARATOR=VERTICAL"),$btn_find);
     // IupAppend($toolbar_hb,$btn_save);
     // IupAppend($toolbar_hb,IupSetAttributes(IupLabel(NULL), "SEPARATOR=VERTICAL"));
@@ -446,6 +534,11 @@ function main()
     IupSetCallback($item_font, "ACTION", "item_font_action_cb");
     IupSetCallback($item_about, "ACTION", "item_about_action_cb");
     IupSetCallback($multitext, "CARET_CB", "multitext_caret_cb");
+    IupSetCallback($item_copy, "ACTION", "item_copy_action_cb");
+    IupSetCallback($item_paste, "ACTION", "item_paste_action_cb");
+    IupSetCallback($item_cut, "ACTION", "item_cut_action_cb");
+    IupSetCallback($item_delete, "ACTION", "item_delete_action_cb");
+    IupSetCallback($item_select_all, "ACTION", "item_select_all_action_cb");
 
     $recent_menu = IupMenu();
 
@@ -455,7 +548,17 @@ function main()
     // IupAppend($file_menu,IupSubmenu("Recent &Files", $recent_menu));
     // IupAppend($file_menu,$item_exit);
 
-    $edit_menu = IupMenu($item_find,$item_goto);
+    $edit_menu = IupMenu(
+        $item_cut,
+        $item_copy,
+        $item_paste,
+        $item_delete,
+        IupSeparator(),
+        $item_find,
+        $item_goto,
+        IupSeparator(),
+        $item_select_all
+    );
     // IupAppend($edit_menu,$item_goto);
 
     $format_menu = IupMenu($item_font);
@@ -487,6 +590,8 @@ function main()
     IupSetAttribute($dlg, "SIZE", "HALFxHALF");
 
     IupSetCallback($dlg, "CLOSE_CB", "item_exit_action_cb");
+
+    IupSetCallback($edit_menu, "OPEN_CB", "edit_menu_open_cb");
 
     /* parent for pre-defined dialogs in closed functions (IupMessage) */
     IupSetAttributeHandle(NULL, "PARENTDIALOG", $dlg);
