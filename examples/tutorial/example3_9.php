@@ -29,7 +29,129 @@ function str_find($haystack, $needle, $offset = 0, $casesensitive = 1){
     return $pos;
 
 }
+
+function new_file($ih)
+{
+  $dlg = IupGetDialog($ih);
+  $multitext = IupGetDialogChild($dlg, "MULTITEXT");
+
+  IupSetAttribute($dlg, "TITLE", "Untitled - Simple Notepad");
+  IupSetAttribute($multitext, "FILENAME", NULL);
+  IupSetAttribute($multitext, "DIRTY", "NO");
+  IupSetAttribute($multitext, "VALUE", "");
+}
+
+function open_file($ih, $filename)
+{
+    global $dialogs;
+    $config = $dialogs["CONFIG"];
+
+    $str = file_get_contents($filename);
+    if ($str)
+    {
+        $dlg = IupGetDialog($ih);
+        $multitext = IupGetDialogChild($dlg, "MULTITEXT");
+        $config = IupGetAttribute($multitext, "CONFIG");
+        echo basename($filename);
+        IupSetAttribute($dlg, "TITLE", basename($filename)." - Simple Notepad");
+        IupSetStrAttribute($multitext, "FILENAME", $filename);
+        IupSetAttribute($multitext, "DIRTY", "NO");
+        IupSetStrAttribute($multitext, "VALUE", $str);
+        IupConfigRecentUpdate($config, $filename);
+    }
+}
+
+
+function save_file($multitext)
+{
+    $filename = IupGetAttribute($multitext, "FILENAME");
+
+    $str = IupGetAttribute($multitext, "VALUE");
+    $count = IupGetInt($multitext, "COUNT");
+
+    if (file_put_contents($filename, $str)){
+        IupSetAttribute($multitext, "DIRTY", "NO");
+    }
+}
+
+function saveas_file($multitext, $filename)
+{
+    global $dialogs;
+    $config = $dialogs["CONFIG"];
+
+    $str = IupGetAttribute($multitext, "VALUE");
+    $count = IupGetInt($multitext, "COUNT");
+    if (file_put_contents($filename, $str))
+    {
+        IupSetAttribute(IupGetDialog($multitext), "TITLE", basename($filename)." - Simple Notepad");
+        IupSetStrAttribute($multitext, "FILENAME", $filename);
+        IupSetAttribute($multitext, "DIRTY", "NO");
+        IupConfigRecentUpdate($config, $filename);
+    }
+}
+
+function save_check($ih)
+{
+    $multitext = IupGetDialogChild($ih, "MULTITEXT");
+
+    if (IupGetInt($multitext, "DIRTY"))
+    {
+        switch (IupAlarm("Warning", "File not saved! Save it now?", "Yes", "No", "Cancel"))
+        {
+            case 1:  /* save the changes and continue */
+                // save_file($multitext);
+                $filename = IupGetAttribute($multitext, "FILENAME");
+                if (!$filename)
+                    item_saveas_action_cb($multitext);
+                else
+                    save_file($multitext);
+                break;
+            case 2:  /* ignore the changes and continue */
+                break;
+            case 3:  /* cancel */
+                return 0;  
+        }
+    }
+    return 1;
+}
+
+
 /********************************** Callbacks *****************************************/
+
+function dropfiles_cb($ih, $filename)
+{
+    if (save_check($ih))
+        open_file($ih, $filename);
+
+    return IUP_DEFAULT;
+}
+
+function multitext_valuechanged_cb($multitext)
+{
+    IupSetAttribute($multitext, "DIRTY", "YES");
+    return IUP_DEFAULT;
+}
+
+function file_menu_open_cb($ih)
+{
+    $item_revert = IupGetDialogChild($ih, "ITEM_REVERT");
+    $item_save = IupGetDialogChild($ih, "ITEM_SAVE");
+    $multitext = IupGetDialogChild($ih, "MULTITEXT");
+    $filename = IupGetAttribute($multitext, "FILENAME");
+    $dirty = IupGetInt($multitext, "DIRTY");
+
+    if ($dirty)
+        IupSetAttribute($item_save, "ACTIVE", "YES");
+    else
+        IupSetAttribute($item_save, "ACTIVE", "NO");
+
+    if ($dirty && $filename)
+        IupSetAttribute($item_revert, "ACTIVE", "YES");
+    else
+        IupSetAttribute($item_revert, "ACTIVE", "NO");
+    return IUP_DEFAULT;
+}
+
 
 function edit_menu_open_cb($ih)
 {
@@ -49,21 +171,21 @@ function edit_menu_open_cb($ih)
     }
 
     if(!IupGetAttribute($multitext, "SELECTEDTEXT"))
-  {
-    IupSetAttribute($item_cut, "ACTIVE", "NO");
-    IupSetAttribute($item_delete, "ACTIVE", "NO");
-    IupSetAttribute($item_copy, "ACTIVE", "NO");
-  }
-  else 
-  {
-    IupSetAttribute($item_cut, "ACTIVE", "YES");
-    IupSetAttribute($item_delete, "ACTIVE", "YES");
-    IupSetAttribute($item_copy, "ACTIVE", "YES");
-  }
+    {
+        IupSetAttribute($item_cut, "ACTIVE", "NO");
+        IupSetAttribute($item_delete, "ACTIVE", "NO");
+        IupSetAttribute($item_copy, "ACTIVE", "NO");
+    }
+    else 
+    {
+        IupSetAttribute($item_cut, "ACTIVE", "YES");
+        IupSetAttribute($item_delete, "ACTIVE", "YES");
+        IupSetAttribute($item_copy, "ACTIVE", "YES");
+    }
 
-  IupDestroy($clipboard);
+    IupDestroy($clipboard);
 
-  return IUP_DEFAULT;
+    return IUP_DEFAULT;
 }
 
 function config_recent_cb($ih){
@@ -78,18 +200,21 @@ function config_recent_cb($ih){
     if($str){
         $multitext = $dialogs["MULTITEXT"];
         IupSetAttribute($multitext,"VALUE",$str);
+        IupSetStrAttribute($multitext, "FILENAME", $filename);
     }
 
-    var_dump(IupGetAttribute($ih,"APP_FILENAME"));
+    // var_dump(IupGetAttribute($ih,"APP_FILENAME"));
 
     return IUP_DEFAULT;
 }
 
 function dialog_key_any_cb($ih,$c){
-    if($c == K_cO){
+    if($c == K_cN){
+        item_new_action_cb($ih);
+    }else if($c == K_cO){
         item_open_action_cb($ih);
     }else if($c == K_cS){
-        item_saveas_action_cb($ih);
+        item_save_action_cb($ih);
     }else if($c == K_cF){
         item_find_action_cb($ih);
     }else if($c == K_cG){
@@ -104,71 +229,90 @@ function multitext_caret_cb($ih,$lin,$col){
     return IUP_DEFAULT;
 }
 
-function item_open_action_cb($ih){
+function item_new_action_cb($item_new)
+{
+  if (save_check($item_new))
+    new_file($item_new);
 
-    global $dialogs;
+  return IUP_DEFAULT;
+}
 
-    $multitext = $dialogs["MULTITEXT"];
-    // or
-    // $multitext = IupGetDialogChild($ih,"MULTITEXT");
+function item_open_action_cb($item_open)
+{
+  $filedlg;
 
+  if (!save_check($item_open))
+    return IUP_DEFAULT;
+
+  $filedlg = IupFileDlg();
+  IupSetAttribute($filedlg, "DIALOGTYPE", "OPEN");
+  IupSetAttribute($filedlg, "EXTFILTER", "Text Files|*.txt|All Files|*.*|");
+  IupSetAttributeHandle($filedlg, "PARENTDIALOG", IupGetDialog($item_open));
+
+  IupPopup($filedlg, IUP_CENTERPARENT, IUP_CENTERPARENT);
+  if (IupGetInt($filedlg, "STATUS") != -1)
+  {
+    $filename = IupGetAttribute($filedlg, "VALUE");
+    open_file($item_open, $filename);
+  }
+
+  IupDestroy($filedlg);
+  return IUP_DEFAULT;
+}
+
+function item_saveas_action_cb($item_saveas)
+{
+    $multitext = IupGetDialogChild($item_saveas, "MULTITEXT");
     $filedlg = IupFileDlg();
-    IupSetAttribute($filedlg,"DIALOGTYPE", "OPEN");
-    IupSetAttribute($filedlg,"EXTFILTER", "Text Files|*.txt|All Files|*.*|");
+    IupSetAttribute($filedlg, "DIALOGTYPE", "SAVE");
+    IupSetAttribute($filedlg, "EXTFILTER", "Text Files|*.txt|All Files|*.*|");
+    IupSetAttributeHandle($filedlg, "PARENTDIALOG", IupGetDialog($item_saveas));
+    IupSetStrAttribute($filedlg, "FILE", IupGetAttribute($multitext, "FILENAME"));
 
-    IupPopup($filedlg, IUP_CENTER, IUP_CENTER);
+    IupPopup($filedlg, IUP_CENTERPARENT, IUP_CENTERPARENT);
 
     if (IupGetInt($filedlg, "STATUS") != -1)
     {
         $filename = IupGetAttribute($filedlg, "VALUE");
-        $str = file_get_contents($filename);
-        if($str === false){
-            IupMessage("Error", "Fail when reading from file: ".$filename );
-        }else{
-            $config = $dialogs["CONFIG"];
-            IupConfigRecentUpdate($config,$filename);
-
-            IupSetStrAttribute($multitext, "VALUE", $str);
-        }
+        saveas_file($multitext, $filename);
     }
 
     IupDestroy($filedlg);
-
     return IUP_DEFAULT;
 }
 
-function item_saveas_action_cb($ih){
-
-    global $dialogs;
-
-    $multitext = $dialogs["MULTITEXT"];
-    // or
-    // $multitext = IupGetDialogChild($ih,"MULTITEXT");
-
-    $filedlg = IupFileDlg();
-    IupSetAttribute($filedlg,"DIALOGTYPE", "SAVE");
-    IupSetAttribute($filedlg,"EXTFILTER", "Text Files|*.txt|All Files|*.*|");
-
-    IupPopup($filedlg, IUP_CENTER, IUP_CENTER);
-
-    if (IupGetInt($filedlg, "STATUS") != -1)
-    {
-        $filename = IupGetAttribute($filedlg, "VALUE");
-        $str = IupGetAttribute($multitext, "VALUE");
-        $count = IupGetInt($multitext, "COUNT");
-        $re = file_put_contents($filename, $str);
-        if($re === false){
-            IupMessage("Error", "Fail when writing to file: ".$filename);
-        }else{
-            $config = $dialogs["CONFIG"];
-            IupConfigRecentUpdate($config,$filename);
-        }
-        
-    }
-
-    IupDestroy($filedlg);
-
+function item_save_action_cb($item_save)
+{
+    $multitext = IupGetDialogChild($item_save, "MULTITEXT");
+    $filename = IupGetAttribute($multitext, "FILENAME");
+    if (!$filename)
+        item_saveas_action_cb($item_save);
+    else
+        save_file($multitext);
     return IUP_DEFAULT;
+}
+
+function item_revert_action_cb($item_revert)
+{
+    $multitext = IupGetDialogChild($item_revert, "MULTITEXT");
+    $filename = IupGetAttribute($multitext, "FILENAME");
+    open_file($item_revert, $filename);
+    return IUP_DEFAULT;
+}
+
+function item_exit_action_cb($item_exit)
+{
+    global $dialogs;
+    $dlg = IupGetDialog($item_exit);
+    $config = $dialogs["CONFIG"];
+
+    if (!save_check($item_exit))
+        return IUP_IGNORE;  /* to abort the CLOSE_CB callback */
+
+    IupConfigDialogClosed($config, $dlg, "MainWindow");
+    IupConfigSave($config);
+    IupDestroy($config);
+    return IUP_CLOSE;
 }
 
 function goto_ok_action_cb($bt_ok){
@@ -429,19 +573,6 @@ function item_about_action_cb($ih){
     return IUP_DEFAULT;
 }
 
-function item_exit_action_cb($ih){
-
-    global $dialogs;
-
-    $dlg = $dialogs["DIALOG"];
-    $config = $dialogs["CONFIG"];
-    IupConfigDialogClosed($config,$dlg,"MainWindow");
-    IupConfigSave($config);
-    IupDestroy($config);
-
-    return IUP_CLOSE;
-}
-
 /********************************** Main *****************************************/
 
 function main()
@@ -466,6 +597,10 @@ function main()
     IupSetAttribute($multitext, "MULTILINE", "YES");
     IupSetAttribute($multitext, "EXPAND", "YES");
     IupSetAttribute($multitext, "NAME", "MULTITEXT");
+    IupSetAttribute($multitext, "DIRTY", "NO");
+    IupSetCallback($multitext, "CARET_CB", "multitext_caret_cb");
+    IupSetCallback($multitext, "VALUECHANGED_CB", "multitext_valuechanged_cb");
+    IupSetCallback($multitext, "DROPFILES_CB", "dropfiles_cb");
 
     $font = IupConfigGetVariableStr($config,"MainWindow","Font");
     if(!empty($font)){
@@ -477,77 +612,130 @@ function main()
     IupSetAttribute($lbl_statusbar, "EXPAND", "HORIZONTAL");
     IupSetAttribute($lbl_statusbar, "PADDING", "10x5");
 
+    $item_new = IupItem("New\tCtrl+N", NULL);
+    IupSetAttribute($item_new, "IMAGE", "IUP_FileNew");
+    IupSetCallback($item_new, "ACTION", "item_new_action_cb");
+    $btn_new = IupButton(NULL, NULL);
+    IupSetAttribute($btn_new, "IMAGE", "IUP_FileNew");
+    IupSetAttribute($btn_new, "FLAT", "Yes");
+    IupSetCallback($btn_new, "ACTION", "item_new_action_cb");
+    IupSetAttribute($btn_new, "TIP", "New (Ctrl+N)");
+    IupSetAttribute($btn_new, "CANFOCUS", "No");
+
     $item_open = IupItem("&Open...\tCtrl+O", NULL);
-    $btn_open = IupButton(NULL,NULL);
+    IupSetAttribute($item_open, "IMAGE", "IUP_FileOpen");
+    IupSetCallback($item_open, "ACTION", "item_open_action_cb");
+    $btn_open = IupButton(NULL, NULL);
     IupSetAttribute($btn_open, "IMAGE", "IUP_FileOpen");
     IupSetAttribute($btn_open, "FLAT", "Yes");
+    IupSetCallback($btn_open, "ACTION", "item_open_action_cb");
     IupSetAttribute($btn_open, "TIP", "Open (Ctrl+O)");
     IupSetAttribute($btn_open, "CANFOCUS", "No");
 
-    $item_saveas = IupItem("Save &As...\tCtrl+S", NULL);
+    $item_save = IupItem("Save\tCtrl+S", NULL);
+    IupSetAttribute($item_save, "NAME", "ITEM_SAVE");
+    IupSetAttribute($item_save, "IMAGE", "IUP_FileSave");
+    IupSetCallback($item_save, "ACTION", "item_save_action_cb");
     $btn_save = IupButton(NULL, NULL);
     IupSetAttribute($btn_save, "IMAGE", "IUP_FileSave");
     IupSetAttribute($btn_save, "FLAT", "Yes");
+    IupSetCallback($btn_save, "ACTION", "item_save_action_cb");
     IupSetAttribute($btn_save, "TIP", "Save (Ctrl+S)");
     IupSetAttribute($btn_save, "CANFOCUS", "No");
 
-    $item_exit = IupItem("E&xit", NULL);
+    $item_saveas = IupItem("Save &As...", NULL);
+    IupSetAttribute($item_saveas, "NAME", "ITEM_SAVEAS");
+    IupSetCallback($item_saveas, "ACTION", "item_saveas_action_cb");
 
-    $item_find = IupItem("&Find..\tCtrl+F", NULL);
+    $item_revert = IupItem("Revert", NULL);
+    IupSetAttribute($item_revert, "NAME", "ITEM_REVERT");
+    IupSetCallback($item_revert, "ACTION", "item_revert_action_cb");
+    
+    $item_exit = IupItem("E&xit", NULL);
+    IupSetCallback($item_exit, "ACTION", "item_exit_action_cb");
+
+    $item_find = IupItem("&Find...\tCtrl+F", NULL);
+    IupSetAttribute($item_find, "IMAGE", "IUP_EditFind");
+    IupSetCallback($item_find, "ACTION", "item_find_action_cb");
     $btn_find = IupButton(NULL, NULL);
     IupSetAttribute($btn_find, "IMAGE", "IUP_EditFind");
     IupSetAttribute($btn_find, "FLAT", "Yes");
+    IupSetCallback($btn_find, "ACTION", "item_find_action_cb");
     IupSetAttribute($btn_find, "TIP", "Find (Ctrl+F)");
     IupSetAttribute($btn_find, "CANFOCUS", "No");
 
-    $item_copy = IupItem ("Copy\tCtrl+C", NULL);
-    IupSetAttribute($item_copy, "NAME", "ITEM_COPY");
-    $item_paste = IupItem ("Paste\tCtrl+V", NULL);
+    $item_cut = IupItem("Cut\tCtrl+X", NULL);
+    IupSetAttribute($item_cut, "NAME", "ITEM_CUT");
+    IupSetAttribute($item_cut, "IMAGE", "IUP_EditCut");
+    IupSetCallback($item_cut, "ACTION", "item_cut_action_cb");
+    $item_copy = IupItem("Copy\tCtrl+C", NULL);
+    IupSetAttribute($item_copy, "NAME", "ITEM_COPY");  
+    IupSetAttribute($item_copy, "IMAGE", "IUP_EditCopy");
+    IupSetCallback($item_copy, "ACTION", "item_copy_action_cb");
+    $item_paste = IupItem("Paste\tCtrl+V", NULL);
     IupSetAttribute($item_paste, "NAME", "ITEM_PASTE");
-    $item_cut = IupItem ("Cut\tCtrl+X", NULL);
-    IupSetAttribute($item_cut, "NAME", "ITEM_CUT");  
-    $item_delete = IupItem ("Delete\tDel", NULL);
+    IupSetAttribute($item_paste, "IMAGE", "IUP_EditPaste");
+    IupSetCallback($item_paste, "ACTION", "item_paste_action_cb");
+    $item_delete = IupItem("Delete\tDel", NULL);
+    IupSetAttribute($item_delete, "IMAGE", "IUP_EditErase");  
     IupSetAttribute($item_delete, "NAME", "ITEM_DELETE");
-    $item_select_all = IupItem ("Select All\tCtrl+A", NULL);
+    IupSetCallback($item_delete, "ACTION", "item_delete_action_cb");
+    $item_select_all = IupItem("Select All\tCtrl+A", NULL);
+    IupSetCallback($item_select_all, "ACTION", "item_select_all_action_cb");
 
-    $toolbar_hb = IupHbox($btn_open,$btn_save,IupSetAttributes(IupLabel(NULL), "SEPARATOR=VERTICAL"),$btn_find);
-    // IupAppend($toolbar_hb,$btn_save);
-    // IupAppend($toolbar_hb,IupSetAttributes(IupLabel(NULL), "SEPARATOR=VERTICAL"));
-    // IupAppend($toolbar_hb,$btn_find);
+    $btn_cut = IupButton(NULL, NULL);
+    IupSetAttribute($btn_cut, "IMAGE", "IUP_EditCut");
+    IupSetAttribute($btn_cut, "FLAT", "Yes");
+    IupSetCallback($btn_cut, "ACTION", "item_cut_action_cb");
+    IupSetAttribute($btn_cut, "TIP", "Cut (Ctrl+X)");
+    IupSetAttribute($btn_cut, "CANFOCUS", "No");
+    $btn_copy = IupButton(NULL, NULL);
+    IupSetAttribute($btn_copy, "IMAGE", "IUP_EditCopy");
+    IupSetAttribute($btn_copy, "FLAT", "Yes");
+    IupSetCallback($btn_copy, "ACTION", "item_copy_action_cb");
+    IupSetAttribute($btn_copy, "TIP", "Copy (Ctrl+C)");
+    IupSetAttribute($btn_copy, "CANFOCUS", "No");
+    $btn_paste = IupButton(NULL, NULL);
+    IupSetAttribute($btn_paste, "IMAGE", "IUP_EditPaste");
+    IupSetAttribute($btn_paste, "FLAT", "Yes");
+    IupSetCallback($btn_paste, "ACTION", "item_paste_action_cb");
+    IupSetAttribute($btn_paste, "TIP", "Paste (Ctrl+V)");
+    IupSetAttribute($btn_paste, "CANFOCUS", "No");
+
+    $toolbar_hb = IupHbox(
+      $btn_new,
+      $btn_open,
+      $btn_save,
+      IupSetAttributes(IupLabel(NULL), "SEPARATOR=VERTICAL"),
+      $btn_cut,
+      $btn_copy,
+      $btn_paste,
+      IupSetAttributes(IupLabel(NULL), "SEPARATOR=VERTICAL"),
+      $btn_find
+    );
     IupSetAttribute($toolbar_hb, "MARGIN", "5x5");
     IupSetAttribute($toolbar_hb, "GAP", "2");
 
-
     $item_goto = IupItem("&Go To...\tCtrl+G", NULL);
-
-    $item_font = IupItem("&Font...", NULL);
-    $item_about = IupItem("&About...", NULL);
-
-    IupSetCallback($item_open, "ACTION", "item_open_action_cb");
-    IupSetCallback($btn_open, "ACTION", "item_open_action_cb");
-    IupSetCallback($item_saveas, "ACTION", "item_saveas_action_cb");
-    IupSetCallback($btn_save, "ACTION", "item_saveas_action_cb");
-    IupSetCallback($item_exit, "ACTION", "item_exit_action_cb");
-    IupSetCallback($item_find, "ACTION", "item_find_action_cb");
-    IupSetCallback($btn_find, "ACTION", "item_find_action_cb"); 
     IupSetCallback($item_goto, "ACTION", "item_goto_action_cb");
+    $item_font = IupItem("&Font...", NULL);
     IupSetCallback($item_font, "ACTION", "item_font_action_cb");
+    $item_about = IupItem("&About...", NULL);
     IupSetCallback($item_about, "ACTION", "item_about_action_cb");
-    IupSetCallback($multitext, "CARET_CB", "multitext_caret_cb");
-    IupSetCallback($item_copy, "ACTION", "item_copy_action_cb");
-    IupSetCallback($item_paste, "ACTION", "item_paste_action_cb");
-    IupSetCallback($item_cut, "ACTION", "item_cut_action_cb");
-    IupSetCallback($item_delete, "ACTION", "item_delete_action_cb");
-    IupSetCallback($item_select_all, "ACTION", "item_select_all_action_cb");
 
     $recent_menu = IupMenu();
 
-    $file_menu = IupMenu($item_open,$item_saveas,IupSeparator(),IupSubmenu("Recent &Files", $recent_menu),$item_exit);
-    // IupAppend($file_menu,$item_saveas);
-    // IupAppend($file_menu,IupSeparator());
-    // IupAppend($file_menu,IupSubmenu("Recent &Files", $recent_menu));
-    // IupAppend($file_menu,$item_exit);
-
+    $file_menu = IupMenu(
+        $item_new,
+        $item_open,
+        $item_save,
+        $item_saveas,
+        $item_revert,
+        IupSeparator(),
+        IupSubmenu("Recent &Files", $recent_menu),
+        $item_exit
+    );
+    
     $edit_menu = IupMenu(
         $item_cut,
         $item_copy,
@@ -559,25 +747,35 @@ function main()
         IupSeparator(),
         $item_select_all
     );
-    // IupAppend($edit_menu,$item_goto);
 
-    $format_menu = IupMenu($item_font);
+    $format_menu = IupMenu(
+        $item_font
+    );
 
-    $help_menu = IupMenu($item_about);
+    $help_menu = IupMenu(
+        $item_about
+    );
+
+    IupSetCallback($file_menu, "OPEN_CB", "file_menu_open_cb");
+    IupSetCallback($edit_menu, "OPEN_CB", "edit_menu_open_cb");
 
     $sub_menu_file = IupSubmenu("&File", $file_menu);
     $sub_menu_edit = IupSubmenu("&Edit", $edit_menu);
     $sub_menu_format = IupSubmenu("F&ormat", $format_menu);
     $sub_menu_help = IupSubmenu("&Help", $help_menu);
-    
-    $menu = IupMenu($sub_menu_file,$sub_menu_edit,$sub_menu_format,$sub_menu_help);
-    // IupAppend($menu,$sub_menu_edit);
-    // IupAppend($menu,$sub_menu_format);
-    // IupAppend($menu,$sub_menu_help);
 
-    $vbox = IupVbox($toolbar_hb,$multitext,$lbl_statusbar);
-    // IupAppend($vbox,$multitext);
-    // IupAppend($vbox,$lbl_statusbar);
+    $menu = IupMenu(
+        $sub_menu_file,
+        $sub_menu_edit,
+        $sub_menu_format,
+        $sub_menu_help
+    );
+
+    $vbox = IupVbox(
+        $toolbar_hb,
+        $multitext,
+        $lbl_statusbar
+    );
 
     $dlg = IupDialog($vbox);
 
@@ -590,6 +788,9 @@ function main()
     IupSetAttribute($dlg, "SIZE", "HALFxHALF");
 
     IupSetCallback($dlg, "CLOSE_CB", "item_exit_action_cb");
+
+    IupSetCallback($dlg, "DROPFILES_CB", "dropfiles_cb");
+
 
     IupSetCallback($edit_menu, "OPEN_CB", "edit_menu_open_cb");
 
@@ -605,6 +806,9 @@ function main()
     IupConfigRecentInit($config, $recent_menu, "config_recent_cb", 10);
 
     IupConfigDialogShow($config, $dlg, "MainWindow");
+
+    /* initialize the current file */
+    new_file($dlg);
 
     IupMainLoop();
 

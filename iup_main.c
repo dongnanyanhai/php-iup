@@ -29,6 +29,7 @@
 
 extern int le_iup_ihandle;
 extern int le_iup_event;
+extern int is_iup_open;
 
 extern HashTable *iup_events;
 extern HashTable *iup_callback;
@@ -41,18 +42,25 @@ PHP_FUNCTION(IupOpen)
         return;
     }
 
-    IupOpen(NULL, NULL);
+    if(is_iup_open == 0){
 
-    // init array
-    ALLOC_HASHTABLE(iup_events);
-    zend_hash_init(iup_events,512,NULL,NULL,0);
+        is_iup_open = 1;
 
-    // 注册回调函数
-    ALLOC_HASHTABLE(iup_callback);
-    zend_hash_init(iup_callback,512,NULL,NULL,0);
-    event_register_callback();
+        IupOpen(NULL, NULL);
 
-    RETURN_BOOL(1);
+        // init array
+        ALLOC_HASHTABLE(iup_events);
+        zend_hash_init(iup_events,512,NULL,NULL,0);
+
+        // 注册回调函数
+        ALLOC_HASHTABLE(iup_callback);
+        zend_hash_init(iup_callback,512,NULL,NULL,0);
+        event_register_callback();
+
+        RETURN_BOOL(1);
+    }
+
+    RETURN_BOOL(0);
 }
 /* }}} */
 
@@ -64,12 +72,20 @@ PHP_FUNCTION(IupClose)
         return;
     }
 
-    zend_hash_destroy(iup_events);
-    zend_hash_destroy(iup_callback);
+    if(is_iup_open == 1)
+    {
+        is_iup_open = 0;
+        
+        zend_hash_destroy(iup_events);
+        zend_hash_destroy(iup_callback);
 
-    IupClose();
+        IupClose();
 
-    RETURN_BOOL(1);
+        RETURN_BOOL(1);
+    }
+
+
+    RETURN_BOOL(0);
 }
 /* }}} */
 

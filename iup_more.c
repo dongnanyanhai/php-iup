@@ -673,7 +673,7 @@ PHP_FUNCTION(IupConfigGetVariableIntDef)
 
     int i;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r!ssd",&ihandle_res,&group,&group_len,&key,&key_len,def) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!ssd",&ihandle_res,&group,&group_len,&key,&key_len,&def) == FAILURE) {
         return;
     }
 

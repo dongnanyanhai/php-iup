@@ -36,6 +36,7 @@ int le_iup;
 
 int le_iup_ihandle = 0;
 int le_iup_event = 0;
+int is_iup_open = 0;
 
 HashTable *iup_events;
 HashTable *iup_callback;

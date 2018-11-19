@@ -500,9 +500,6 @@ function main()
     IupConfigRecentInit($config, $recent_menu, "config_recent_cb", 10);
 
     IupConfigDialogShow($config, $dlg, "MainWindow");
-    // IupShowXY($dlg, IUP_CENTERPARENT, IUP_CENTERPARENT);
-
-    IupSetAttribute($dlg, "USERSIZE", NULL);
 
     IupMainLoop();
 
