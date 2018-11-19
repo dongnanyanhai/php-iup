@@ -1063,6 +1063,21 @@ const zend_function_entry iup_functions[] = {
     PHP_FE(IupScintillaOpen, NULL)
     PHP_FE(IupScintilla, NULL)
     PHP_FE(IupScintillaDlg, NULL)
+    PHP_FE(IupWebBrowserOpen, NULL)
+    PHP_FE(IupWebBrowser, NULL)
+    // PHP_FE(IupTuioOpen, NULL)
+    // PHP_FE(IupTuioClient, NULL)
+    PHP_FE(IupOleControlOpen, NULL)
+    PHP_FE(IupOleControl, NULL)
+    
+    PHP_FE(IupLoadImage, NULL)
+    PHP_FE(IupSaveImage, NULL)
+    PHP_FE(IupLoadAnimation, NULL)
+    PHP_FE(IupLoadAnimationFrames, NULL)
+    PHP_FE(IupGetNativeHandleImage, NULL)
+    PHP_FE(IupGetImageNativeHandle, NULL)
+    PHP_FE(IupImageFromImImage, NULL)
+    PHP_FE(IupImageToImImage, NULL)
 
 	PHP_FE_END	/* Must be the last line in iup_functions[] */
 };

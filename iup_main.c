@@ -5215,7 +5215,7 @@ PHP_FUNCTION(IupSaveImageAsText)
     char *name = NULL;
     size_t name_len;
 
-    int i;
+    int re;
 
     if (zend_parse_parameters(argc TSRMLS_DC,"rsss",&ihandle_res,&file_name, &file_name_len, &format, &format_len, &name, &name_len) == FAILURE) {
         return;
@@ -5223,9 +5223,9 @@ PHP_FUNCTION(IupSaveImageAsText)
 
     ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
 
-    i = IupSaveImageAsText(ih,file_name,format,name);
+    re = IupSaveImageAsText(ih,file_name,format,name);
 
-    RETURN_LONG(i);
+    RETURN_LONG(re);
 }
 /* }}} */
 

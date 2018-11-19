@@ -85,7 +85,7 @@ PHP_FUNCTION(IupConfigLoad)
 
     Ihandle *ih;
 
-    int i;
+    int re;
 
     if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
         return;
@@ -93,9 +93,9 @@ PHP_FUNCTION(IupConfigLoad)
 
     ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
 
-    i = IupConfigLoad(ih);
+    re = IupConfigLoad(ih);
 
-    RETURN_LONG(i);
+    RETURN_LONG(re);
 }
 /* }}} */
 
@@ -110,7 +110,7 @@ PHP_FUNCTION(IupConfigSave)
 
     Ihandle *ih;
 
-    int i;
+    int re;
 
     if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
         return;
@@ -118,9 +118,9 @@ PHP_FUNCTION(IupConfigSave)
 
     ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
 
-    i = IupConfigSave(ih);
+    re = IupConfigSave(ih);
 
-    RETURN_LONG(i);
+    RETURN_LONG(re);
 }
 /* }}} */
 
@@ -438,7 +438,7 @@ PHP_FUNCTION(IupConfigGetVariableInt)
     char *key = NULL;
     size_t key_len;
 
-    int i;
+    int re;
 
     if (zend_parse_parameters(argc TSRMLS_DC,"r!ss",&ihandle_res,&group,&group_len,&key,&key_len) == FAILURE) {
         return;
@@ -450,9 +450,9 @@ PHP_FUNCTION(IupConfigGetVariableInt)
         ih = NULL;
     }
 
-    i = IupConfigGetVariableInt(ih,group,key);
+    re = IupConfigGetVariableInt(ih,group,key);
 
-    RETURN_LONG(i);
+    RETURN_LONG(re);
 }
 /* }}} */
 
@@ -475,7 +475,7 @@ PHP_FUNCTION(IupConfigGetVariableIntId)
 
     zend_long id;
 
-    int i;
+    int re;
 
     if (zend_parse_parameters(argc TSRMLS_DC,"r!ssl",&ihandle_res,&group,&group_len,&key,&key_len,&id) == FAILURE) {
         return;
@@ -487,9 +487,9 @@ PHP_FUNCTION(IupConfigGetVariableIntId)
         ih = NULL;
     }
 
-    i = IupConfigGetVariableIntId(ih,group,key,id);
+    re = IupConfigGetVariableIntId(ih,group,key,id);
 
-    RETURN_LONG(i);
+    RETURN_LONG(re);
 }
 /* }}} */
 
@@ -671,7 +671,7 @@ PHP_FUNCTION(IupConfigGetVariableIntDef)
 
     zend_long def;
 
-    int i;
+    int re;
 
     if (zend_parse_parameters(argc TSRMLS_DC,"r!ssd",&ihandle_res,&group,&group_len,&key,&key_len,&def) == FAILURE) {
         return;
@@ -683,9 +683,9 @@ PHP_FUNCTION(IupConfigGetVariableIntDef)
         ih = NULL;
     }
 
-    i = IupConfigGetVariableIntDef(ih,group,key,def);
+    re = IupConfigGetVariableIntDef(ih,group,key,def);
 
-    RETURN_LONG(i);
+    RETURN_LONG(re);
 }
 /* }}} */
 
@@ -708,7 +708,7 @@ PHP_FUNCTION(IupConfigGetVariableIntIdDef)
 
     zend_long id,def;
 
-    int i;
+    int re;
 
     if (zend_parse_parameters(argc TSRMLS_DC,"r!ssld",&ihandle_res,&group,&group_len,&key,&key_len,&id,&def) == FAILURE) {
         return;
@@ -720,9 +720,9 @@ PHP_FUNCTION(IupConfigGetVariableIntIdDef)
         ih = NULL;
     }
 
-    i = IupConfigGetVariableIntIdDef(ih,group,key,id,def);
+    re = IupConfigGetVariableIntIdDef(ih,group,key,id,def);
 
-    RETURN_LONG(i);
+    RETURN_LONG(re);
 }
 /* }}} */
 
@@ -1033,6 +1033,334 @@ PHP_FUNCTION(IupScintillaDlg)
     }
 
     re = IupScintillaDlg();
+
+    RETURN_RES(zend_register_resource(re, le_iup_ihandle));
+}
+/* }}} */
+
+/* {{{ proto void IupWebBrowserOpen()
+    */
+PHP_FUNCTION(IupWebBrowserOpen)
+{
+
+    int re;
+    if (zend_parse_parameters_none() == FAILURE) {
+        return;
+    }
+
+    re = IupWebBrowserOpen();
+
+    RETURN_LONG(re);
+}
+/* }}} */
+
+/* {{{ proto void IupWebBrowser()
+    */
+PHP_FUNCTION(IupWebBrowser)
+{
+
+    Ihandle *re;
+
+    if (zend_parse_parameters_none() == FAILURE) {
+        return;
+    }
+
+    re = IupWebBrowser();
+
+    RETURN_RES(zend_register_resource(re, le_iup_ihandle));
+}
+/* }}} */
+
+/* {{{ proto void IupTuioOpen()
+    */
+/*PHP_FUNCTION(IupTuioOpen)
+{
+
+    int re;
+    if (zend_parse_parameters_none() == FAILURE) {
+        return;
+    }
+
+    re = IupTuioOpen();
+
+    RETURN_LONG(re);
+}*/
+/* }}} */
+
+/* {{{ proto void IupTuioClient()
+    */
+/*PHP_FUNCTION(IupTuioClient)
+{
+
+    int argc = ZEND_NUM_ARGS();
+    zend_long port;
+
+    Ihandle *re;
+
+    if (zend_parse_parameters(argc, "l", &port) == FAILURE) 
+        return;
+
+    re = IupTuioClient(port);
+
+    RETURN_RES(zend_register_resource(re, le_iup_ihandle));
+}*/
+/* }}} */
+
+/* {{{ proto void IupOleControlOpen()
+    */
+PHP_FUNCTION(IupOleControlOpen)
+{
+
+    int re;
+    if (zend_parse_parameters_none() == FAILURE) {
+        return;
+    }
+
+    re = IupOleControlOpen();
+
+    RETURN_LONG(re);
+}
+/* }}} */
+
+/* {{{ proto void IupOleControl()
+    */
+PHP_FUNCTION(IupOleControl)
+{
+
+    int argc = ZEND_NUM_ARGS();
+    char *progid = NULL;
+    size_t progid_len;
+
+    Ihandle *re;
+
+    if (zend_parse_parameters(argc, "s", &progid, &progid_len) == FAILURE) {
+        return;
+    }
+
+    re = IupOleControl(progid);
+
+    RETURN_RES(zend_register_resource(re, le_iup_ihandle));
+}
+/* }}} */
+
+/* {{{ proto string IupLoadImage(string file_name)
+   ;
+ */
+PHP_FUNCTION(IupLoadImage)
+{
+    int argc = ZEND_NUM_ARGS();
+
+    char *file_name = NULL;
+    size_t file_name_len;
+
+    Ihandle *re;
+
+    if (zend_parse_parameters(argc, "s", &file_name, &file_name_len) == FAILURE) {
+        return;
+    }
+
+    re = IupLoadImage(file_name);
+
+    RETURN_RES(zend_register_resource(re, le_iup_ihandle));
+}
+/* }}} */
+
+/* {{{ proto resource IupSaveImage(resource ih, string file_name, string format)
+   ;
+ */
+PHP_FUNCTION(IupSaveImage)
+{
+    int argc = ZEND_NUM_ARGS();
+
+    zval *ihandle_res = NULL;
+
+    Ihandle *ih;
+
+    char *file_name = NULL;
+    size_t file_name_len;
+
+    char *format = NULL;
+    size_t format_len;
+
+    int re;
+
+    if (zend_parse_parameters(argc TSRMLS_DC,"rss",&ihandle_res,&file_name, &file_name_len, &format, &format_len) == FAILURE) {
+        return;
+    }
+
+    ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+
+    re = IupSaveImage(ih,file_name,format);
+
+    RETURN_LONG(re);
+}
+/* }}} */
+
+/* {{{ proto string IupLoadAnimation(string file_name)
+   ;
+ */
+PHP_FUNCTION(IupLoadAnimation)
+{
+    int argc = ZEND_NUM_ARGS();
+
+    char *file_name = NULL;
+    size_t file_name_len;
+
+    Ihandle *re;
+
+    if (zend_parse_parameters(argc, "s", &file_name, &file_name_len) == FAILURE) {
+        return;
+    }
+
+    re = IupLoadAnimation(file_name);
+
+    RETURN_RES(zend_register_resource(re, le_iup_ihandle));
+}
+/* }}} */
+
+
+/* {{{ proto resource IupLoadAnimationFrames(ref file_name_list, int file_count)
+   ;
+ */
+PHP_FUNCTION(IupLoadAnimationFrames)
+{
+    int argc = ZEND_NUM_ARGS();
+
+    // 用以遍历arr_list数组
+    long num_key;
+    zval *val;
+    zend_string *key;
+
+    HashTable *file_name_list_val;
+
+    const char **file_name_list;
+
+    zend_long file_count;
+
+    int i;
+
+    Ihandle *re;
+
+    if (zend_parse_parameters(argc,"hl",&file_name_list_val,&file_count) == FAILURE) {
+        return;
+    }
+
+    file_name_list = (char **)malloc(sizeof(char *)* file_count);
+
+    i = 0;
+
+    // 将php的字符串数组转换为c的字符串数组
+    ZEND_HASH_FOREACH_KEY_VAL(file_name_list_val, num_key, key, val) {
+
+        if(Z_TYPE_P(val) == IS_STRING && i < file_count) {
+
+            file_name_list[i] = (char *)malloc(sizeof(char) * Z_STRLEN_P(val));
+
+            file_name_list[i] = Z_STRVAL_P(val);
+
+            i ++;
+        }
+    } ZEND_HASH_FOREACH_END();
+
+    re = IupLoadAnimationFrames(file_name_list,file_count);
+
+    free(file_name_list);
+
+    RETURN_RES(zend_register_resource(re, le_iup_ihandle));
+}
+/* }}} */
+
+/* {{{ proto int IupGetNativeHandleImage(resource ih)
+   ;
+ */
+PHP_FUNCTION(IupGetNativeHandleImage)
+{
+    int argc = ZEND_NUM_ARGS();
+
+    zval *ihandle_res = NULL;
+
+    Ihandle *ih;
+    imImage *re;
+
+    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
+        return;
+    }
+
+    ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+
+    re = IupGetNativeHandleImage(ih);
+
+    RETURN_RES(zend_register_resource(re, le_iup_ihandle));
+}
+/* }}} */
+
+/* {{{ proto int IupGetImageNativeHandle(resource ih)
+   ;
+ */
+PHP_FUNCTION(IupGetImageNativeHandle)
+{
+    int argc = ZEND_NUM_ARGS();
+
+    zval *ihandle_res = NULL;
+
+    imImage *ih;
+    void *re;
+
+    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
+        return;
+    }
+
+    ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+
+    re = IupGetImageNativeHandle(ih);
+
+    RETURN_RES(zend_register_resource(re, le_iup_ihandle));
+}
+/* }}} */
+
+/* {{{ proto int IupImageFromImImage(resource ih)
+   ;
+ */
+PHP_FUNCTION(IupImageFromImImage)
+{
+    int argc = ZEND_NUM_ARGS();
+
+    zval *ihandle_res = NULL;
+
+    imImage *ih;
+    Ihandle *re;
+
+    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
+        return;
+    }
+
+    ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+
+    re = IupImageFromImImage(ih);
+
+    RETURN_RES(zend_register_resource(re, le_iup_ihandle));
+}
+/* }}} */
+
+/* {{{ proto int IupImageToImImage(resource ih)
+   ;
+ */
+PHP_FUNCTION(IupImageToImImage)
+{
+    int argc = ZEND_NUM_ARGS();
+
+    zval *ihandle_res = NULL;
+
+    Ihandle *ih;
+    imImage *re;
+
+    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
+        return;
+    }
+
+    ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+
+    re = IupImageToImImage(ih);
 
     RETURN_RES(zend_register_resource(re, le_iup_ihandle));
 }

@@ -66,13 +66,76 @@ ZEND_TSRMLS_CACHE_EXTERN()
 #include "ext/iup/iup-3.25/include/iupglcontrols.h"
 #include "ext/iup/iup-3.25/include/iupim.h"
 #include "ext/iup/iup-3.25/include/iupole.h"
-#include "ext/iup/iup-3.25/include/iuptuio.h"
 #include "ext/iup/iup-3.25/include/iupweb.h"
 #include "ext/iup/iup-3.25/include/iup_config.h"
 #include "ext/iup/iup-3.25/include/iup_mglplot.h"
 #include "ext/iup/iup-3.25/include/iup_plot.h"
 #include "ext/iup/iup-3.25/include/iup_scintilla.h"
-#include "ext/iup/iup-3.25/include/iup_varg.h"
+
+#include "ext/iup/im-3.12/include/im.h"
+// // #include "ext/iup/im-3.12/include/im_attrib_flat.h"
+// #include "ext/iup/im-3.12/include/im_binfile.h"
+// #include "ext/iup/im-3.12/include/im_capture.h"
+// // #include "ext/iup/im-3.12/include/im_color.h"
+// #include "ext/iup/im-3.12/include/im_colorhsi.h"
+// #include "ext/iup/im-3.12/include/im_complex.h"
+// #include "ext/iup/im-3.12/include/im_convert.h"
+// #include "ext/iup/im-3.12/include/im_counter.h"
+// #include "ext/iup/im-3.12/include/im_dib.h"
+// #include "ext/iup/im-3.12/include/im_file.h"
+// #include "ext/iup/im-3.12/include/im_format.h"
+// #include "ext/iup/im-3.12/include/im_format_all.h"
+// #include "ext/iup/im-3.12/include/im_format_avi.h"
+// #include "ext/iup/im-3.12/include/im_format_ecw.h"
+// #include "ext/iup/im-3.12/include/im_format_jp2.h"
+// #include "ext/iup/im-3.12/include/im_format_raw.h"
+// #include "ext/iup/im-3.12/include/im_format_wmv.h"
+#include "ext/iup/im-3.12/include/im_image.h"
+// #include "ext/iup/im-3.12/include/im_kernel.h"
+// #include "ext/iup/im-3.12/include/im_lib.h"
+// // #include "ext/iup/im-3.12/include/im_math.h"
+// #include "ext/iup/im-3.12/include/im_math_op.h"
+// #include "ext/iup/im-3.12/include/im_old.h"
+// #include "ext/iup/im-3.12/include/im_palette.h"
+// #include "ext/iup/im-3.12/include/im_plus.h"
+// #include "ext/iup/im-3.12/include/im_process.h"
+// #include "ext/iup/im-3.12/include/im_process_ana.h"
+// #include "ext/iup/im-3.12/include/im_process_glo.h"
+// #include "ext/iup/im-3.12/include/im_process_loc.h"
+// #include "ext/iup/im-3.12/include/im_process_pnt.h"
+// #include "ext/iup/im-3.12/include/im_raw.h"
+// #include "ext/iup/im-3.12/include/im_util.h"
+
+#include "ext/iup/cd-5.11.1/include/cd.h"
+// #include "ext/iup/cd-5.11.1/include/cdcairo.h"
+// #include "ext/iup/cd-5.11.1/include/cdcgm.h"
+// #include "ext/iup/cd-5.11.1/include/cdclipbd.h"
+// #include "ext/iup/cd-5.11.1/include/cddbuf.h"
+// #include "ext/iup/cd-5.11.1/include/cddebug.h"
+// #include "ext/iup/cd-5.11.1/include/cddgn.h"
+// #include "ext/iup/cd-5.11.1/include/cddxf.h"
+// #include "ext/iup/cd-5.11.1/include/cdemf.h"
+// #include "ext/iup/cd-5.11.1/include/cdgdiplus.h"
+// #include "ext/iup/cd-5.11.1/include/cdgl.h"
+// #include "ext/iup/cd-5.11.1/include/cdim.h"
+// #include "ext/iup/cd-5.11.1/include/cdimage.h"
+// #include "ext/iup/cd-5.11.1/include/cdirgb.h"
+// #include "ext/iup/cd-5.11.1/include/cdmf.h"
+// #include "ext/iup/cd-5.11.1/include/cdmf_private.h"
+// #include "ext/iup/cd-5.11.1/include/cdnative.h"
+// #include "ext/iup/cd-5.11.1/include/cdpdf.h"
+// #include "ext/iup/cd-5.11.1/include/cdpicture.h"
+// #include "ext/iup/cd-5.11.1/include/cdpptx.h"
+// #include "ext/iup/cd-5.11.1/include/cdprint.h"
+// #include "ext/iup/cd-5.11.1/include/cdps.h"
+// #include "ext/iup/cd-5.11.1/include/cdsvg.h"
+// #include "ext/iup/cd-5.11.1/include/cdwmf.h"
+// #include "ext/iup/cd-5.11.1/include/cd_canvas.hpp"
+// #include "ext/iup/cd-5.11.1/include/cd_old.h"
+// #include "ext/iup/cd-5.11.1/include/cd_plus.h"
+// #include "ext/iup/cd-5.11.1/include/cd_private.h"
+// #include "ext/iup/cd-5.11.1/include/wd.h"
+// #include "ext/iup/cd-5.11.1/include/wd_old.h"
 
 void event_register_callback();
 int event_set_callback(Ihandle *ih , char * event_name);
@@ -346,7 +409,23 @@ PHP_FUNCTION(IupScintillaOpen);
 PHP_FUNCTION(IupScintilla);
 PHP_FUNCTION(IupScintillaDlg);
 
+PHP_FUNCTION(IupWebBrowserOpen);
+PHP_FUNCTION(IupWebBrowser);
 
+/*PHP_FUNCTION(IupTuioOpen);
+PHP_FUNCTION(IupTuioClient);*/
+
+PHP_FUNCTION(IupOleControlOpen);
+PHP_FUNCTION(IupOleControl);
+
+PHP_FUNCTION(IupLoadImage);
+PHP_FUNCTION(IupSaveImage);
+PHP_FUNCTION(IupLoadAnimation);
+PHP_FUNCTION(IupLoadAnimationFrames);
+PHP_FUNCTION(IupGetNativeHandleImage);
+PHP_FUNCTION(IupGetImageNativeHandle);
+PHP_FUNCTION(IupImageFromImImage);
+PHP_FUNCTION(IupImageToImImage);
 #endif	/* PHP_IUP_H */
 
 
