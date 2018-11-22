@@ -1365,3 +1365,1635 @@ PHP_FUNCTION(IupImageToImImage)
     RETURN_RES(zend_register_resource(re, le_iup_ihandle));
 }
 /* }}} */
+
+
+/* {{{ proto string IupDrawBegin(resource ih)
+   ;
+ */
+PHP_FUNCTION(IupDrawBegin)
+{
+    int argc = ZEND_NUM_ARGS();
+
+    zval *ihandle_res = NULL;
+
+    Ihandle *ih;
+
+    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
+        return;
+    }
+
+    ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+
+    IupDrawBegin(ih);
+
+    RETURN_NULL();
+    
+}
+/* }}} */
+
+
+/* {{{ proto string IupDrawEnd(resource ih)
+   ;
+ */
+PHP_FUNCTION(IupDrawEnd)
+{
+    int argc = ZEND_NUM_ARGS();
+
+    zval *ihandle_res = NULL;
+
+    Ihandle *ih;
+
+    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
+        return;
+    }
+
+    ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+
+    IupDrawEnd(ih);
+
+    RETURN_NULL();
+    
+}
+/* }}} */
+
+
+/* {{{ proto resource IupDrawSetClipRect(resource ih, int x1, int y1, int x2, int y2)
+   ;
+ */
+PHP_FUNCTION(IupDrawSetClipRect)
+{
+    int argc = ZEND_NUM_ARGS();
+
+    zval *ihandle_res = NULL;
+
+    Ihandle *ih;
+
+    zend_long x1,y1,x2,y2;
+
+    if (zend_parse_parameters(argc TSRMLS_DC,"rllll",&ihandle_res,&x1,&y1,&x2,&y2) == FAILURE) {
+        return;
+    }
+
+    ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+
+    IupDrawSetClipRect(ih,x1,y1,x2,y2);
+
+    RETURN_NULL();
+}
+/* }}} */
+
+
+/* {{{ proto resource IupDrawGetClipRect(resource ih, ref x1, ref y1, ref x2, ref y2)
+   ;
+ */
+PHP_FUNCTION(IupDrawGetClipRect)
+{
+    int argc = ZEND_NUM_ARGS();
+
+    zval *ihandle_res = NULL;
+
+    Ihandle *ih;
+
+    int x1, y1, x2, y2;
+    zval *xx1,*yy1,*xx2,*yy2;
+
+    if (zend_parse_parameters(argc TSRMLS_DC,"rzzzz",&ihandle_res,&xx1,&yy1,&xx2,&yy2) == FAILURE) {
+        return;
+    }
+
+    ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+
+    IupDrawGetClipRect(ih,&x1,&y1,&x2,&y2);
+
+    zval *real_xx1_val = Z_REFVAL_P(xx1);
+    ZVAL_LONG(real_xx1_val,x1);
+
+    zval *real_yy1_val = Z_REFVAL_P(yy1);
+    ZVAL_LONG(real_yy1_val,y1);
+
+    zval *real_xx2_val = Z_REFVAL_P(xx2);
+    ZVAL_LONG(real_xx2_val,x2);
+
+    zval *real_yy2_val = Z_REFVAL_P(yy2);
+    ZVAL_LONG(real_yy2_val,y2);
+
+    RETURN_NULL();
+}
+/* }}} */
+
+
+/* {{{ proto string IupDrawResetClip(resource ih)
+   ;
+ */
+PHP_FUNCTION(IupDrawResetClip)
+{
+    int argc = ZEND_NUM_ARGS();
+
+    zval *ihandle_res = NULL;
+
+    Ihandle *ih;
+
+    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
+        return;
+    }
+
+    ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+
+    IupDrawResetClip(ih);
+
+    RETURN_NULL();
+    
+}
+/* }}} */
+
+
+/* {{{ proto string IupDrawParentBackground(resource ih)
+   ;
+ */
+PHP_FUNCTION(IupDrawParentBackground)
+{
+    int argc = ZEND_NUM_ARGS();
+
+    zval *ihandle_res = NULL;
+
+    Ihandle *ih;
+
+    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
+        return;
+    }
+
+    ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+
+    IupDrawParentBackground(ih);
+
+    RETURN_NULL();
+    
+}
+/* }}} */
+
+
+/* {{{ proto resource IupDrawLine(resource ih, int x1, int y1, int x2, int y2)
+   ;
+ */
+PHP_FUNCTION(IupDrawLine)
+{
+    int argc = ZEND_NUM_ARGS();
+
+    zval *ihandle_res = NULL;
+
+    Ihandle *ih;
+
+    zend_long x1,y1,x2,y2;
+
+    if (zend_parse_parameters(argc TSRMLS_DC,"rllll",&ihandle_res,&x1,&y1,&x2,&y2) == FAILURE) {
+        return;
+    }
+
+    ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+
+    IupDrawLine(ih,x1,y1,x2,y2);
+
+    RETURN_NULL();
+}
+/* }}} */
+
+/* {{{ proto resource IupDrawRectangle(resource ih, int x1, int y1, int x2, int y2)
+   ;
+ */
+PHP_FUNCTION(IupDrawRectangle)
+{
+    int argc = ZEND_NUM_ARGS();
+
+    zval *ihandle_res = NULL;
+
+    Ihandle *ih;
+
+    zend_long x1,y1,x2,y2;
+
+    if (zend_parse_parameters(argc TSRMLS_DC,"rllll",&ihandle_res,&x1,&y1,&x2,&y2) == FAILURE) {
+        return;
+    }
+
+    ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+
+    IupDrawRectangle(ih,x1,y1,x2,y2);
+
+    RETURN_NULL();
+}
+/* }}} */
+
+/* {{{ proto resource IupDrawArc(resource ih, int x1, int y1, int x2, int y2, double a1, double a2)
+   ;
+ */
+PHP_FUNCTION(IupDrawArc)
+{
+    int argc = ZEND_NUM_ARGS();
+
+    zval *ihandle_res = NULL;
+
+    Ihandle *ih;
+
+    zend_long x1,y1,x2,y2;
+    double a1,a2;
+
+    if (zend_parse_parameters(argc TSRMLS_DC,"rlllldd",&ihandle_res,&x1,&y1,&x2,&y2,&a1,&a2) == FAILURE) {
+        return;
+    }
+
+    ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+
+    IupDrawArc(ih,x1,y1,x2,y2,a1,a2);
+
+    RETURN_NULL();
+}
+/* }}} */
+
+/* {{{ proto string IupDrawPolygon(resource ih, int* points, int count)
+   ;
+ */
+PHP_FUNCTION(IupDrawPolygon)
+{
+    int argc = ZEND_NUM_ARGS();
+
+    zval *ihandle_res = NULL;
+
+    Ihandle *ih;
+
+    // 用以遍历arr_list数组
+    long num_key;
+    zend_string *key;
+    zval *val;
+
+    HashTable *arr_points;
+
+    zend_long count;
+
+    int *points;
+
+    int i;
+
+    if (zend_parse_parameters(argc TSRMLS_DC,"rhl",&ihandle_res,&arr_points,&count) == FAILURE) {
+        return;
+    }
+
+    ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+
+    points = (int *)malloc(sizeof(int) * count);
+
+    i = 0;
+    // 将php的数组转换为c的数组
+    ZEND_HASH_FOREACH_KEY_VAL(arr_points, num_key, key, val) {
+        if(Z_TYPE_P(val) == IS_LONG && i < count) {
+            points[i] = Z_LVAL_P(val);
+            i ++;
+        }
+    } ZEND_HASH_FOREACH_END();
+
+    IupDrawPolygon(ih,&points,count);
+
+    free(points);
+
+    RETURN_NULL();
+    
+}
+/* }}} */
+
+/* {{{ proto resource IupDrawText(resource ih, char* text, int len, int x, int y, int w, int h)
+   ;
+ */
+PHP_FUNCTION(IupDrawText)
+{
+    int argc = ZEND_NUM_ARGS();
+
+    zval *ihandle_res = NULL;
+
+    Ihandle *ih;
+
+    char *text = NULL;
+    size_t text_len;
+
+    zend_long len,x,y,w,h;
+
+    if (zend_parse_parameters(argc TSRMLS_DC,"rslllll",&ihandle_res,&text,&text_len,&len,&x,&y,&w,&h) == FAILURE) {
+        return;
+    }
+
+    ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+
+    IupDrawText(ih,text,len,x,y,w,h);
+
+    RETURN_NULL();
+}
+/* }}} */
+
+
+/* {{{ proto resource IupDrawImage(resource ih, char* name, int x, int y, int w, int h)
+   ;
+ */
+PHP_FUNCTION(IupDrawImage)
+{
+    int argc = ZEND_NUM_ARGS();
+
+    zval *ihandle_res = NULL;
+
+    Ihandle *ih;
+
+    char *name = NULL;
+    size_t name_len;
+
+    zend_long x,y,w,h;
+
+    if (zend_parse_parameters(argc TSRMLS_DC,"rsllll",&ihandle_res,&name,&name_len,&x,&y,&w,&h) == FAILURE) {
+        return;
+    }
+
+    ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+
+    IupDrawImage(ih,name,x,y,w,h);
+
+    RETURN_NULL();
+}
+/* }}} */
+
+/* {{{ proto resource IupDrawSelectRect(resource ih, int x1, int y1, int x2, int y2)
+   ;
+ */
+PHP_FUNCTION(IupDrawSelectRect)
+{
+    int argc = ZEND_NUM_ARGS();
+
+    zval *ihandle_res = NULL;
+
+    Ihandle *ih;
+
+    zend_long x1,y1,x2,y2;
+
+    if (zend_parse_parameters(argc TSRMLS_DC,"rllll",&ihandle_res,&x1,&y1,&x2,&y2) == FAILURE) {
+        return;
+    }
+
+    ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+
+    IupDrawSelectRect(ih,x1,y1,x2,y2);
+
+    RETURN_NULL();
+}
+/* }}} */
+
+/* {{{ proto resource IupDrawFocusRect(resource ih, int x1, int y1, int x2, int y2)
+   ;
+ */
+PHP_FUNCTION(IupDrawFocusRect)
+{
+    int argc = ZEND_NUM_ARGS();
+
+    zval *ihandle_res = NULL;
+
+    Ihandle *ih;
+
+    zend_long x1,y1,x2,y2;
+
+    if (zend_parse_parameters(argc TSRMLS_DC,"rllll",&ihandle_res,&x1,&y1,&x2,&y2) == FAILURE) {
+        return;
+    }
+
+    ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+
+    IupDrawFocusRect(ih,x1,y1,x2,y2);
+
+    RETURN_NULL();
+}
+/* }}} */
+
+
+/* {{{ proto resource IupDrawGetSize(resource ih, ref w, ref h)
+   ;
+ */
+PHP_FUNCTION(IupDrawGetSize)
+{
+    int argc = ZEND_NUM_ARGS();
+
+    zval *ihandle_res = NULL;
+
+    Ihandle *ih;
+
+    int w, h;
+    zval *ww,*hh;
+
+    if (zend_parse_parameters(argc TSRMLS_DC,"rzz",&ihandle_res,&ww,&hh) == FAILURE) {
+        return;
+    }
+
+    ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+
+    IupDrawGetSize(ih,&w,&h);
+
+    zval *real_ww_val = Z_REFVAL_P(ww);
+    ZVAL_LONG(real_ww_val,w);
+
+    zval *real_hh_val = Z_REFVAL_P(hh);
+    ZVAL_LONG(real_hh_val,h);
+
+    RETURN_NULL();
+}
+/* }}} */
+
+
+/* {{{ proto resource IupDrawGetTextSize(resource ih, char* text, int len, ref w, ref h)
+   ;
+ */
+PHP_FUNCTION(IupDrawGetTextSize)
+{
+    int argc = ZEND_NUM_ARGS();
+
+    zval *ihandle_res = NULL;
+
+    char *text = NULL;
+    size_t text_len;
+
+    zend_long len;
+
+    Ihandle *ih;
+
+    int w, h;
+    zval *ww,*hh;
+
+    if (zend_parse_parameters(argc TSRMLS_DC,"rslzz",&ihandle_res,&text,&text_len,&len,&ww,&hh) == FAILURE) {
+        return;
+    }
+
+    ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+
+    IupDrawGetTextSize(ih,text,len,&w,&h);
+
+    zval *real_ww_val = Z_REFVAL_P(ww);
+    ZVAL_LONG(real_ww_val,w);
+
+    zval *real_hh_val = Z_REFVAL_P(hh);
+    ZVAL_LONG(real_hh_val,h);
+
+    RETURN_NULL();
+}
+/* }}} */
+
+
+/* {{{ proto resource IupDrawGetImageInfo(resource ih, char* name, ref w, ref h, ref bpp)
+   ;
+ */
+PHP_FUNCTION(IupDrawGetImageInfo)
+{
+    int argc = ZEND_NUM_ARGS();
+
+    zval *ihandle_res = NULL;
+
+    char *name = NULL;
+    size_t name_len;
+
+    Ihandle *ih;
+
+    int w, h, bpp;
+    zval *ww,*hh,*zbpp;
+
+    if (zend_parse_parameters(argc TSRMLS_DC,"rslzz",&ihandle_res,&name,&name_len,&ww,&hh,&zbpp) == FAILURE) {
+        return;
+    }
+
+    ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+
+    IupDrawGetImageInfo(ih,name,&w,&h,&bpp);
+
+    zval *real_ww_val = Z_REFVAL_P(ww);
+    ZVAL_LONG(real_ww_val,w);
+
+    zval *real_hh_val = Z_REFVAL_P(hh);
+    ZVAL_LONG(real_hh_val,h);
+
+    zval *real_zbpp_val = Z_REFVAL_P(zbpp);
+    ZVAL_LONG(real_zbpp_val,bpp);
+
+    RETURN_NULL();
+}
+/* }}} */
+
+
+/* {{{ proto void IupControlsOpen()
+    */
+PHP_FUNCTION(IupControlsOpen)
+{
+
+    int re;
+    if (zend_parse_parameters_none() == FAILURE) {
+        return;
+    }
+
+    re = IupControlsOpen();
+
+    RETURN_LONG(re);
+}
+/* }}} */
+
+/* {{{ proto string IupCells()
+   ;
+ */
+PHP_FUNCTION(IupCells)
+{
+    Ihandle *re;
+
+    if (zend_parse_parameters_none() == FAILURE) {
+        return;
+    }
+
+    re = IupCells();
+
+    RETURN_RES(zend_register_resource(re, le_iup_ihandle));
+    
+}
+/* }}} */
+
+/* {{{ proto string IupMatrix(string action)
+   ;
+ */
+PHP_FUNCTION(IupMatrix)
+{
+    int argc = ZEND_NUM_ARGS();
+
+    char *action = NULL;
+    size_t action_len;
+
+    Ihandle *re;
+
+    if (zend_parse_parameters(argc, "s!", &action, &action_len) == FAILURE) {
+        return;
+    }
+
+    re = IupMatrix(action);
+
+    RETURN_RES(zend_register_resource(re, le_iup_ihandle));
+}
+/* }}} */
+
+/* {{{ proto string IupMatrixList()
+   ;
+ */
+PHP_FUNCTION(IupMatrixList)
+{
+    Ihandle *re;
+
+    if (zend_parse_parameters_none() == FAILURE) {
+        return;
+    }
+
+    re = IupMatrixList();
+
+    RETURN_RES(zend_register_resource(re, le_iup_ihandle));
+    
+}
+/* }}} */
+
+/* {{{ proto string IupMatrixEx()
+   ;
+ */
+PHP_FUNCTION(IupMatrixEx)
+{
+    Ihandle *re;
+
+    if (zend_parse_parameters_none() == FAILURE) {
+        return;
+    }
+
+    re = IupMatrixEx();
+
+    RETURN_RES(zend_register_resource(re, le_iup_ihandle));
+    
+}
+/* }}} */
+
+
+/* {{{ proto void IupMatrixSetFormula(Ihandle* ih, int col, const char* formula, const char* init);
+   ;
+ */
+PHP_FUNCTION(IupMatrixSetFormula)
+{
+    php_error(E_WARNING, "IupMatrixSetFormula: not yet implemented");
+}
+/* }}} */
+
+/* {{{ proto void IupMatrixSetDynamic(Ihandle* ih, const char* init);
+   ;
+ */
+PHP_FUNCTION(IupMatrixSetDynamic)
+{
+    php_error(E_WARNING, "IupMatrixSetDynamic: not yet implemented");
+}
+/* }}} */
+
+
+/* {{{ proto void IupPlotOpen()
+    */
+PHP_FUNCTION(IupPlotOpen)
+{
+    if (zend_parse_parameters_none() == FAILURE) {
+        return;
+    }
+
+    IupPlotOpen();
+
+    RETURN_NULL();
+}
+/* }}} */
+
+/* {{{ proto string IupPlot()
+   ;
+ */
+PHP_FUNCTION(IupPlot)
+{
+    Ihandle *re;
+
+    if (zend_parse_parameters_none() == FAILURE) {
+        return;
+    }
+
+    re = IupPlot();
+
+    RETURN_RES(zend_register_resource(re, le_iup_ihandle));
+    
+}
+/* }}} */
+
+/* {{{ proto string IupPlotBegin(resource ih, int strXdata)
+   ;
+ */
+PHP_FUNCTION(IupPlotBegin)
+{
+    int argc = ZEND_NUM_ARGS();
+
+    zval *ihandle_res = NULL;
+
+    Ihandle *ih;
+
+    zend_long strXdata;
+
+    if (zend_parse_parameters(argc TSRMLS_DC,"rl",&ihandle_res,&strXdata) == FAILURE) {
+        return;
+    }
+
+    ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+
+    IupPlotBegin(ih,strXdata);
+
+    RETURN_NULL();
+}
+/* }}} */
+
+
+/* {{{ proto resource IupPlotAdd(resource ih, double x, double y)
+   ;
+ */
+PHP_FUNCTION(IupPlotAdd)
+{
+    int argc = ZEND_NUM_ARGS();
+
+    zval *ihandle_res = NULL;
+
+    Ihandle *ih;
+
+    double x,y;
+
+    if (zend_parse_parameters(argc TSRMLS_DC,"rdd",&ihandle_res,&x,&y) == FAILURE) {
+        return;
+    }
+
+    ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+
+    IupPlotAdd(ih,x,y);
+
+    RETURN_NULL();
+}
+/* }}} */
+
+/* {{{ proto resource IupPlotAddStr(resource ih, string x, double y)
+   ;
+ */
+PHP_FUNCTION(IupPlotAddStr)
+{
+    int argc = ZEND_NUM_ARGS();
+
+    zval *ihandle_res = NULL;
+
+    Ihandle *ih;
+
+    char *x = NULL;
+    size_t x_len;
+
+    double y;
+
+    if (zend_parse_parameters(argc TSRMLS_DC,"rsd",&ihandle_res,&x,&x_len,&y) == FAILURE) {
+        return;
+    }
+
+    ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+
+    IupPlotAddStr(ih,x,y);
+
+    RETURN_NULL();
+}
+/* }}} */
+
+/* {{{ proto resource IupPlotAddSegment(resource ih, double x, double y)
+   ;
+ */
+PHP_FUNCTION(IupPlotAddSegment)
+{
+    int argc = ZEND_NUM_ARGS();
+
+    zval *ihandle_res = NULL;
+
+    Ihandle *ih;
+
+    double x,y;
+
+    if (zend_parse_parameters(argc TSRMLS_DC,"rdd",&ihandle_res,&x,&y) == FAILURE) {
+        return;
+    }
+
+    ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+
+    IupPlotAddSegment(ih,x,y);
+
+    RETURN_NULL();
+}
+/* }}} */
+
+/* {{{ proto int IupPlotEnd(resource ih)
+   ;
+ */
+PHP_FUNCTION(IupPlotEnd)
+{
+    int argc = ZEND_NUM_ARGS();
+
+    zval *ihandle_res = NULL;
+
+    Ihandle *ih;
+
+    int re;
+
+    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
+        return;
+    }
+
+    ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+
+    re = IupPlotEnd(ih);
+
+    RETURN_LONG(re);
+}
+/* }}} */
+
+
+/* {{{ proto resource IupPlotLoadData(resource ih, string filename, int strXdata)
+   ;
+ */
+PHP_FUNCTION(IupPlotLoadData)
+{
+    int argc = ZEND_NUM_ARGS();
+
+    zval *ihandle_res = NULL;
+
+    Ihandle *ih;
+
+    char *filename = NULL;
+    size_t filename_len;
+
+    zend_long strXdata;
+
+    int re;
+
+    if (zend_parse_parameters(argc TSRMLS_DC,"rsl",&ihandle_res,&filename,&filename_len,&strXdata) == FAILURE) {
+        return;
+    }
+
+    ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+
+    re = IupPlotLoadData(ih,filename,strXdata);
+
+    RETURN_LONG(re);
+}
+/* }}} */
+
+/* {{{ proto resource IupPlotSetFormula(Ihandle* ih, int sample_count, const char* formula, const char* init)
+   ;
+ */
+PHP_FUNCTION(IupPlotSetFormula)
+{
+    php_error(E_WARNING, "IupPlotSetFormula: not yet implemented");
+}
+/* }}} */
+
+/* {{{ proto void IupPlotInsert(Ihandle *ih, int ds_index, int sample_index, double x, double y);
+   ;
+ */
+PHP_FUNCTION(IupPlotInsert)
+{
+    int argc = ZEND_NUM_ARGS();
+
+    zval *ihandle_res = NULL;
+
+    Ihandle *ih;
+
+    zend_long ds_index,sample_index;
+    double x,y;
+
+    if (zend_parse_parameters(argc TSRMLS_DC,"rlldd",&ihandle_res,&ds_index,&sample_index,&x,&y) == FAILURE) {
+        return;
+    }
+
+    ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+
+    IupPlotInsert(ih,ds_index,sample_index,x,y);
+
+    RETURN_NULL();
+}
+/* }}} */
+
+/* {{{ proto void IupPlotInsertStr(Ihandle *ih, int ds_index, int sample_index, const char* x, double y);
+   ;
+ */
+PHP_FUNCTION(IupPlotInsertStr)
+{
+    int argc = ZEND_NUM_ARGS();
+
+    zval *ihandle_res = NULL;
+
+    Ihandle *ih;
+
+    char *x = NULL;
+    size_t x_len;
+
+    zend_long ds_index,sample_index;
+
+    double y;
+
+    if (zend_parse_parameters(argc TSRMLS_DC,"rllsd",&ihandle_res,&ds_index,&sample_index,&x,&x_len,&y) == FAILURE) {
+        return;
+    }
+
+    ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+
+    IupPlotInsertStr(ih,ds_index,sample_index,x,y);
+
+    RETURN_NULL();
+}
+/* }}} */
+
+/* {{{ proto void IupPlotInsertSegment(Ihandle *ih, int ds_index, int sample_index, double x, double y);
+   ;
+ */
+PHP_FUNCTION(IupPlotInsertSegment)
+{
+    int argc = ZEND_NUM_ARGS();
+
+    zval *ihandle_res = NULL;
+
+    Ihandle *ih;
+
+    zend_long ds_index,sample_index;
+    double x,y;
+
+    if (zend_parse_parameters(argc TSRMLS_DC,"rlldd",&ihandle_res,&ds_index,&sample_index,&x,&y) == FAILURE) {
+        return;
+    }
+
+    ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+
+    IupPlotInsertSegment(ih,ds_index,sample_index,x,y);
+
+    RETURN_NULL();
+}
+/* }}} */
+
+/* {{{ proto void IupPlotInsertStrSamples(Ihandle* ih, int ds_index, int sample_index, const char** x, double* y, int count);
+   ;
+ */
+PHP_FUNCTION(IupPlotInsertStrSamples)
+{
+    int argc = ZEND_NUM_ARGS();
+
+    zval *ihandle_res = NULL;
+
+    // 用以遍历arr_list数组
+    long num_key;
+    zval *val;
+    zend_string *key;
+
+    HashTable *x_val,*y_val;
+
+    const char **x;
+
+    zend_long ds_index,sample_index,count;
+
+    double* y;
+
+    int i;
+
+    Ihandle *ih;
+
+    if (zend_parse_parameters(argc TSRMLS_DC,"rllhhl",&ihandle_res,&ds_index,&sample_index,&x_val,&y_val,&count) == FAILURE) {
+        return;
+    }
+
+    ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+
+    x = (char **)malloc(sizeof(char *)* count);
+
+    i = 0;
+
+    // 将php的字符串数组转换为c的字符串数组
+    ZEND_HASH_FOREACH_KEY_VAL(x_val, num_key, key, val) {
+
+        if(Z_TYPE_P(val) == IS_STRING && i < count) {
+
+            x[i] = (char *)malloc(sizeof(char) * Z_STRLEN_P(val));
+
+            x[i] = Z_STRVAL_P(val);
+
+            i ++;
+        }
+    } ZEND_HASH_FOREACH_END();
+
+    y = (double *)malloc(sizeof(double)* count);
+
+    i = 0;
+
+    // 将php的字符串数组转换为c的字符串数组
+    ZEND_HASH_FOREACH_KEY_VAL(y_val, num_key, key, val) {
+
+        if(i < count){
+
+            if(Z_TYPE_P(val) == IS_DOUBLE) {
+
+                y[i] = Z_DVAL_P(val);
+
+                i ++;
+            }
+
+            if(Z_TYPE_P(val) == IS_LONG){
+                y[i] = Z_LVAL_P(val);
+
+                i ++;
+            }
+        }
+
+    } ZEND_HASH_FOREACH_END();
+
+    IupPlotInsertStrSamples(ih,ds_index,sample_index,x,y,count);
+
+    free(x);
+    free(y);
+
+    RETURN_NULL();
+}
+/* }}} */
+
+/* {{{ proto void IupPlotInsertSamples(Ihandle* ih, int ds_index, int sample_index, double *x, double *y, int count);
+   ;
+ */
+PHP_FUNCTION(IupPlotInsertSamples)
+{
+    int argc = ZEND_NUM_ARGS();
+
+    zval *ihandle_res = NULL;
+
+    // 用以遍历arr_list数组
+    long num_key;
+    zval *val;
+    zend_string *key;
+
+    HashTable *x_val,*y_val;
+
+    zend_long ds_index,sample_index,count;
+
+    double *x,*y;
+
+    int i;
+
+    Ihandle *ih;
+
+    if (zend_parse_parameters(argc TSRMLS_DC,"rllhhl",&ihandle_res,&ds_index,&sample_index,&x_val,&y_val,&count) == FAILURE) {
+        return;
+    }
+
+    ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+
+    x = (double *)malloc(sizeof(double)* count);
+
+    i = 0;
+
+    // 将php的字符串数组转换为c的字符串数组
+    ZEND_HASH_FOREACH_KEY_VAL(x_val, num_key, key, val) {
+
+        if(i < count){
+
+            if(Z_TYPE_P(val) == IS_DOUBLE) {
+
+                x[i] = Z_DVAL_P(val);
+
+                i ++;
+            }
+
+            if(Z_TYPE_P(val) == IS_LONG){
+                x[i] = Z_LVAL_P(val);
+
+                i ++;
+            }
+        }
+    } ZEND_HASH_FOREACH_END();
+
+    y = (double *)malloc(sizeof(double)* count);
+
+    i = 0;
+
+    // 将php的字符串数组转换为c的字符串数组
+    ZEND_HASH_FOREACH_KEY_VAL(y_val, num_key, key, val) {
+
+        if(i < count){
+
+            if(Z_TYPE_P(val) == IS_DOUBLE) {
+
+                y[i] = Z_DVAL_P(val);
+
+                i ++;
+            }
+
+            if(Z_TYPE_P(val) == IS_LONG){
+                y[i] = Z_LVAL_P(val);
+
+                i ++;
+            }
+        }
+
+    } ZEND_HASH_FOREACH_END();
+
+    IupPlotInsertSamples(ih,ds_index,sample_index,x,y,count);
+
+    free(x);
+    free(y);
+
+    RETURN_NULL();
+}
+/* }}} */
+
+/* {{{ proto void IupPlotAddSamples(Ihandle* ih, int ds_index, double *x, double *y, int count);
+   ;
+ */
+PHP_FUNCTION(IupPlotAddSamples)
+{
+    int argc = ZEND_NUM_ARGS();
+
+    zval *ihandle_res = NULL;
+
+    // 用以遍历arr_list数组
+    long num_key;
+    zval *val;
+    zend_string *key;
+
+    HashTable *x_val,*y_val;
+
+    zend_long ds_index,count;
+
+    double *x,*y;
+
+    int i;
+
+    Ihandle *ih;
+
+    if (zend_parse_parameters(argc TSRMLS_DC,"rlhhl",&ihandle_res,&ds_index,&x_val,&y_val,&count) == FAILURE) {
+        return;
+    }
+
+    ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+
+    x = (double *)malloc(sizeof(double)* count);
+
+    i = 0;
+
+    // 将php的字符串数组转换为c的字符串数组
+    ZEND_HASH_FOREACH_KEY_VAL(x_val, num_key, key, val) {
+
+        if(i < count){
+
+            if(Z_TYPE_P(val) == IS_DOUBLE) {
+
+                x[i] = Z_DVAL_P(val);
+
+                i ++;
+            }
+
+            if(Z_TYPE_P(val) == IS_LONG){
+                x[i] = Z_LVAL_P(val);
+
+                i ++;
+            }
+        }
+    } ZEND_HASH_FOREACH_END();
+
+    y = (double *)malloc(sizeof(double)* count);
+
+    i = 0;
+
+    // 将php的字符串数组转换为c的字符串数组
+    ZEND_HASH_FOREACH_KEY_VAL(y_val, num_key, key, val) {
+
+        if(i < count){
+
+            if(Z_TYPE_P(val) == IS_DOUBLE) {
+
+                y[i] = Z_DVAL_P(val);
+
+                i ++;
+            }
+
+            if(Z_TYPE_P(val) == IS_LONG){
+                y[i] = Z_LVAL_P(val);
+
+                i ++;
+            }
+        }
+
+    } ZEND_HASH_FOREACH_END();
+
+    IupPlotAddSamples(ih,ds_index,x,y,count);
+
+    free(x);
+    free(y);
+
+    RETURN_NULL();
+}
+/* }}} */
+
+/* {{{ proto void IupPlotAddStrSamples(Ihandle* ih, int ds_index, const char** x, double* y, int count);
+   ;
+ */
+PHP_FUNCTION(IupPlotAddStrSamples)
+{
+    int argc = ZEND_NUM_ARGS();
+
+    zval *ihandle_res = NULL;
+
+    // 用以遍历arr_list数组
+    long num_key;
+    zval *val;
+    zend_string *key;
+
+    HashTable *x_val,*y_val;
+
+    const char **x;
+
+    zend_long ds_index,count;
+
+    double* y;
+
+    int i;
+
+    Ihandle *ih;
+
+    if (zend_parse_parameters(argc TSRMLS_DC,"rlhhl",&ihandle_res,&ds_index,&x_val,&y_val,&count) == FAILURE) {
+        return;
+    }
+
+    ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+
+    x = (char **)malloc(sizeof(char *)* count);
+
+    i = 0;
+
+    // 将php的字符串数组转换为c的字符串数组
+    ZEND_HASH_FOREACH_KEY_VAL(x_val, num_key, key, val) {
+
+        if(Z_TYPE_P(val) == IS_STRING && i < count) {
+
+            x[i] = (char *)malloc(sizeof(char) * Z_STRLEN_P(val));
+
+            x[i] = Z_STRVAL_P(val);
+
+            i ++;
+        }
+    } ZEND_HASH_FOREACH_END();
+
+    y = (double *)malloc(sizeof(double)* count);
+
+    i = 0;
+
+    // 将php的字符串数组转换为c的字符串数组
+    ZEND_HASH_FOREACH_KEY_VAL(y_val, num_key, key, val) {
+
+        if(i < count){
+
+            if(Z_TYPE_P(val) == IS_DOUBLE) {
+
+                y[i] = Z_DVAL_P(val);
+
+                i ++;
+            }
+
+            if(Z_TYPE_P(val) == IS_LONG){
+                y[i] = Z_LVAL_P(val);
+
+                i ++;
+            }
+        }
+
+    } ZEND_HASH_FOREACH_END();
+
+    IupPlotAddStrSamples(ih,ds_index,x,y,count);
+
+    free(x);
+    free(y);
+
+    RETURN_NULL();
+}
+/* }}} */
+/* {{{ proto void IupPlotGetSample(Ihandle* ih, int ds_index, int sample_index, double *x, double *y);
+   ;
+ */
+PHP_FUNCTION(IupPlotGetSample)
+{
+    int argc = ZEND_NUM_ARGS();
+
+    zval *ihandle_res = NULL;
+
+    Ihandle *ih;
+
+    zend_long ds_index,sample_index;
+
+    double x, y;
+    zval *xx,*yy;
+
+    if (zend_parse_parameters(argc TSRMLS_DC,"rllzz",&ihandle_res,&ds_index,&sample_index,&xx,&yy) == FAILURE) {
+        return;
+    }
+
+    ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+
+    IupPlotGetSample(ih,ds_index,sample_index,&x,&y);
+
+    zval *real_xx_val = Z_REFVAL_P(xx);
+    ZVAL_DOUBLE(real_xx_val,x);
+
+    zval *real_yy_val = Z_REFVAL_P(yy);
+    ZVAL_DOUBLE(real_yy_val,y);
+
+    RETURN_NULL();
+}
+/* }}} */
+
+/* {{{ proto void IupPlotGetSampleStr(Ihandle* ih, int ds_index, int sample_index, const char* *x, double *y);
+   ;
+ */
+PHP_FUNCTION(IupPlotGetSampleStr)
+{
+    int argc = ZEND_NUM_ARGS();
+
+    zval *ihandle_res = NULL;
+
+    Ihandle *ih;
+
+    zend_long ds_index,sample_index;
+
+    char* x;
+
+    double y;
+    zval *xx,*yy;
+
+    if (zend_parse_parameters(argc TSRMLS_DC,"rllzd",&ihandle_res,&ds_index,&sample_index,&xx,&yy) == FAILURE) {
+        return;
+    }
+
+    ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+
+    IupPlotGetSampleStr(ih,ds_index,sample_index,&x,&y);
+
+    zval *real_xx_val = Z_REFVAL_P(xx);
+    ZVAL_STR(real_xx_val,x);
+
+    zval *real_yy_val = Z_REFVAL_P(yy);
+    ZVAL_DOUBLE(real_yy_val,y);
+
+    RETURN_NULL();
+}
+/* }}} */
+
+
+/* {{{ proto int IupPlotGetSampleSelection(Ihandle* ih, int ds_index, int sample_index);
+   ;
+ */
+PHP_FUNCTION(IupPlotGetSampleSelection)
+{
+    int argc = ZEND_NUM_ARGS();
+
+    zval *ihandle_res = NULL;
+
+    Ihandle *ih;
+
+    zend_long ds_index,sample_index;
+
+    int re;
+
+    if (zend_parse_parameters(argc TSRMLS_DC,"rll",&ihandle_res,&ds_index,&sample_index) == FAILURE) {
+        return;
+    }
+
+    ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+
+    re = IupPlotGetSampleSelection(ih,ds_index,sample_index);
+
+    RETURN_LONG(re);
+}
+/* }}} */
+
+/* {{{ proto double IupPlotGetSampleExtra(Ihandle* ih, int ds_index, int sample_index);
+   ;
+ */
+PHP_FUNCTION(IupPlotGetSampleExtra)
+{
+    int argc = ZEND_NUM_ARGS();
+
+    zval *ihandle_res = NULL;
+
+    Ihandle *ih;
+
+    zend_long ds_index,sample_index;
+
+    double re;
+
+    if (zend_parse_parameters(argc TSRMLS_DC,"rll",&ihandle_res,&ds_index,&sample_index) == FAILURE) {
+        return;
+    }
+
+    ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+
+    re = IupPlotGetSampleExtra(ih,ds_index,sample_index);
+
+    RETURN_DOUBLE(re);
+}
+/* }}} */
+
+
+/* {{{ proto void IupPlotSetSample(Ihandle* ih, int ds_index, int sample_index, double x, double y);
+   ;
+ */
+PHP_FUNCTION(IupPlotSetSample)
+{
+    int argc = ZEND_NUM_ARGS();
+
+    zval *ihandle_res = NULL;
+
+    Ihandle *ih;
+
+    zend_long ds_index,sample_index;
+    double x,y;
+
+    if (zend_parse_parameters(argc TSRMLS_DC,"rlldd",&ihandle_res,&ds_index,&sample_index,&x,&y) == FAILURE) {
+        return;
+    }
+
+    ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+
+    IupPlotSetSample(ih,ds_index,sample_index,x,y);
+
+    RETURN_NULL();
+}
+/* }}} */
+
+
+/* {{{ proto void IupPlotSetSampleStr(Ihandle *ih, int ds_index, int sample_index, const char* x, double y);
+   ;
+ */
+PHP_FUNCTION(IupPlotSetSampleStr)
+{
+    int argc = ZEND_NUM_ARGS();
+
+    zval *ihandle_res = NULL;
+
+    Ihandle *ih;
+
+    char *x = NULL;
+    size_t x_len;
+
+    zend_long ds_index,sample_index;
+
+    double y;
+
+    if (zend_parse_parameters(argc TSRMLS_DC,"rllsd",&ihandle_res,&ds_index,&sample_index,&x,&x_len,&y) == FAILURE) {
+        return;
+    }
+
+    ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+
+    IupPlotSetSampleStr(ih,ds_index,sample_index,x,y);
+
+    RETURN_NULL();
+}
+/* }}} */
+
+
+/* {{{ proto void IupPlotSetSampleSelection(Ihandle* ih, int ds_index, int sample_index, int selected);
+   ;
+ */
+PHP_FUNCTION(IupPlotSetSampleSelection)
+{
+    int argc = ZEND_NUM_ARGS();
+
+    zval *ihandle_res = NULL;
+
+    Ihandle *ih;
+
+    zend_long ds_index,sample_index,selected;
+
+    if (zend_parse_parameters(argc TSRMLS_DC,"rlldd",&ihandle_res,&ds_index,&sample_index,&selected) == FAILURE) {
+        return;
+    }
+
+    ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+
+    IupPlotSetSampleSelection(ih,ds_index,sample_index,selected);
+
+    RETURN_NULL();
+}
+/* }}} */
+
+/* {{{ proto void IupPlotSetSampleExtra(Ihandle* ih, int ds_index, int sample_index, double extra);
+   ;
+ */
+PHP_FUNCTION(IupPlotSetSampleExtra)
+{
+    int argc = ZEND_NUM_ARGS();
+
+    zval *ihandle_res = NULL;
+
+    Ihandle *ih;
+
+    zend_long ds_index,sample_index;
+    double extra;
+
+    if (zend_parse_parameters(argc TSRMLS_DC,"rlldd",&ihandle_res,&ds_index,&sample_index,&extra) == FAILURE) {
+        return;
+    }
+
+    ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+
+    IupPlotSetSampleExtra(ih,ds_index,sample_index,extra);
+
+    RETURN_NULL();
+}
+/* }}} */
+
+/* {{{ proto void IupPlotTransform(Ihandle* ih, double x, double y, double *cnv_x, double *cnv_y);
+   ;
+ */
+PHP_FUNCTION(IupPlotTransform)
+{
+    int argc = ZEND_NUM_ARGS();
+
+    zval *ihandle_res = NULL;
+
+    Ihandle *ih;
+
+    double x,y;
+
+    double cnv_x, cnv_y;
+    zval *cnv_xx,*cnv_yy;
+
+    if (zend_parse_parameters(argc TSRMLS_DC,"rddzz",&ihandle_res,&x,&y,&cnv_xx,&cnv_yy) == FAILURE) {
+        return;
+    }
+
+    ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+
+    IupPlotTransform(ih,x,y,&cnv_x,&cnv_y);
+
+    zval *real_cnv_xx_val = Z_REFVAL_P(cnv_xx);
+    ZVAL_DOUBLE(real_cnv_xx_val,cnv_x);
+
+    zval *real_cnv_yy_val = Z_REFVAL_P(cnv_yy);
+    ZVAL_DOUBLE(real_cnv_yy_val,cnv_y);
+
+    RETURN_NULL();
+}
+/* }}} */
+
+/* {{{ proto void IupPlotTransformTo(Ihandle* ih, double cnv_x, double cnv_y, double *x, double *y);
+   ;
+ */
+PHP_FUNCTION(IupPlotTransformTo)
+{
+    int argc = ZEND_NUM_ARGS();
+
+    zval *ihandle_res = NULL;
+
+    Ihandle *ih;
+
+    double cnv_x, cnv_y;
+
+    double x,y;
+    zval *xx,*yy;
+
+    if (zend_parse_parameters(argc TSRMLS_DC,"rddzz",&ihandle_res,&cnv_x,&cnv_y,&xx,&yy) == FAILURE) {
+        return;
+    }
+
+    ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+
+    IupPlotTransformTo(ih,cnv_x,cnv_y,&x,&y);
+
+    zval *real_xx_val = Z_REFVAL_P(xx);
+    ZVAL_DOUBLE(real_xx_val,x);
+
+    zval *real_yy_val = Z_REFVAL_P(yy);
+    ZVAL_DOUBLE(real_yy_val,y);
+
+    RETURN_NULL();
+}
+/* }}} */
+
+
+/* {{{ proto int  IupPlotFindSample(Ihandle* ih, double cnv_x, double cnv_y, int *ds_index, int *sample_index);
+   ;
+ */
+PHP_FUNCTION(IupPlotFindSample)
+{
+    int argc = ZEND_NUM_ARGS();
+
+    zval *ihandle_res = NULL;
+
+    Ihandle *ih;
+
+    double cnv_x, cnv_y;
+
+    double ds_index,sample_index;
+    zval *ds_index_val,*sample_index_val;
+
+    if (zend_parse_parameters(argc TSRMLS_DC,"rddzz",&ihandle_res,&cnv_x,&cnv_y,&ds_index_val,&sample_index_val) == FAILURE) {
+        return;
+    }
+
+    ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+
+    IupPlotFindSample(ih,cnv_x,cnv_y,&ds_index,&sample_index);
+
+    zval *real_ds_index_val = Z_REFVAL_P(ds_index_val);
+    ZVAL_DOUBLE(real_ds_index_val,ds_index);
+
+    zval *real_sample_index_val = Z_REFVAL_P(sample_index_val);
+    ZVAL_DOUBLE(real_sample_index_val,sample_index);
+
+    RETURN_NULL();
+}
+/* }}} */
+
+/* {{{ proto int  IupPlotFindSegment(Ihandle* ih, double cnv_x, double cnv_y, int *ds_index, int *sample_index1, int *sample_index2);
+   ;
+ */
+PHP_FUNCTION(IupPlotFindSegment)
+{
+    int argc = ZEND_NUM_ARGS();
+
+    zval *ihandle_res = NULL;
+
+    Ihandle *ih;
+
+    double cnv_x, cnv_y;
+
+    double ds_index,sample_index1,sample_index2;
+    zval *ds_index_val,*sample_index1_val,*sample_index2_val;
+
+    if (zend_parse_parameters(argc TSRMLS_DC,"rddzzz",&ihandle_res,&cnv_x,&cnv_y,&ds_index_val,&sample_index1_val,&sample_index2_val) == FAILURE) {
+        return;
+    }
+
+    ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+
+    IupPlotFindSegment(ih,cnv_x,cnv_y,&ds_index,&sample_index1,&sample_index2);
+
+    zval *real_ds_index_val = Z_REFVAL_P(ds_index_val);
+    ZVAL_DOUBLE(real_ds_index_val,ds_index);
+
+    zval *real_sample_index1_val = Z_REFVAL_P(sample_index1_val);
+    ZVAL_DOUBLE(real_sample_index1_val,sample_index1);
+
+    zval *real_sample_index2_val = Z_REFVAL_P(sample_index2_val);
+    ZVAL_DOUBLE(real_sample_index2_val,sample_index2);
+
+    RETURN_NULL();
+}
+/* }}} */
+
+/* {{{ proto void IupPlotPaintTo(Ihandle *ih, struct _cdCanvas* cnv);
+   ;
+ */
+PHP_FUNCTION(IupPlotPaintTo)
+{
+
+    php_error(E_WARNING, "IupPlotPaintTo: not yet implemented");
+
+}
+/* }}} */

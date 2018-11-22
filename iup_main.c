@@ -1235,7 +1235,7 @@ PHP_FUNCTION(IupGetAllAttributes)
 
     for (i = 0; i < n; i ++ )
     {
-        names[i] = (char *)malloc(sizeof(char) * 200);
+        names[i] = (char *)malloc(sizeof(char) * 1024);
     }
 
     re = IupGetAllAttributes(ih,names,n);
@@ -2879,7 +2879,7 @@ PHP_FUNCTION(IupGetAllNames)
 
     for (i = 0; i < n; i ++ )
     {
-        names[i] = (char *)malloc(sizeof(char) * 200);
+        names[i] = (char *)malloc(sizeof(char) * 1024);
     }
 
     re = IupGetAllNames(names,n);
@@ -2944,7 +2944,7 @@ PHP_FUNCTION(IupGetAllDialogs)
 
     for (i = 0; i < n; i ++ )
     {
-        names[i] = (char *)malloc(sizeof(char) * 200);
+        names[i] = (char *)malloc(sizeof(char) * 1024);
     }
 
     re = IupGetAllDialogs(names,n);
@@ -3306,7 +3306,7 @@ PHP_FUNCTION(IupGetAllClasses)
 
     for (i = 0; i < n; i ++ )
     {
-        names[i] = (char *)malloc(sizeof(char) * 200);
+        names[i] = (char *)malloc(sizeof(char) * 1024);
     }
 
     re = IupGetAllClasses(names,n);
@@ -3374,7 +3374,7 @@ PHP_FUNCTION(IupGetClassAttributes)
 
     for (i = 0; i < n; i ++ )
     {
-        names[i] = (char *)malloc(sizeof(char) * 200);
+        names[i] = (char *)malloc(sizeof(char) * 1024);
     }
 
     re = IupGetClassAttributes(name,names,n);
@@ -3451,7 +3451,7 @@ PHP_FUNCTION(IupGetClassCallbacks)
 
     for (i = 0; i < n; i ++ )
     {
-        names[i] = (char *)malloc(sizeof(char) * 200);
+        names[i] = (char *)malloc(sizeof(char) * 1024);
     }
 
     re = IupGetClassCallbacks(name,names,n);
@@ -5923,7 +5923,7 @@ PHP_FUNCTION(IupGetColor)
 
     HashTable *arr = NULL;
 
-    if (zend_parse_parameters(argc,"llzzz",&x,&y) == FAILURE) {
+    if (zend_parse_parameters(argc,"llzzz",&x,&y,&rr,&gg,&bb) == FAILURE) {
         return;
     }
 

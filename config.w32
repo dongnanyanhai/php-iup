@@ -50,7 +50,7 @@ if (PHP_IUP != "no") {
     ){
         EXTENSION("iup", "iup.c", true, "/DZEND_ENABLE_STATIC_TSRMLS_CACHE=1");
 
-        ADD_FLAG('LIBS', " urlmon.lib ole32.lib oleaut32.lib uuid.lib gdi32.lib winspool.lib comdlg32.lib comctl32.lib imm32.lib winmm.lib");
+        ADD_FLAG('LIBS', " urlmon.lib ole32.lib oleaut32.lib uuid.lib gdi32.lib winspool.lib comdlg32.lib comctl32.lib imm32.lib winmm.lib opengl32.lib glu32.lib gdiplus.lib");
 
         ADD_SOURCES("ext/iup", "iup_main.c iup_events.c iup_more.c iup_ext.c", "iup");
 
