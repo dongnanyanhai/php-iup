@@ -61,7 +61,7 @@ PHP_INI_END()
 PHP_FUNCTION(confirm_iup_compiled)
 {
 	char *arg = NULL;
-	size_t arg_len, len;
+	size_t arg_len;
 	zend_string *strg;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS(), "s", &arg, &arg_len) == FAILURE) {
@@ -1139,9 +1139,11 @@ const zend_function_entry iup_functions[] = {
     PHP_FE(IupConfigRecentUpdate, NULL)
     PHP_FE(IupConfigDialogShow, NULL)
     PHP_FE(IupConfigDialogClosed, NULL)
+
     PHP_FE(IupScintillaOpen, NULL)
     PHP_FE(IupScintilla, NULL)
     PHP_FE(IupScintillaDlg, NULL)
+
     PHP_FE(IupWebBrowserOpen, NULL)
     PHP_FE(IupWebBrowser, NULL)
     // PHP_FE(IupTuioOpen, NULL)

@@ -992,7 +992,6 @@ PHP_FUNCTION(IupConfigDialogClosed)
 }
 /* }}} */
 
-
 /* {{{ proto void IupScintillaOpen()
     */
 PHP_FUNCTION(IupScintillaOpen)
