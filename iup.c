@@ -1143,7 +1143,7 @@ const zend_function_entry iup_functions[] = {
     PHP_FE(IupScintillaOpen, NULL)
     PHP_FE(IupScintilla, NULL)
     PHP_FE(IupScintillaDlg, NULL)
-
+    
     PHP_FE(IupWebBrowserOpen, NULL)
     PHP_FE(IupWebBrowser, NULL)
     // PHP_FE(IupTuioOpen, NULL)
@@ -1201,7 +1201,7 @@ const zend_function_entry iup_functions[] = {
     PHP_FE(IupPlotInsertStrSamples, NULL)
     PHP_FE(IupPlotInsertSamples, NULL)
     PHP_FE(IupPlotAddSamples, NULL)
-    PHP_FE(IupPlotInsertStrSamples, NULL)
+    PHP_FE(IupPlotAddStrSamples, NULL)
     PHP_FE(IupPlotGetSample, arginfo_IupPlotGetSample)
     PHP_FE(IupPlotGetSampleStr, arginfo_IupPlotGetSampleStr)
     PHP_FE(IupPlotGetSampleSelection, NULL)

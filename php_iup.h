@@ -468,7 +468,7 @@ PHP_FUNCTION(IupPlotInsertSegment);
 PHP_FUNCTION(IupPlotInsertStrSamples);
 PHP_FUNCTION(IupPlotInsertSamples);
 PHP_FUNCTION(IupPlotAddSamples);
-PHP_FUNCTION(IupPlotInsertStrSamples);
+PHP_FUNCTION(IupPlotAddStrSamples);
 PHP_FUNCTION(IupPlotGetSample);
 PHP_FUNCTION(IupPlotGetSampleStr);
 PHP_FUNCTION(IupPlotGetSampleSelection);
