@@ -41,6 +41,9 @@ PHP_FUNCTION(IupDebug)
 {
     int argc = ZEND_NUM_ARGS();
 
+    char *msg = NULL;
+    size_t msg_len;
+
     zval *ihandle_res = NULL;
 
     Ihandle *ih;
@@ -48,7 +51,7 @@ PHP_FUNCTION(IupDebug)
     intptr_t ih_p_int;
     char event_key_str[120];
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"sr",&msg,&msg_len,&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -56,9 +59,9 @@ PHP_FUNCTION(IupDebug)
 
     ih_p_int = (intptr_t)ih;
     
-    sprintf(event_key_str,"ADD_%"SCNiPTR,ih_p_int);
-    
-    php_error(E_WARNING, event_key_str);
+    sprintf(event_key_str,"%"SCNiPTR,ih_p_int);
+
+    php_printf("%s_%s\n",msg,event_key_str);
 
     RETURN_BOOL(1);
 }
@@ -1346,36 +1349,12 @@ PHP_FUNCTION(IupSetAttributes)
 }
 /* }}} */
 
-/* {{{ proto resource IupGetAttributes(resource ih)
+/* {{{ proto char*  IupGetAttributes (Ihandle* ih);
    ;
  */
 PHP_FUNCTION(IupGetAttributes)
 {
-    int argc = ZEND_NUM_ARGS();
-
-    zval *ihandle_res = NULL;
-
-    Ihandle *ih;
-
-    char * str;
-
-    if (zend_parse_parameters(argc TSRMLS_DC,"r!",&ihandle_res) == FAILURE) {
-        return;
-    }
-
-    if(ihandle_res != NULL){
-        ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
-    }else{
-        ih = NULL;
-    }
-
-    str = IupGetAttributes(ih);
-
-    if(str != NULL){
-        RETURN_STRING(str);
-    }
-
-    RETURN_NULL();
+    php_error(E_WARNING, "IupGetAttributes: This function should be avoided. Use IupGetAllAttributes instead.");
 }
 /* }}} */
 
@@ -1394,7 +1373,7 @@ PHP_FUNCTION(IupSetAttribute)
     char *name = NULL;
     size_t name_len;
 
-    char *value = NULL;
+    const char *value = NULL;
     size_t value_len;
 
     if (zend_parse_parameters(argc TSRMLS_DC,"r!ss!",&ihandle_res,&name,&name_len,&value,&value_len) == FAILURE) {

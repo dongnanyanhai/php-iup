@@ -2928,7 +2928,7 @@ PHP_FUNCTION(IupPlotFindSample)
 
     double cnv_x, cnv_y;
 
-    double ds_index,sample_index;
+    int ds_index,sample_index;
     zval *ds_index_val,*sample_index_val;
 
     if (zend_parse_parameters(argc TSRMLS_DC,"rddzz",&ihandle_res,&cnv_x,&cnv_y,&ds_index_val,&sample_index_val) == FAILURE) {
@@ -2940,10 +2940,10 @@ PHP_FUNCTION(IupPlotFindSample)
     IupPlotFindSample(ih,cnv_x,cnv_y,&ds_index,&sample_index);
 
     zval *real_ds_index_val = Z_REFVAL_P(ds_index_val);
-    ZVAL_DOUBLE(real_ds_index_val,ds_index);
+    ZVAL_LONG(real_ds_index_val,ds_index);
 
     zval *real_sample_index_val = Z_REFVAL_P(sample_index_val);
-    ZVAL_DOUBLE(real_sample_index_val,sample_index);
+    ZVAL_LONG(real_sample_index_val,sample_index);
 
     RETURN_NULL();
 }

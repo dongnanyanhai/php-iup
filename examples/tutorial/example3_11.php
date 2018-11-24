@@ -575,6 +575,8 @@ function item_font_action_cb($ih){
     if(IupGetInt($fontdlg,"STATUS") == 1){
         $font = IupGetAttribute($fontdlg,"VALUE");
 
+        $font = iconv('ASCII', 'UTF-8//IGNORE', $font);
+
         IupSetAttribute($multitext,"FONT",$font);
 
         IupConfigSetVariableStr($config,"MainWindow","Font",$font);
