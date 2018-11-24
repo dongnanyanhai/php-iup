@@ -142,6 +142,7 @@ int event_set_callback(Ihandle *ih , char * event_name);
 void event_del_callback(zend_string * event_key);
 int event_common(char * event_name, Ihandle *ih);
 
+PHP_FUNCTION(IupDebug);
 PHP_FUNCTION(IupOpen);
 PHP_FUNCTION(IupClose);
 PHP_FUNCTION(IupMainLoop);
@@ -405,9 +406,11 @@ PHP_FUNCTION(IupConfigRecentUpdate);
 PHP_FUNCTION(IupConfigDialogShow);
 PHP_FUNCTION(IupConfigDialogClosed);
 
+#ifdef PHP_IUP_SCINTILLA
 PHP_FUNCTION(IupScintillaOpen);
 PHP_FUNCTION(IupScintilla);
 PHP_FUNCTION(IupScintillaDlg);
+#endif
 
 PHP_FUNCTION(IupWebBrowserOpen);
 PHP_FUNCTION(IupWebBrowser);

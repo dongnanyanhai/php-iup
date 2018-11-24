@@ -77,7 +77,7 @@ void event_get_callinfo(char * event_name, Ihandle *ih , zend_fcall_info **calla
 {
     intptr_t ih_p_int;
 
-    char event_key_str[100];
+    char event_key_str[120];
 
     zend_string * event_key;
 
@@ -85,7 +85,7 @@ void event_get_callinfo(char * event_name, Ihandle *ih , zend_fcall_info **calla
 
     ih_p_int = (intptr_t)ih;
 
-    sprintf(event_key_str,"IUP_%s_%"SCNiPTR,event_name,ih_p_int);
+    sprintf(event_key_str,"EVENT_%s_%"SCNiPTR,event_name,ih_p_int);
 
     event_key = zend_string_init(event_key_str, strlen(event_key_str), 0);
 

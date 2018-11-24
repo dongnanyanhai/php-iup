@@ -991,7 +991,7 @@ PHP_FUNCTION(IupConfigDialogClosed)
     RETURN_BOOL(1);
 }
 /* }}} */
-
+#ifdef PHP_IUP_SCINTILLA
 /* {{{ proto void IupScintillaOpen()
     */
 PHP_FUNCTION(IupScintillaOpen)
@@ -1036,7 +1036,7 @@ PHP_FUNCTION(IupScintillaDlg)
     RETURN_RES(zend_register_resource(re, le_iup_ihandle));
 }
 /* }}} */
-
+#endif
 /* {{{ proto void IupWebBrowserOpen()
     */
 PHP_FUNCTION(IupWebBrowserOpen)

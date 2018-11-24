@@ -34,6 +34,36 @@ extern int is_iup_open;
 extern HashTable *iup_events;
 extern HashTable *iup_callback;
 
+/* {{{ proto void IupDebug(resource ih)
+   ;
+ */
+PHP_FUNCTION(IupDebug)
+{
+    int argc = ZEND_NUM_ARGS();
+
+    zval *ihandle_res = NULL;
+
+    Ihandle *ih;
+
+    intptr_t ih_p_int;
+    char event_key_str[120];
+
+    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
+        return;
+    }
+
+    ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+
+    ih_p_int = (intptr_t)ih;
+    
+    sprintf(event_key_str,"ADD_%"SCNiPTR,ih_p_int);
+    
+    php_error(E_WARNING, event_key_str);
+
+    RETURN_BOOL(1);
+}
+/* }}} */
+
 /* {{{ proto void IupOpen()
     */
 PHP_FUNCTION(IupOpen)
@@ -2690,7 +2720,7 @@ PHP_FUNCTION(IupSetCallback)
 
     intptr_t ih_p_int;
 
-    char event_key_str[100];
+    char event_key_str[120];
 
     zend_string * event_key;
 
@@ -2704,7 +2734,7 @@ PHP_FUNCTION(IupSetCallback)
 
     ih_p_int = (intptr_t)ih;
 
-    sprintf(event_key_str,"IUP_%s_%"SCNiPTR,event_name,ih_p_int);
+    sprintf(event_key_str,"EVENT_%s_%"SCNiPTR,event_name,ih_p_int);
 
     event_key = zend_string_init(event_key_str, strlen(event_key_str), 0);
 

@@ -879,6 +879,7 @@ ZEND_END_ARG_INFO()
 const zend_function_entry iup_functions[] = {
 	PHP_FE(confirm_iup_compiled,	NULL)		/* For testing, remove later. */
 
+    PHP_FE(IupDebug,  NULL)
     PHP_FE(IupOpen,  NULL)
     PHP_FE(IupClose,  NULL)
     PHP_FE(IupMainLoop,  NULL)
@@ -1140,10 +1141,12 @@ const zend_function_entry iup_functions[] = {
     PHP_FE(IupConfigDialogShow, NULL)
     PHP_FE(IupConfigDialogClosed, NULL)
 
+#ifdef PHP_IUP_SCINTILLA
     PHP_FE(IupScintillaOpen, NULL)
     PHP_FE(IupScintilla, NULL)
     PHP_FE(IupScintillaDlg, NULL)
-    
+#endif
+
     PHP_FE(IupWebBrowserOpen, NULL)
     PHP_FE(IupWebBrowser, NULL)
     // PHP_FE(IupTuioOpen, NULL)
