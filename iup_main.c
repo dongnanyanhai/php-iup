@@ -1246,7 +1246,7 @@ PHP_FUNCTION(IupGetAllAttributes)
 
     int max_num,re,i;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"rz!l",&ihandle_res,&names_val,&n) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"rzl",&ihandle_res,&names_val,&n) == FAILURE) {
         return;
     }
 
@@ -1279,6 +1279,11 @@ PHP_FUNCTION(IupGetAllAttributes)
 
         zend_string * zstring;
 
+        HashTable *name_arr;
+
+        ALLOC_HASHTABLE(name_arr);
+        zend_hash_init(name_arr,re,NULL,NULL,0);
+
         // PHP 7.2 的特殊要求
         // 参考swoole的解决方案 c7109880427f9773b9925b046629e4e8344bdc34
         #ifdef HT_ALLOW_COW_VIOLATION
@@ -1286,16 +1291,18 @@ PHP_FUNCTION(IupGetAllAttributes)
         #endif
 
         // 修改引用数组的值
-        for (i = 0; i < n; i ++ )
+        for (i = 0; i < re; i ++ )
         {
             // php_error(E_WARNING, names[i]);
 
             zstring = zend_string_init(names[i], strlen(names[i]), 0);
 
             ZVAL_STR(&names_re,zstring);
-
-            zend_hash_index_update(Z_ARRVAL_P(names_val),i,&names_re);
+            zend_hash_index_update(name_arr,i,&names_re);
         }
+
+        zval *real_arr_val = Z_REFVAL_P(names_val);
+        ZVAL_ARR(real_arr_val,name_arr);
     }
 
     free(names);
@@ -2868,7 +2875,7 @@ PHP_FUNCTION(IupGetAllNames)
 
     int max_num,re,i;
 
-    if (zend_parse_parameters(argc,"z!l",&names_val,&n) == FAILURE) {
+    if (zend_parse_parameters(argc,"zl",&names_val,&n) == FAILURE) {
         return;
     }
 
@@ -2895,6 +2902,11 @@ PHP_FUNCTION(IupGetAllNames)
     
     zval names_re;
     zend_string * zstring;
+
+    HashTable *name_arr;
+    ALLOC_HASHTABLE(name_arr);
+    zend_hash_init(name_arr,n,NULL,NULL,0);
+
     // PHP 7.2 的特殊要求
     // 参考swoole的解决方案 c7109880427f9773b9925b046629e4e8344bdc34
     #ifdef HT_ALLOW_COW_VIOLATION
@@ -2906,8 +2918,11 @@ PHP_FUNCTION(IupGetAllNames)
         // php_error(E_WARNING, names[i]);
         zstring = zend_string_init(names[i], strlen(names[i]), 0);
         ZVAL_STR(&names_re,zstring);
-        zend_hash_index_update(Z_ARRVAL_P(names_val),i,&names_re);
+        zend_hash_index_update(name_arr,i,&names_re);
     }
+
+    zval *real_arr_val = Z_REFVAL_P(names_val);
+    ZVAL_ARR(real_arr_val,name_arr);
 
     free(names);
 
@@ -2933,7 +2948,7 @@ PHP_FUNCTION(IupGetAllDialogs)
 
     int max_num,re,i;
 
-    if (zend_parse_parameters(argc,"z!l",&names_val,&n) == FAILURE) {
+    if (zend_parse_parameters(argc,"zl",&names_val,&n) == FAILURE) {
         return;
     }
 
@@ -2960,6 +2975,11 @@ PHP_FUNCTION(IupGetAllDialogs)
     
     zval names_re;
     zend_string * zstring;
+
+    HashTable *name_arr;
+    ALLOC_HASHTABLE(name_arr);
+    zend_hash_init(name_arr,n,NULL,NULL,0);
+
     // PHP 7.2 的特殊要求
     // 参考swoole的解决方案 c7109880427f9773b9925b046629e4e8344bdc34
     #ifdef HT_ALLOW_COW_VIOLATION
@@ -2971,8 +2991,11 @@ PHP_FUNCTION(IupGetAllDialogs)
         // php_error(E_WARNING, names[i]);
         zstring = zend_string_init(names[i], strlen(names[i]), 0);
         ZVAL_STR(&names_re,zstring);
-        zend_hash_index_update(Z_ARRVAL_P(names_val),i,&names_re);
+        zend_hash_index_update(name_arr,i,&names_re);
     }
+
+    zval *real_arr_val = Z_REFVAL_P(names_val);
+    ZVAL_ARR(real_arr_val,name_arr);
 
     free(names);
 
@@ -3295,7 +3318,7 @@ PHP_FUNCTION(IupGetAllClasses)
 
     int max_num,re,i;
 
-    if (zend_parse_parameters(argc,"z!l",&names_val,&n) == FAILURE) {
+    if (zend_parse_parameters(argc,"zl",&names_val,&n) == FAILURE) {
         return;
     }
 
@@ -3322,6 +3345,11 @@ PHP_FUNCTION(IupGetAllClasses)
     
     zval names_re;
     zend_string * zstring;
+
+    HashTable *name_arr;
+    ALLOC_HASHTABLE(name_arr);
+    zend_hash_init(name_arr,n,NULL,NULL,0);
+
     // PHP 7.2 的特殊要求
     // 参考swoole的解决方案 c7109880427f9773b9925b046629e4e8344bdc34
     #ifdef HT_ALLOW_COW_VIOLATION
@@ -3333,8 +3361,11 @@ PHP_FUNCTION(IupGetAllClasses)
         // php_error(E_WARNING, names[i]);
         zstring = zend_string_init(names[i], strlen(names[i]), 0);
         ZVAL_STR(&names_re,zstring);
-        zend_hash_index_update(Z_ARRVAL_P(names_val),i,&names_re);
+        zend_hash_index_update(name_arr,i,&names_re);
     }
+
+    zval *real_arr_val = Z_REFVAL_P(names_val);
+    ZVAL_ARR(real_arr_val,name_arr);
 
     free(names);
 
@@ -3363,7 +3394,7 @@ PHP_FUNCTION(IupGetClassAttributes)
 
     int max_num,re,i;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"sz!l",&name,&name_len,&names_val,&n) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"szl",&name,&name_len,&names_val,&n) == FAILURE) {
         return;
     }
 
@@ -3394,6 +3425,10 @@ PHP_FUNCTION(IupGetClassAttributes)
 
         zend_string * zstring;
 
+        HashTable *name_arr;
+        ALLOC_HASHTABLE(name_arr);
+        zend_hash_init(name_arr,re,NULL,NULL,0);
+
         // PHP 7.2 的特殊要求
         // 参考swoole的解决方案 c7109880427f9773b9925b046629e4e8344bdc34
         #ifdef HT_ALLOW_COW_VIOLATION
@@ -3409,8 +3444,13 @@ PHP_FUNCTION(IupGetClassAttributes)
 
             ZVAL_STR(&names_re,zstring);
 
-            zend_hash_index_update(Z_ARRVAL_P(names_val),i,&names_re);
+            // zend_hash_index_update(Z_ARRVAL_P(names_val),i,&names_re);
+
+            zend_hash_index_update(name_arr,i,&names_re);
         }
+
+        zval *real_arr_val = Z_REFVAL_P(names_val);
+        ZVAL_ARR(real_arr_val,name_arr);
     }
 
     free(names);
@@ -3440,7 +3480,7 @@ PHP_FUNCTION(IupGetClassCallbacks)
 
     int max_num,re,i;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"sz!l",&name,&name_len,&names_val,&n) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"szl",&name,&name_len,&names_val,&n) == FAILURE) {
         return;
     }
 
@@ -3471,6 +3511,10 @@ PHP_FUNCTION(IupGetClassCallbacks)
 
         zend_string * zstring;
 
+        HashTable *name_arr;
+        ALLOC_HASHTABLE(name_arr);
+        zend_hash_init(name_arr,n,NULL,NULL,0);
+
         // PHP 7.2 的特殊要求
         // 参考swoole的解决方案 c7109880427f9773b9925b046629e4e8344bdc34
         #ifdef HT_ALLOW_COW_VIOLATION
@@ -3486,8 +3530,10 @@ PHP_FUNCTION(IupGetClassCallbacks)
 
             ZVAL_STR(&names_re,zstring);
 
-            zend_hash_index_update(Z_ARRVAL_P(names_val),i,&names_re);
+            zend_hash_index_update(name_arr,i,&names_re);
         }
+        zval *real_arr_val = Z_REFVAL_P(names_val);
+        ZVAL_ARR(real_arr_val,name_arr);
     }
 
     free(names);
