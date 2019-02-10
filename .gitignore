@@ -15,7 +15,6 @@ config.status
 config.sub
 configure
 configure.ac
-include
 install-sh
 libtool
 ltmain.sh
@@ -33,5 +32,6 @@ tests/*/*.php
 tests/*/*.exp
 tests/*/*.log
 tests/*/*.sh
-/iup-3.25/iup_mglplot_debug.lib
-/iup-3.25/iup_scintilla_debug.lib
+/iup3/ftgl_debug.lib
+/iup3/iup_mglplot_debug.lib
+/iup3/iup_scintilla_debug.lib
