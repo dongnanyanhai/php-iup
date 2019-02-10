@@ -34,6 +34,7 @@ if (PHP_IUP != "no") {
         && CHECK_LIB("iup.lib", "iup", PHP_IUP + ";" + configure_module_dirname + "/iup3")
         && CHECK_LIB("iupcd.lib", "iup", PHP_IUP + ";" + configure_module_dirname + "/iup3")
         && CHECK_LIB("iupcontrols.lib", "iup", PHP_IUP + ";" + configure_module_dirname + "/iup3")
+        && CHECK_LIB("iupfiledlg.lib", "iup", PHP_IUP + ";" + configure_module_dirname + "/iup3")
         && CHECK_LIB("iupgl.lib", "iup", PHP_IUP + ";" + configure_module_dirname + "/iup3")
         && CHECK_LIB("iupglcontrols.lib", "iup", PHP_IUP + ";" + configure_module_dirname + "/iup3")
         && CHECK_LIB("iupim.lib", "iup", PHP_IUP + ";" + configure_module_dirname + "/iup3")
