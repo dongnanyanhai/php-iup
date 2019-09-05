@@ -314,6 +314,7 @@ PHP_FUNCTION(IupDialog);
 PHP_FUNCTION(IupUser);
 PHP_FUNCTION(IupLabel);
 PHP_FUNCTION(IupList);
+PHP_FUNCTION(IupFlatList);
 PHP_FUNCTION(IupText);
 PHP_FUNCTION(IupMultiLine);
 PHP_FUNCTION(IupToggle);
@@ -374,6 +375,7 @@ PHP_FUNCTION(IupParamBox);
 PHP_FUNCTION(IupParamBoxv);
 PHP_FUNCTION(IupLayoutDialog);
 PHP_FUNCTION(IupElementPropertiesDialog);
+PHP_FUNCTION(IupGlobalsDialog);
 
 
 // more.c

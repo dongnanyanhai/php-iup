@@ -21,9 +21,9 @@ extern "C" {
 #define IUP_NAME "IUP - Portable User Interface"
 #define IUP_DESCRIPTION	"Multi-platform Toolkit for Building Graphical User Interfaces"
 #define IUP_COPYRIGHT "Copyright (C) 1994-2019 Tecgraf/PUC-Rio"
-#define IUP_VERSION "3.26"         /* bug fixes are reported only by IupVersion functions */
-#define IUP_VERSION_NUMBER 326000
-#define IUP_VERSION_DATE "2019/01/07"  /* does not include bug fix releases */
+#define IUP_VERSION "3.27"         /* bug fixes are reported only by IupVersion functions */
+#define IUP_VERSION_NUMBER 327000
+#define IUP_VERSION_DATE "2019/04/30"  /* does not include bug fix releases */
 
 typedef struct Ihandle_ Ihandle;
 typedef int (*Icallback)(Ihandle*);
@@ -242,6 +242,7 @@ Ihandle*  IupDialog     (Ihandle* child);
 Ihandle*  IupUser       (void);
 Ihandle*  IupLabel      (const char* title);
 Ihandle*  IupList       (const char* action);
+Ihandle*  IupFlatList   (void);
 Ihandle*  IupText       (const char* action);
 Ihandle*  IupMultiLine  (const char* action);
 Ihandle*  IupToggle     (const char* title, const char* action);
@@ -332,6 +333,8 @@ Ihandle*  IupParamBoxv(Ihandle* *param_array);
 
 Ihandle* IupLayoutDialog(Ihandle* dialog);
 Ihandle* IupElementPropertiesDialog(Ihandle* elem);
+Ihandle* IupGlobalsDialog(void);
+
 
 
 #ifdef __cplusplus

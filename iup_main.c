@@ -4750,6 +4750,22 @@ PHP_FUNCTION(IupList)
 }
 /* }}} */
 
+/* {{{ proto string IupFlatList()
+   ;
+*/
+PHP_FUNCTION(IupFlatList)
+{
+    Ihandle *re;
+    if (zend_parse_parameters_none() == FAILURE) {
+        return;
+    }
+
+    re = IupFlatList();
+
+    RETURN_RES(zend_register_resource(re, le_iup_ihandle));
+}
+/* }}} */
+
 /* {{{ proto string IupText(string action)
    ;
  */
@@ -6096,6 +6112,22 @@ PHP_FUNCTION(IupElementPropertiesDialog)
     elem = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
 
     re = IupElementPropertiesDialog(elem);
+
+    RETURN_RES(zend_register_resource(re, le_iup_ihandle));
+}
+/* }}} */
+
+/* {{{ proto string IupGlobalsDialog()
+   ;
+*/
+PHP_FUNCTION(IupGlobalsDialog)
+{
+    Ihandle *re;
+    if (zend_parse_parameters_none() == FAILURE) {
+        return;
+    }
+
+    re = IupGlobalsDialog();
 
     RETURN_RES(zend_register_resource(re, le_iup_ihandle));
 }

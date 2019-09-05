@@ -278,6 +278,7 @@ namespace Iup
 
   inline Dialog Control::GetDialog() { return Dialog(IupGetDialog(ih)); }
   inline Dialog LayoutDialog(const Dialog& dialog) { return Dialog(IupLayoutDialog(dialog.GetHandle())); }
+  inline Dialog GlobalsDialog() { return Dialog(IupGlobalsDialog()); }
   inline Dialog ElementPropertiesDialog(const Control& control) { return Dialog(IupElementPropertiesDialog(control.GetHandle())); }
   inline Container Control::GetParent() { return Container(IupGetParent(ih)); }
   inline int Control::Reparent(const Container& new_parent, const Control& ref_child) { return IupReparent(ih, new_parent.GetHandle(), ref_child.GetHandle()); }
@@ -509,6 +510,13 @@ namespace Iup
     List() : Control(IupList(0)) {}
     List(Ihandle* _ih) : Control(_ih) {}
     List(const Element& elem) : Control(elem.GetHandle()) {}
+  };
+  class FlatList : public Control
+  {
+  public:
+    FlatList() : Control(IupFlatList()) {}
+    FlatList(Ihandle* _ih) : Control(_ih) {}
+    FlatList(const Element& elem) : Control(elem.GetHandle()) {}
   };
   class Text : public Control
   {

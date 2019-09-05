@@ -1084,6 +1084,7 @@ const zend_function_entry iup_functions[] = {
     PHP_FE(IupUser,  NULL)
     PHP_FE(IupLabel,  NULL)
     PHP_FE(IupList,  NULL)
+    PHP_FE(IupFlatList,  NULL)
     PHP_FE(IupText,  NULL)
     PHP_FE(IupMultiLine,  NULL)
     PHP_FE(IupToggle,  NULL)
@@ -1144,6 +1145,8 @@ const zend_function_entry iup_functions[] = {
     PHP_FE(IupParamBoxv,  NULL)
     PHP_FE(IupLayoutDialog,  NULL)
     PHP_FE(IupElementPropertiesDialog,  NULL)
+    PHP_FE(IupGlobalsDialog,  NULL)
+    
 
     // more
     PHP_FE(IupConfig, NULL)
