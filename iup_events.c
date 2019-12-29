@@ -186,7 +186,8 @@ char* event_base_str(char * event_name, Ihandle *ih , int param_count, zval *cal
     if(callable == NULL){
         sprintf(warning,"%s: no user function set.",event_name);
         php_error(E_WARNING, warning);
-        return IUP_DEFAULT;
+        // return IUP_DEFAULT;
+        return "";
     }
 
     ZVAL_RES(&call_params[0],zend_register_resource(ih, le_iup_ihandle));
@@ -233,6 +234,15 @@ int event_common_s(char * event_name, Ihandle *ih , char *str)
     zstring = zend_string_init(str, strlen(str), 0);
 
     ZVAL_STR(&call_params[1],zstring);
+
+    return event_base(event_name,ih,2,&call_params);
+}
+
+int event_common_n(char * event_name, Ihandle *ih , Ihandle *ih2)
+{
+    zval call_params[2];
+
+    ZVAL_RES(&call_params[1],zend_register_resource(ih2, le_iup_ihandle));
 
     return event_base(event_name,ih,2,&call_params);
 }
@@ -525,6 +535,28 @@ int event_common_iiis(char * event_name, Ihandle *ih , int i1, int i2, int i3, c
     return event_base(event_name,ih,5,&call_params);
 }
 
+int event_common_sids(char * event_name, Ihandle *ih , char *str, int i, double d , void* p)
+{
+    zval call_params[4];
+
+    char *p_str;
+
+    p_str = (char *)malloc(i);
+
+    p_str = (char *)p;
+
+    zend_string *zstring1,*zstring2;
+    zstring1 = zend_string_init(str, strlen(str), 0);
+    zstring2 = zend_string_init(p_str, strlen(p_str), 0);
+
+    ZVAL_STR(&call_params[1],zstring1);
+    ZVAL_LONG(&call_params[2],i);
+    ZVAL_DOUBLE(&call_params[3],d);
+    ZVAL_STR(&call_params[4],zstring2);
+
+    return event_base(event_name,ih,5,&call_params);
+}
+
 int event_common_iiIII(char * event_name, Ihandle *ih , int i1, int i2,int *r, int *g, int *b)
 {
     int re;
@@ -759,6 +791,10 @@ int event_common_k_any( Ihandle *ih ,int i){
     return event_common_i("K_ANY",ih,i);
 }
 
+int event_common_postmessage_cb( Ihandle* ih, const char* s, int i, double d, void* p ){
+    return event_common_sids("POSTMESSAGE_CB",ih,s,i,d,p);
+}
+
 // =============================================================================
 
 int event_flat_action( Ihandle *ih ){
@@ -810,6 +846,10 @@ int event_flat_button_cb( Ihandle *ih, int button, int pressed, int x, int y, ch
     return event_common_iiiis("FLAT_BUTTON_CB",ih,button,pressed,x,y,status);
 }
 
+int event_flat_postmessage_cb( Ihandle* ih, const char* s, int i, double d, void* p ){
+    return event_common_sids("FLAT_POSTMESSAGE_CB",ih,s,i,d,p);
+}
+
 // =============================================================================
 
 int event_dialog_close_cb( Ihandle *ih){
@@ -846,8 +886,20 @@ int event_elements_valuechanged_cb( Ihandle *ih ){
     return event_common("VALUECHANGED_CB",ih);
 }
 
+int event_elements_valuechanging_cb( Ihandle *ih, int start ){
+    return event_common_i("VALUECHANGING_CB",ih,start);
+}
+
 int event_elements_layoutupdate_cb( Ihandle *ih ){
     return event_common("LAYOUTUPDATE_CB",ih);
+}
+
+int event_elements_layoutchanged_cb( Ihandle *ih, char *name){
+    return event_common_s("ATTRIBCHANGED_CB",ih,name);
+}
+
+int event_elements_attribchanged_cb( Ihandle *ih, Ihandle* elem){
+    return event_common_n("LAYOUTCHANGED_CB",ih,elem);
 }
 
 int event_elements_openclose_cb( Ihandle *ih, int state){
@@ -1438,6 +1490,10 @@ int event_plot_postdraw_cb( Ihandle *ih, cdCanvas* cnv){
     return event_common_C("POSTDRAW_CB",ih,cnv);
 }
 
+int event_thread_thread_cb( Ihandle *ih ){
+    return event_common("THREAD_CB",ih);
+}
+
 // =============================================================================
 void event_register_callback()
 {
@@ -1450,6 +1506,7 @@ void event_register_callback()
     zend_hash_str_add_new(iup_callback,"button_ACTION",strlen("button_ACTION"),&event_callback);
     zend_hash_str_add_new(iup_callback,"canvas_ACTION",strlen("canvas_ACTION"),&event_callback);
     zend_hash_str_add_new(iup_callback,"dialog_ACTION",strlen("dialog_ACTION"),&event_callback);
+    zend_hash_str_add_new(iup_callback,"layoutdialog_ACTION",strlen("layoutdialog_ACTION"),&event_callback);
     zend_hash_str_add_new(iup_callback,"list_ACTION",strlen("list_ACTION"),&event_callback);
     zend_hash_str_add_new(iup_callback,"text_ACTION",strlen("text_ACTION"),&event_callback);
     zend_hash_str_add_new(iup_callback,"toggle_ACTION",strlen("toggle_ACTION"),&event_callback);
@@ -1475,6 +1532,7 @@ void event_register_callback()
     zend_hash_str_add_new(iup_callback,"canvas_DESTROY_CB",strlen("canvas_DESTROY_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"flatseparator_DESTROY_CB",strlen("flatseparator_DESTROY_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"dialog_DESTROY_CB",strlen("dialog_DESTROY_CB"),&event_callback);
+    zend_hash_str_add_new(iup_callback,"layoutdialog_DESTROY_CB",strlen("layoutdialog_DESTROY_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"list_DESTROY_CB",strlen("list_DESTROY_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"text_DESTROY_CB",strlen("text_DESTROY_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"val_DESTROY_CB",strlen("val_DESTROY_CB"),&event_callback);
@@ -1503,6 +1561,7 @@ void event_register_callback()
     zend_hash_str_add_new(iup_callback,"flattoggle_FLAT_DESTROY_CB",strlen("flattoggle_FLAT_DESTROY_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"dropbutton_FLAT_DESTROY_CB",strlen("dropbutton_FLAT_DESTROY_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"flattabs_FLAT_DESTROY_CB",strlen("flattabs_FLAT_DESTROY_CB"),&event_callback);
+    zend_hash_str_add_new(iup_callback,"flatval_FLAT_DESTROY_CB",strlen("flatval_FLAT_DESTROY_CB"),&event_callback);
     
     // LDESTROY_CB
     ZVAL_PTR(&event_callback,(Icallback) event_common_ldestroy_cb);
@@ -1517,6 +1576,7 @@ void event_register_callback()
     zend_hash_str_add_new(iup_callback,"canvas_MAP_CB",strlen("canvas_MAP_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"flatseparator_MAP_CB",strlen("flatseparator_MAP_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"dialog_MAP_CB",strlen("dialog_MAP_CB"),&event_callback);
+    zend_hash_str_add_new(iup_callback,"layoutdialog_MAP_CB",strlen("layoutdialog_MAP_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"list_MAP_CB",strlen("list_MAP_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"text_MAP_CB",strlen("text_MAP_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"val_MAP_CB",strlen("val_MAP_CB"),&event_callback);
@@ -1545,6 +1605,7 @@ void event_register_callback()
     zend_hash_str_add_new(iup_callback,"flattoggle_FLAT_MAP_CB",strlen("flattoggle_FLAT_MAP_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"dropbutton_FLAT_MAP_CB",strlen("dropbutton_FLAT_MAP_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"flattabs_FLAT_MAP_CB",strlen("flattabs_FLAT_MAP_CB"),&event_callback);
+    zend_hash_str_add_new(iup_callback,"flatval_FLAT_MAP_CB",strlen("flatval_FLAT_MAP_CB"),&event_callback);
     
     // UNMAP_CB
     ZVAL_PTR(&event_callback,(Icallback) event_common_unmap_cb);
@@ -1556,6 +1617,7 @@ void event_register_callback()
     zend_hash_str_add_new(iup_callback,"canvas_UNMAP_CB",strlen("canvas_UNMAP_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"flatseparator_UNMAP_CB",strlen("flatseparator_UNMAP_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"dialog_UNMAP_CB",strlen("dialog_UNMAP_CB"),&event_callback);
+    zend_hash_str_add_new(iup_callback,"layoutdialog_UNMAP_CB",strlen("layoutdialog_UNMAP_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"list_UNMAP_CB",strlen("list_UNMAP_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"text_UNMAP_CB",strlen("text_UNMAP_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"val_UNMAP_CB",strlen("val_UNMAP_CB"),&event_callback);
@@ -1584,6 +1646,7 @@ void event_register_callback()
     zend_hash_str_add_new(iup_callback,"flattoggle_FLAT_UNMAP_CB",strlen("flattoggle_FLAT_UNMAP_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"dropbutton_FLAT_UNMAP_CB",strlen("dropbutton_FLAT_UNMAP_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"flattabs_FLAT_UNMAP_CB",strlen("flattabs_FLAT_UNMAP_CB"),&event_callback);
+    zend_hash_str_add_new(iup_callback,"flatval_FLAT_UNMAP_CB",strlen("flatval_FLAT_UNMAP_CB"),&event_callback);
 
     // GETFOCUS_CB
     ZVAL_PTR(&event_callback,(Icallback) event_common_getfocus_cb);
@@ -1591,6 +1654,7 @@ void event_register_callback()
     zend_hash_str_add_new(iup_callback,"canvas_GETFOCUS_CB",strlen("canvas_GETFOCUS_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"flatseparator_GETFOCUS_CB",strlen("flatseparator_GETFOCUS_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"dialog_GETFOCUS_CB",strlen("dialog_GETFOCUS_CB"),&event_callback);
+    zend_hash_str_add_new(iup_callback,"layoutdialog_GETFOCUS_CB",strlen("layoutdialog_GETFOCUS_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"list_GETFOCUS_CB",strlen("list_GETFOCUS_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"text_GETFOCUS_CB",strlen("text_GETFOCUS_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"val_GETFOCUS_CB",strlen("val_GETFOCUS_CB"),&event_callback);
@@ -1614,6 +1678,7 @@ void event_register_callback()
     zend_hash_str_add_new(iup_callback,"flattoggle_FLAT_GETFOCUS_CB",strlen("flattoggle_FLAT_GETFOCUS_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"dropbutton_FLAT_GETFOCUS_CB",strlen("dropbutton_FLAT_GETFOCUS_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"flattabs_FLAT_GETFOCUS_CB",strlen("flattabs_FLAT_GETFOCUS_CB"),&event_callback);
+    zend_hash_str_add_new(iup_callback,"flatval_FLAT_GETFOCUS_CB",strlen("flatval_FLAT_GETFOCUS_CB"),&event_callback);
 
     // KILLFOCUS_CB
     ZVAL_PTR(&event_callback,(Icallback) event_common_killfocus_cb);
@@ -1621,6 +1686,7 @@ void event_register_callback()
     zend_hash_str_add_new(iup_callback,"canvas_KILLFOCUS_CB",strlen("canvas_KILLFOCUS_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"flatseparator_KILLFOCUS_CB",strlen("flatseparator_KILLFOCUS_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"dialog_KILLFOCUS_CB",strlen("dialog_KILLFOCUS_CB"),&event_callback);
+    zend_hash_str_add_new(iup_callback,"layoutdialog_KILLFOCUS_CB",strlen("layoutdialog_KILLFOCUS_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"list_KILLFOCUS_CB",strlen("list_KILLFOCUS_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"text_KILLFOCUS_CB",strlen("text_KILLFOCUS_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"val_KILLFOCUS_CB",strlen("val_KILLFOCUS_CB"),&event_callback);
@@ -1644,6 +1710,7 @@ void event_register_callback()
     zend_hash_str_add_new(iup_callback,"flattoggle_FLAT_KILLFOCUS_CB",strlen("flattoggle_FLAT_KILLFOCUS_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"dropbutton_FLAT_KILLFOCUS_CB",strlen("dropbutton_FLAT_KILLFOCUS_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"flattabs_FLAT_KILLFOCUS_CB",strlen("flattabs_FLAT_KILLFOCUS_CB"),&event_callback);
+    zend_hash_str_add_new(iup_callback,"flatval_FLAT_KILLFOCUS_CB",strlen("flatval_FLAT_KILLFOCUS_CB"),&event_callback);
 
     // ENTERWINDOW_CB
     ZVAL_PTR(&event_callback,(Icallback) event_common_enterwindow_cb);
@@ -1651,6 +1718,7 @@ void event_register_callback()
     zend_hash_str_add_new(iup_callback,"canvas_ENTERWINDOW_CB",strlen("canvas_ENTERWINDOW_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"flatseparator_ENTERWINDOW_CB",strlen("flatseparator_ENTERWINDOW_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"dialog_ENTERWINDOW_CB",strlen("dialog_ENTERWINDOW_CB"),&event_callback);
+    zend_hash_str_add_new(iup_callback,"layoutdialog_ENTERWINDOW_CB",strlen("layoutdialog_ENTERWINDOW_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"list_ENTERWINDOW_CB",strlen("list_ENTERWINDOW_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"text_ENTERWINDOW_CB",strlen("text_ENTERWINDOW_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"val_ENTERWINDOW_CB",strlen("val_ENTERWINDOW_CB"),&event_callback);
@@ -1676,6 +1744,7 @@ void event_register_callback()
     zend_hash_str_add_new(iup_callback,"flattoggle_FLAT_ENTERWINDOW_CB",strlen("flattoggle_FLAT_ENTERWINDOW_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"dropbutton_FLAT_ENTERWINDOW_CB",strlen("dropbutton_FLAT_ENTERWINDOW_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"flattabs_FLAT_ENTERWINDOW_CB",strlen("flattabs_FLAT_ENTERWINDOW_CB"),&event_callback);
+    zend_hash_str_add_new(iup_callback,"flatval_FLAT_ENTERWINDOW_CB",strlen("flatval_FLAT_ENTERWINDOW_CB"),&event_callback);
 
     // LEAVEWINDOW_CB
     ZVAL_PTR(&event_callback,(Icallback) event_common_leavewindow_cb);
@@ -1683,6 +1752,7 @@ void event_register_callback()
     zend_hash_str_add_new(iup_callback,"canvas_LEAVEWINDOW_CB",strlen("canvas_LEAVEWINDOW_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"flatseparator_LEAVEWINDOW_CB",strlen("flatseparator_LEAVEWINDOW_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"dialog_LEAVEWINDOW_CB",strlen("dialog_LEAVEWINDOW_CB"),&event_callback);
+    zend_hash_str_add_new(iup_callback,"layoutdialog_LEAVEWINDOW_CB",strlen("layoutdialog_LEAVEWINDOW_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"list_LEAVEWINDOW_CB",strlen("list_LEAVEWINDOW_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"text_LEAVEWINDOW_CB",strlen("text_LEAVEWINDOW_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"val_LEAVEWINDOW_CB",strlen("val_LEAVEWINDOW_CB"),&event_callback);
@@ -1708,6 +1778,7 @@ void event_register_callback()
     zend_hash_str_add_new(iup_callback,"flattoggle_FLAT_LEAVEWINDOW_CB",strlen("flattoggle_FLAT_LEAVEWINDOW_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"dropbutton_FLAT_LEAVEWINDOW_CB",strlen("dropbutton_FLAT_LEAVEWINDOW_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"flattabs_FLAT_LEAVEWINDOW_CB",strlen("flattabs_FLAT_LEAVEWINDOW_CB"),&event_callback);
+    zend_hash_str_add_new(iup_callback,"flatval_FLAT_LEAVEWINDOW_CB",strlen("flatval_FLAT_LEAVEWINDOW_CB"),&event_callback);
 
     // HELP_CB
     ZVAL_PTR(&event_callback,(Icallback) event_common_help_cb);
@@ -1718,6 +1789,7 @@ void event_register_callback()
     zend_hash_str_add_new(iup_callback,"canvas_HELP_CB",strlen("canvas_HELP_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"flatseparator_HELP_CB",strlen("flatseparator_HELP_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"dialog_HELP_CB",strlen("dialog_HELP_CB"),&event_callback);
+    zend_hash_str_add_new(iup_callback,"layoutdialog_HELP_CB",strlen("layoutdialog_HELP_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"list_HELP_CB",strlen("list_HELP_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"text_HELP_CB",strlen("text_HELP_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"val_HELP_CB",strlen("val_HELP_CB"),&event_callback);
@@ -1740,6 +1812,7 @@ void event_register_callback()
     zend_hash_str_add_new(iup_callback,"flattoggle_FLAT_HELP_CB",strlen("flattoggle_FLAT_HELP_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"dropbutton_FLAT_HELP_CB",strlen("dropbutton_FLAT_HELP_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"flattabs_FLAT_HELP_CB",strlen("flattabs_FLAT_HELP_CB"),&event_callback);
+    zend_hash_str_add_new(iup_callback,"flatval_FLAT_HELP_CB",strlen("flatval_FLAT_HELP_CB"),&event_callback);
 
     // K_ANY
     ZVAL_PTR(&event_callback,(Icallback) event_common_k_any);
@@ -1747,6 +1820,7 @@ void event_register_callback()
     zend_hash_str_add_new(iup_callback,"canvas_K_ANY",strlen("canvas_K_ANY"),&event_callback);
     zend_hash_str_add_new(iup_callback,"flatseparator_K_ANY",strlen("flatseparator_K_ANY"),&event_callback);
     zend_hash_str_add_new(iup_callback,"dialog_K_ANY",strlen("dialog_K_ANY"),&event_callback);
+    zend_hash_str_add_new(iup_callback,"layoutdialog_K_ANY",strlen("layoutdialog_K_ANY"),&event_callback);
     zend_hash_str_add_new(iup_callback,"list_K_ANY",strlen("list_K_ANY"),&event_callback);
     zend_hash_str_add_new(iup_callback,"text_K_ANY",strlen("text_K_ANY"),&event_callback);
     zend_hash_str_add_new(iup_callback,"val_K_ANY",strlen("val_K_ANY"),&event_callback);
@@ -1769,11 +1843,55 @@ void event_register_callback()
     zend_hash_str_add_new(iup_callback,"flattoggle_FLAT_K_ANY",strlen("flattoggle_FLAT_K_ANY"),&event_callback);
     zend_hash_str_add_new(iup_callback,"dropbutton_FLAT_K_ANY",strlen("dropbutton_FLAT_K_ANY"),&event_callback);
     zend_hash_str_add_new(iup_callback,"flattabs_FLAT_K_ANY",strlen("flattabs_FLAT_K_ANY"),&event_callback);
+    zend_hash_str_add_new(iup_callback,"flatval_FLAT_K_ANY",strlen("flatval_FLAT_K_ANY"),&event_callback);
 
+
+    // POSTMESSAGE_CB
+    ZVAL_PTR(&event_callback,(Icallback) event_common_postmessage_cb);
+    zend_hash_str_add_new(iup_callback,"frame_POSTMESSAGE_CB",strlen("frame_POSTMESSAGE_CB"),&event_callback);
+    zend_hash_str_add_new(iup_callback,"item_POSTMESSAGE_CB",strlen("item_POSTMESSAGE_CB"),&event_callback);
+    zend_hash_str_add_new(iup_callback,"submenu_POSTMESSAGE_CB",strlen("submenu_POSTMESSAGE_CB"),&event_callback);
+    zend_hash_str_add_new(iup_callback,"menu_POSTMESSAGE_CB",strlen("menu_POSTMESSAGE_CB"),&event_callback);
+    zend_hash_str_add_new(iup_callback,"button_POSTMESSAGE_CB",strlen("button_POSTMESSAGE_CB"),&event_callback);
+    zend_hash_str_add_new(iup_callback,"canvas_POSTMESSAGE_CB",strlen("canvas_POSTMESSAGE_CB"),&event_callback);
+    zend_hash_str_add_new(iup_callback,"flatseparator_POSTMESSAGE_CB",strlen("flatseparator_POSTMESSAGE_CB"),&event_callback);
+    zend_hash_str_add_new(iup_callback,"dialog_POSTMESSAGE_CB",strlen("dialog_POSTMESSAGE_CB"),&event_callback);
+    zend_hash_str_add_new(iup_callback,"layoutdialog_POSTMESSAGE_CB",strlen("layoutdialog_POSTMESSAGE_CB"),&event_callback);
+    zend_hash_str_add_new(iup_callback,"list_POSTMESSAGE_CB",strlen("list_POSTMESSAGE_CB"),&event_callback);
+    zend_hash_str_add_new(iup_callback,"text_POSTMESSAGE_CB",strlen("text_POSTMESSAGE_CB"),&event_callback);
+    zend_hash_str_add_new(iup_callback,"val_POSTMESSAGE_CB",strlen("val_POSTMESSAGE_CB"),&event_callback);
+    zend_hash_str_add_new(iup_callback,"tabs_POSTMESSAGE_CB",strlen("tabs_POSTMESSAGE_CB"),&event_callback);
+    zend_hash_str_add_new(iup_callback,"toggle_POSTMESSAGE_CB",strlen("toggle_POSTMESSAGE_CB"),&event_callback);
+    zend_hash_str_add_new(iup_callback,"tree_POSTMESSAGE_CB",strlen("tree_POSTMESSAGE_CB"),&event_callback);
+    zend_hash_str_add_new(iup_callback,"datepick_POSTMESSAGE_CB",strlen("datepick_POSTMESSAGE_CB"),&event_callback);
+    zend_hash_str_add_new(iup_callback,"calendar_POSTMESSAGE_CB",strlen("calendar_POSTMESSAGE_CB"),&event_callback);
+    zend_hash_str_add_new(iup_callback,"colorbar_POSTMESSAGE_CB",strlen("colorbar_POSTMESSAGE_CB"),&event_callback);
+    zend_hash_str_add_new(iup_callback,"dial_POSTMESSAGE_CB",strlen("dial_POSTMESSAGE_CB"),&event_callback);
+    zend_hash_str_add_new(iup_callback,"colorbrowser_POSTMESSAGE_CB",strlen("colorbrowser_POSTMESSAGE_CB"),&event_callback);
+    zend_hash_str_add_new(iup_callback,"gauge_POSTMESSAGE_CB",strlen("gauge_POSTMESSAGE_CB"),&event_callback);
+    zend_hash_str_add_new(iup_callback,"label_POSTMESSAGE_CB",strlen("label_POSTMESSAGE_CB"),&event_callback);
+    zend_hash_str_add_new(iup_callback,"animatedlabel_POSTMESSAGE_CB",strlen("animatedlabel_POSTMESSAGE_CB"),&event_callback);
+    zend_hash_str_add_new(iup_callback,"progressbar_POSTMESSAGE_CB",strlen("progressbar_POSTMESSAGE_CB"),&event_callback);
+    zend_hash_str_add_new(iup_callback,"scintilla_POSTMESSAGE_CB",strlen("scintilla_POSTMESSAGE_CB"),&event_callback);
+    zend_hash_str_add_new(iup_callback,"webbrowser_POSTMESSAGE_CB",strlen("webbrowser_POSTMESSAGE_CB"),&event_callback);
+    zend_hash_str_add_new(iup_callback,"olecontrol_POSTMESSAGE_CB",strlen("olecontrol_POSTMESSAGE_CB"),&event_callback);
+    zend_hash_str_add_new(iup_callback,"cells_POSTMESSAGE_CB",strlen("cells_POSTMESSAGE_CB"),&event_callback);
+    zend_hash_str_add_new(iup_callback,"matrix_POSTMESSAGE_CB",strlen("matrix_POSTMESSAGE_CB"),&event_callback);
+    zend_hash_str_add_new(iup_callback,"matrixex_POSTMESSAGE_CB",strlen("matrixex_POSTMESSAGE_CB"),&event_callback);
+    zend_hash_str_add_new(iup_callback,"plot_POSTMESSAGE_CB",strlen("plot_POSTMESSAGE_CB"),&event_callback);
+
+    ZVAL_PTR(&event_callback,(Icallback) event_flat_postmessage_cb);
+    zend_hash_str_add_new(iup_callback,"flatbutton_FLAT_POSTMESSAGE_CB",strlen("flatbutton_FLAT_POSTMESSAGE_CB"),&event_callback);
+    zend_hash_str_add_new(iup_callback,"flattoggle_FLAT_POSTMESSAGE_CB",strlen("flattoggle_FLAT_POSTMESSAGE_CB"),&event_callback);
+    zend_hash_str_add_new(iup_callback,"dropbutton_FLAT_POSTMESSAGE_CB",strlen("dropbutton_FLAT_POSTMESSAGE_CB"),&event_callback);
+    zend_hash_str_add_new(iup_callback,"flattabs_FLAT_POSTMESSAGE_CB",strlen("flattabs_FLAT_POSTMESSAGE_CB"),&event_callback);
+    zend_hash_str_add_new(iup_callback,"flatval_FLAT_POSTMESSAGE_CB",strlen("flatval_FLAT_POSTMESSAGE_CB"),&event_callback);
+    
 
     // ======================================== 其他可共用事件 ========================================
 
     ZVAL_PTR(&event_callback,(Icallback) event_elements_valuechanged_cb);
+    
     zend_hash_str_add_new(iup_callback,"split_VALUECHANGED_CB",strlen("split_VALUECHANGED_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"flatbutton_VALUECHANGED_CB",strlen("flatbutton_VALUECHANGED_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"flattoggle_VALUECHANGED_CB",strlen("flattoggle_VALUECHANGED_CB"),&event_callback);
@@ -1782,17 +1900,30 @@ void event_register_callback()
     zend_hash_str_add_new(iup_callback,"text_VALUECHANGED_CB",strlen("text_VALUECHANGED_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"toggle_VALUECHANGED_CB",strlen("toggle_VALUECHANGED_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"val_VALUECHANGED_CB",strlen("val_VALUECHANGED_CB"),&event_callback);
+    zend_hash_str_add_new(iup_callback,"flatval_VALUECHANGED_CB",strlen("flatval_VALUECHANGED_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"datepick_VALUECHANGED_CB",strlen("datepick_VALUECHANGED_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"calendar_VALUECHANGED_CB",strlen("calendar_VALUECHANGED_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"dial_VALUECHANGED_CB",strlen("dial_VALUECHANGED_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"colorbrowser_VALUECHANGED_CB",strlen("colorbrowser_VALUECHANGED_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"scintilla_VALUECHANGED_CB",strlen("scintilla_VALUECHANGED_CB"),&event_callback);
 
+    // VALUECHANGING_CB
+    ZVAL_PTR(&event_callback,(Icallback) event_elements_valuechanging_cb);
+    zend_hash_str_add_new(iup_callback,"flatval_VALUECHANGING_CB",strlen("flatval_VALUECHANGING_CB"),&event_callback);
+
     // LAYOUTUPDATE_CB
     ZVAL_PTR(&event_callback,(Icallback) event_elements_layoutupdate_cb);
-
     zend_hash_str_add_new(iup_callback,"scrollbox_LAYOUTUPDATE_CB",strlen("scrollbox_LAYOUTUPDATE_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"flatscrollbox_LAYOUTUPDATE_CB",strlen("flatscrollbox_LAYOUTUPDATE_CB"),&event_callback);
+
+    // LAYOUTCHANGED_CB
+    ZVAL_PTR(&event_callback,(Icallback) event_elements_layoutchanged_cb);
+    zend_hash_str_add_new(iup_callback,"layoutdialog_LAYOUTCHANGED_CB",strlen("layoutdialog_LAYOUTCHANGED_CB"),&event_callback);
+
+    // ATTRIBCHANGED_CB
+    ZVAL_PTR(&event_callback,(Icallback) event_elements_attribchanged_cb);
+    zend_hash_str_add_new(iup_callback,"layoutdialog_ATTRIBCHANGED_CB",strlen("layoutdialog_ATTRIBCHANGED_CB"),&event_callback);
+    
 
 
     // FOCUS_CB
@@ -1804,6 +1935,7 @@ void event_register_callback()
     zend_hash_str_add_new(iup_callback,"button_FOCUS_CB",strlen("button_FOCUS_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"canvas_FOCUS_CB",strlen("canvas_FOCUS_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"dialog_FOCUS_CB",strlen("dialog_FOCUS_CB"),&event_callback);
+    zend_hash_str_add_new(iup_callback,"layoutdialog_FOCUS_CB",strlen("layoutdialog_FOCUS_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"flatseparator_FOCUS_CB",strlen("flatseparator_FOCUS_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"tabs_FOCUS_CB",strlen("tabs_FOCUS_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"matrix_FOCUS_CB",strlen("matrix_FOCUS_CB"),&event_callback);
@@ -1878,6 +2010,7 @@ void event_register_callback()
     // RESIZE_CB
     ZVAL_PTR(&event_callback,(Icallback) event_elements_resize_cb);
     zend_hash_str_add_new(iup_callback,"dialog_RESIZE_CB",strlen("dialog_RESIZE_CB"),&event_callback);
+    zend_hash_str_add_new(iup_callback,"layoutdialog_RESIZE_CB",strlen("layoutdialog_RESIZE_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"canvas_RESIZE_CB",strlen("canvas_RESIZE_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"flatseparator_RESIZE_CB",strlen("flatseparator_RESIZE_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"olecontrol_RESIZE_CB",strlen("olecontrol_RESIZE_CB"),&event_callback);
@@ -1914,6 +2047,7 @@ void event_register_callback()
     // DROPFILES_CB
     ZVAL_PTR(&event_callback,(Icallback) event_elements_dropfiles_cb);
     zend_hash_str_add_new(iup_callback,"dialog_DROPFILES_CB",strlen("dialog_DROPFILES_CB"),&event_callback);
+    zend_hash_str_add_new(iup_callback,"layoutdialog_DROPFILES_CB",strlen("layoutdialog_DROPFILES_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"canvas_DROPFILES_CB",strlen("canvas_DROPFILES_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"flatseparator_DROPFILES_CB",strlen("flatseparator_DROPFILES_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"glcanvas_DROPFILES_CB",strlen("glcanvas_DROPFILES_CB"),&event_callback);
@@ -1927,6 +2061,7 @@ void event_register_callback()
     // DRAGBEGIN_CB
     ZVAL_PTR(&event_callback,(Icallback) event_elements_dragbegin_cb);
     zend_hash_str_add_new(iup_callback,"dialog_DRAGBEGIN_CB",strlen("dialog_DRAGBEGIN_CB"),&event_callback);
+    zend_hash_str_add_new(iup_callback,"layoutdialog_DRAGBEGIN_CB",strlen("layoutdialog_DRAGBEGIN_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"canvas_DRAGBEGIN_CB",strlen("canvas_DRAGBEGIN_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"flatseparator_DRAGBEGIN_CB",strlen("flatseparator_DRAGBEGIN_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"label_DRAGBEGIN_CB",strlen("label_DRAGBEGIN_CB"),&event_callback);
@@ -1938,6 +2073,7 @@ void event_register_callback()
     // DRAGDATASIZE_CB
     ZVAL_PTR(&event_callback,(Icallback) event_elements_dragdatasize_cb);
     zend_hash_str_add_new(iup_callback,"dialog_DRAGDATASIZE_CB",strlen("dialog_DRAGDATASIZE_CB"),&event_callback);
+    zend_hash_str_add_new(iup_callback,"layoutdialog_DRAGDATASIZE_CB",strlen("layoutdialog_DRAGDATASIZE_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"canvas_DRAGDATASIZE_CB",strlen("canvas_DRAGDATASIZE_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"flatseparator_DRAGDATASIZE_CB",strlen("flatseparator_DRAGDATASIZE_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"label_DRAGDATASIZE_CB",strlen("label_DRAGDATASIZE_CB"),&event_callback);
@@ -1949,6 +2085,7 @@ void event_register_callback()
     // DRAGDATA_CB
     ZVAL_PTR(&event_callback,(Icallback) event_elements_dragdata_cb);
     zend_hash_str_add_new(iup_callback,"dialog_DRAGDATA_CB",strlen("dialog_DRAGDATA_CB"),&event_callback);
+    zend_hash_str_add_new(iup_callback,"layoutdialog_DRAGDATA_CB",strlen("layoutdialog_DRAGDATA_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"canvas_DRAGDATA_CB",strlen("canvas_DRAGDATA_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"flatseparator_DRAGDATA_CB",strlen("flatseparator_DRAGDATA_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"label_DRAGDATA_CB",strlen("label_DRAGDATA_CB"),&event_callback);
@@ -1960,6 +2097,7 @@ void event_register_callback()
     // DRAGEND_CB
     ZVAL_PTR(&event_callback,(Icallback) event_elements_dragend_cb);
     zend_hash_str_add_new(iup_callback,"dialog_DRAGEND_CB",strlen("dialog_DRAGEND_CB"),&event_callback);
+    zend_hash_str_add_new(iup_callback,"layoutdialog_DRAGEND_CB",strlen("layoutdialog_DRAGEND_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"canvas_DRAGEND_CB",strlen("canvas_DRAGEND_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"flatseparator_DRAGEND_CB",strlen("flatseparator_DRAGEND_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"label_DRAGEND_CB",strlen("label_DRAGEND_CB"),&event_callback);
@@ -1971,6 +2109,7 @@ void event_register_callback()
     // DROPDATA_CB
     ZVAL_PTR(&event_callback,(Icallback) event_elements_dropdata_cb);
     zend_hash_str_add_new(iup_callback,"dialog_DROPDATA_CB",strlen("dialog_DROPDATA_CB"),&event_callback);
+    zend_hash_str_add_new(iup_callback,"layoutdialog_DROPDATA_CB",strlen("layoutdialog_DROPDATA_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"canvas_DROPDATA_CB",strlen("canvas_DROPDATA_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"flatseparator_DROPDATA_CB",strlen("flatseparator_DROPDATA_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"label_DROPDATA_CB",strlen("label_DROPDATA_CB"),&event_callback);
@@ -1982,6 +2121,7 @@ void event_register_callback()
     // DROPMOTION_CB
     ZVAL_PTR(&event_callback,(Icallback) event_elements_dropmotion_cb);
     zend_hash_str_add_new(iup_callback,"dialog_DROPMOTION_CB",strlen("dialog_DROPMOTION_CB"),&event_callback);
+    zend_hash_str_add_new(iup_callback,"layoutdialog_DROPMOTION_CB",strlen("layoutdialog_DROPMOTION_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"canvas_DROPMOTION_CB",strlen("canvas_DROPMOTION_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"flatseparator_DROPMOTION_CB",strlen("flatseparator_DROPMOTION_CB"),&event_callback);
     zend_hash_str_add_new(iup_callback,"label_DROPMOTION_CB",strlen("label_DROPMOTION_CB"),&event_callback);
@@ -1993,11 +2133,13 @@ void event_register_callback()
     // MOVE_CB
     ZVAL_PTR(&event_callback,(Icallback) event_elements_move_cb);
     zend_hash_str_add_new(iup_callback,"dialog_MOVE_CB",strlen("dialog_MOVE_CB"),&event_callback);
+    zend_hash_str_add_new(iup_callback,"layoutdialog_MOVE_CB",strlen("layoutdialog_MOVE_CB"),&event_callback);
 
 
     // TRAYCLICK_CB
     ZVAL_PTR(&event_callback,(Icallback) event_elements_trayclick_cb);
     zend_hash_str_add_new(iup_callback,"dialog_TRAYCLICK_CB",strlen("dialog_TRAYCLICK_CB"),&event_callback);
+    zend_hash_str_add_new(iup_callback,"layoutdialog_TRAYCLICK_CB",strlen("layoutdialog_TRAYCLICK_CB"),&event_callback);
 
     // CARET_CB
     ZVAL_PTR(&event_callback,(Icallback) event_elements_caret_cb);
@@ -2059,21 +2201,27 @@ void event_register_callback()
     // Ihandle*  IupDialog     (Ihandle* child);
     ZVAL_PTR(&event_callback,(Icallback) event_dialog_close_cb);
     zend_hash_str_add_new(iup_callback,"dialog_CLOSE_CB",strlen("dialog_CLOSE_CB"),&event_callback);
+    zend_hash_str_add_new(iup_callback,"layoutdialog_CLOSE_CB",strlen("layoutdialog_CLOSE_CB"),&event_callback);
     
     ZVAL_PTR(&event_callback,(Icallback) event_dialog_copydata_cb);
     zend_hash_str_add_new(iup_callback,"dialog_COPYDATA_CB",strlen("dialog_COPYDATA_CB"),&event_callback);
+    zend_hash_str_add_new(iup_callback,"layoutdialog_COPYDATA_CB",strlen("layoutdialog_COPYDATA_CB"),&event_callback);
     
     ZVAL_PTR(&event_callback,(Icallback) event_dialog_customframe_cb);
     zend_hash_str_add_new(iup_callback,"dialog_CUSTOMFRAME_CB",strlen("dialog_CUSTOMFRAME_CB"),&event_callback);    
+    zend_hash_str_add_new(iup_callback,"layoutdialog_CUSTOMFRAME_CB",strlen("layoutdialog_CUSTOMFRAME_CB"),&event_callback);    
 
     ZVAL_PTR(&event_callback,(Icallback) event_dialog_customframeactivate_cb);
     zend_hash_str_add_new(iup_callback,"dialog_CUSTOMFRAMEACTIVATE_CB",strlen("dialog_CUSTOMFRAMEACTIVATE_CB"),&event_callback);
+    zend_hash_str_add_new(iup_callback,"layoutdialog_CUSTOMFRAMEACTIVATE_CB",strlen("layoutdialog_CUSTOMFRAMEACTIVATE_CB"),&event_callback);
 
     ZVAL_PTR(&event_callback,(Icallback) event_dialog_mdiactivate_cb);
     zend_hash_str_add_new(iup_callback,"dialog_MDIACTIVATE_CB",strlen("dialog_MDIACTIVATE_CB"),&event_callback);
+    zend_hash_str_add_new(iup_callback,"layoutdialog_MDIACTIVATE_CB",strlen("layoutdialog_MDIACTIVATE_CB"),&event_callback);
 
     ZVAL_PTR(&event_callback,(Icallback) event_dialog_show_cb);
     zend_hash_str_add_new(iup_callback,"dialog_SHOW_CB",strlen("dialog_SHOW_CB"),&event_callback);
+    zend_hash_str_add_new(iup_callback,"layoutdialog_SHOW_CB",strlen("layoutdialog_SHOW_CB"),&event_callback);
 
 
     // Ihandle*  IupList       (const char* action);
@@ -2447,5 +2595,8 @@ void event_register_callback()
 
     ZVAL_PTR(&event_callback,(Icallback) event_plot_postdraw_cb);
     zend_hash_str_add_new(iup_callback,"plot_POSTDRAW_CB",strlen("plot_POSTDRAW_CB"),&event_callback);
+
+    ZVAL_PTR(&event_callback,(Icallback) event_thread_thread_cb);
+    zend_hash_str_add_new(iup_callback,"thread_THREAD_CB",strlen("thread_THREAD_CB"),&event_callback);
 
 }

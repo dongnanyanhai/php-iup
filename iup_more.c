@@ -1835,31 +1835,24 @@ PHP_FUNCTION(IupDrawGetTextSize)
 }
 /* }}} */
 
-
-/* {{{ proto resource IupDrawGetImageInfo(resource ih, char* name, ref w, ref h, ref bpp)
+/* {{{ proto resource IupDrawGetImageInfo(char* name, ref w, ref h, ref bpp)
    ;
  */
 PHP_FUNCTION(IupDrawGetImageInfo)
 {
     int argc = ZEND_NUM_ARGS();
 
-    zval *ihandle_res = NULL;
-
     char *name = NULL;
     size_t name_len;
-
-    Ihandle *ih;
 
     int w, h, bpp;
     zval *ww,*hh,*zbpp;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"rslzz",&ihandle_res,&name,&name_len,&ww,&hh,&zbpp) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"slzz",&name,&name_len,&ww,&hh,&zbpp) == FAILURE) {
         return;
     }
 
-    ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
-
-    IupDrawGetImageInfo(ih,name,&w,&h,&bpp);
+    IupDrawGetImageInfo(name,&w,&h,&bpp);
 
     zval *real_ww_val = Z_REFVAL_P(ww);
     ZVAL_LONG(real_ww_val,w);
