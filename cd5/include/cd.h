@@ -18,10 +18,10 @@ extern "C" {
 
 #define CD_NAME "CD - A 2D Graphics Library"
 #define CD_DESCRIPTION "Vector Graphics Toolkit with Device Independent Output"
-#define CD_COPYRIGHT "Copyright (C) 1994-2019 Tecgraf/PUC-Rio"
-#define CD_VERSION "5.12"              /* bug fixes are reported only by cdVersion functions */
-#define CD_VERSION_NUMBER 512000
-#define CD_VERSION_DATE "2019/01/07"  /* does not include bug fix releases */
+#define CD_COPYRIGHT "Copyright (C) 1994-2020 Tecgraf/PUC-Rio"
+#define CD_VERSION "5.14"              /* bug fixes are reported only by cdVersion functions */
+#define CD_VERSION_NUMBER 514000
+#define CD_VERSION_DATE "2020/07/30"  /* does not include bug fix releases */
 
 typedef struct _cdContext cdContext;
 typedef struct _cdCanvas cdCanvas;
@@ -530,7 +530,7 @@ enum {
 
 
 /******************************************************************************
-Copyright (C) 1994-2019 Tecgraf/PUC-Rio.
+Copyright (C) 1994-2020 Tecgraf/PUC-Rio.
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the

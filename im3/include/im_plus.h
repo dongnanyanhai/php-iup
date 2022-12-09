@@ -257,6 +257,7 @@ namespace im
 
     void IncRef() 
     {
+      if (!im_image) return;
       int image_ref = GetAttribInteger("_IMAGE_REF");
       image_ref++;
       SetAttribInteger("_IMAGE_REF", IM_INT, image_ref); 
@@ -279,14 +280,16 @@ namespace im
     }
     Image(const Image& src_image, int width, int height, int color_space, int data_type) {
       im_image = imImageCreateBased(src_image.im_image, width, height, color_space, data_type);
-      IncRef(); 
+      if (im_image)
+        IncRef();
     }
     Image(const char* file_name, int index, int &error, bool as_bitmap) {
       if (as_bitmap)
         im_image = imFileImageLoad(file_name, index, &error);
       else
         im_image = imFileImageLoadBitmap(file_name, index, &error);
-      IncRef(); 
+      if (im_image)
+        IncRef(); 
     }
     Image(const Image& ref_image) {
       im_image = ref_image.im_image;
@@ -1041,6 +1044,8 @@ namespace im
       imProcessSliceThreshold(src_image.GetHandle(), dst_image.GetHandle(), start_level, end_level); }
     inline void ThresholdColor(const Image& src_image, Image& dst_image, double *src_color, double tol) {
       imProcessThresholdColor(src_image.GetHandle(), dst_image.GetHandle(), src_color, tol); }
+    inline void ThresholdSaturation(const Image& src_image, Image& dst_image, double S_min) {
+      imProcessThresholdSaturation(src_image.GetHandle(), dst_image.GetHandle(), S_min); }
     inline void Pixelate(const Image& src_image, Image& dst_image, int box_size) {
       imProcessPixelate(src_image.GetHandle(), dst_image.GetHandle(), box_size); }
     inline void Posterize(const Image& src_image, Image& dst_image, int level) {
@@ -1117,8 +1122,10 @@ namespace im
       return imProcessBinMorphClose(src_image.GetHandle(), dst_image.GetHandle(), kernel_size, iter); }
     inline int BinMorphOutline(const Image& src_image, Image& dst_image, int kernel_size, int iter) {
       return imProcessBinMorphOutline(src_image.GetHandle(), dst_image.GetHandle(), kernel_size, iter); }
-    inline int BinMorphThin(const Image& src_image, Image& dst_image) {
-      return imProcessBinMorphThin(src_image.GetHandle(), dst_image.GetHandle()); }
+    inline int BinThinNhMaps(const Image& src_image, Image& dst_image) {
+      return imProcessBinThinNhMaps(src_image.GetHandle(), dst_image.GetHandle()); }
+    inline int BinThinZhangSuen(const Image& src_image, Image& dst_image) {
+      return imProcessBinThinZhangSuen(src_image.GetHandle(), dst_image.GetHandle()); }
     inline int MedianConvolve(const Image& src_image, Image& dst_image, int kernel_size) {
       return imProcessMedianConvolve(src_image.GetHandle(), dst_image.GetHandle(), kernel_size); }
     inline int RangeConvolve(const Image& src_image, Image& dst_image, int kernel_size) {
@@ -1186,6 +1193,10 @@ namespace im
       return imProcessRenderOp(image.GetHandle(), render_func, render_name, params, plus); }
     inline int RenderCondOp(Image& image, imRenderCondFunc render_cond_func, const char* render_name, double* params) {
       return imProcessRenderCondOp(image.GetHandle(), render_cond_func, render_name, params); }
+    inline int RenderOpAlpha(Image& image, imRenderFunc render_func, const char* render_name, double* params, int plus) {
+      return imProcessRenderOpAlpha(image.GetHandle(), render_func, render_name, params, plus); }
+    inline int RenderCondOpAlpha(Image& image, imRenderCondFunc render_cond_func, const char* render_name, double* params) {
+      return imProcessRenderCondOpAlpha(image.GetHandle(), render_cond_func, render_name, params); }
     inline int RenderRandomNoise(Image& image) {
       return imProcessRenderRandomNoise(image.GetHandle()); }
     inline int RenderConstant(Image& image, double* value) {

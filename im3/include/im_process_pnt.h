@@ -562,7 +562,9 @@ void imProcessBitPlane(const imImage* src_image, imImage* dst_image, int plane, 
 /** \defgroup render Synthetic Image Render
  * \par
  * Renders some 2D mathematical functions as images. All the functions operates in-place 
- * and supports all data types except complex.
+ * and supports all data types except complex.\n
+ * These functions are mean to be used in gray images, but color images can also be used.
+ * For color images the rendering will be repeated for each plane, except for the alpha plane when present.
  * \par
  * See \ref im_process_pnt.h
  * \ingroup process */
@@ -572,7 +574,7 @@ void imProcessBitPlane(const imImage* src_image, imImage* dst_image, int plane, 
  * \ingroup render */
 typedef double (*imRenderFunc)(int x, int y, int d, double* params);
 
-/** Render Conditional Funtion.
+/** Render Conditional Function.
  * \verbatim func(x: number, y: number, d: number, params: table) -> value: number, cond: boolean [in Lua 5] \endverbatim
  * \ingroup render */
 typedef double (*imRenderCondFunc)(int x, int y, int d, int *cond, double* params);
@@ -586,13 +588,27 @@ typedef double (*imRenderCondFunc)(int x, int y, int d, int *cond, double* param
  * \ingroup render */
 int imProcessRenderOp(imImage* image, imRenderFunc func, const char* render_name, double* params, int plus);
 
+/** Same as imProcessRenderOp but with alpha channel support. (since 3.14)
+ * Can also be used if the image does not have alpha.
+ *
+ * \verbatim im.ProcessRenderOpAlpha(image: imImage, func: function, render_name: string, params: table, plus: boolean) -> counter: boolean [in Lua 5] \endverbatim
+ * \ingroup render */
+int imProcessRenderOpAlpha(imImage* image, imRenderFunc func, const char* render_name, double* params, int plus);
+
 /** Render a synthetic image using a conditional render function. \n
- * Data will be rendered only if the condional parameter is true. \n
+ * Data will be rendered only if the conditional parameter is true. \n
  * Returns zero if the counter aborted.
  *
  * \verbatim im.ProcessRenderCondOp(image: imImage, func: function, render_name: string, params: table) -> counter: boolean [in Lua 5] \endverbatim
  * \ingroup render */
 int imProcessRenderCondOp(imImage* image, imRenderCondFunc func, const char* render_name, double* params);
+
+/** Same as imProcessRenderOp but with alpha channel support. (since 3.14)
+ * Can also be used if the image does not have alpha.
+ *
+ * \verbatim im.ProcessRenderCondOpAlpha(image: imImage, func: function, render_name: string, params: table) -> counter: boolean [in Lua 5] \endverbatim
+ * \ingroup render */
+int imProcessRenderCondOpAlpha(imImage* image, imRenderCondFunc func, const char* render_name, double* params);
 
 /** Render speckle noise on existing data. Can be done in-place.
  *
@@ -622,6 +638,8 @@ int imProcessRenderAddUniformNoise(const imImage* src_image, imImage* dst_image,
 int imProcessRenderRandomNoise(imImage* image);
 
 /** Render a constant. The number of values must match the depth of the image.
+ * Value must have the same number of the image depth including alpha.
+ * Alpha channel is supported (since 3.14). 
  *
  * \verbatim im.ProcessRenderConstant(image: imImage, value: table of number) -> counter: boolean [in Lua 5] \endverbatim
  * \ingroup render */
@@ -694,8 +712,10 @@ int imProcessRenderGrid(imImage* image, int x_space, int y_space);
 int imProcessRenderChessboard(imImage* image, int x_space, int y_space);
 
 /** Render a color or gray flood fill. \n
- * If image has the IM_RGB color space, then replace_color must have 3 components. \n
- * If image has the IM_GRAY color space, then replace_color must have 1 component.
+ * If image has the IM_RGB color space, then replace_color must have 3 components, or 4 when alpha is present. \n
+ * If image has the IM_GRAY or IM_MAP color space, then replace_color must have 1 component.\n
+ * For IM_MAP images the colors in the palette will be compared instead of the indices (since 3.14).
+ * Alpha channel is supported in IM_RGB images (since 3.14), alpha will also be considered in the comparison.
  *
  * \verbatim im.ProcessRenderFloodFill(image: imImage, start_x, start_y: number, replace_color: table of 3 numbers, tolerance: number)  [in Lua 5] \endverbatim
  * \ingroup render */
@@ -750,7 +770,8 @@ enum imToneGamutFlags {
  * For IM_GAMUT_NORMALIZE when min > 0 and max < 1, it will just do a copy. \n
  * IM_BYTE images have min=0 and max=255 always. \n
  * To control min and max values use the IM_GAMUT_MINMAX flag.
- * Can be done in-place. When there is no extra parameters, params can use NULL.
+ * Can be done in-place. When there is no extra parameters, params can use NULL.\n
+ * Alpha is not changed if present.
  *
  * \verbatim im.ProcessToneGamut(src_image: imImage, dst_image: imImage, op: number, params: table of number) [in Lua 5] \endverbatim
  * \verbatim im.ProcessToneGamutNew(src_image: imImage, op: number, params: table of number) -> new_image: imImage [in Lua 5] \endverbatim
@@ -949,6 +970,15 @@ void imProcessSliceThreshold(const imImage* src_image, imImage* dst_image, doubl
 * \verbatim im.ProcessThresholdColorNew(src_image: imImage, src_color: table of numbers, tol: number) -> new_image: imImage [in Lua 5] \endverbatim
 * \ingroup threshold */
 void imProcessThresholdColor(const imImage* src_image, imImage* dst_image, double* src_color, double tol);
+
+/** Threshold using a saturation minimum. (since 3.14) \n
+* Supports only IM_RGB+IM_BYTE as source.
+*
+* \verbatim im.ProcessThresholdSaturation(src_image: imImage, dst_image: imImage, S_min: number) [in Lua 5] \endverbatim
+* \verbatim im.ProcessThresholdSaturationNew(src_image: imImage, S_min: number) -> new_image: imImage [in Lua 5] \endverbatim
+* \ingroup threshold */
+void imProcessThresholdSaturation(imImage* src_image, imImage* dst_image, double S_min);
+
 
 
 /** \defgroup effects Special Effects

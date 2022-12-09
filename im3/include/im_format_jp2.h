@@ -24,12 +24,9 @@ extern "C" {
  * to register the format into the IM core library. 
  * In Lua call require"imlua_jp2". \n
  * \par
- * Access to the JPEG2000 file format uses libJasper version 1.900.1 \n
- * http://www.ece.uvic.ca/~mdadams/jasper                             \n
- * Copyright (c) 2001-2006 Michael David Adams.                       \n
- * and GeoJasPer 1.4.0                                                \n
- * Copyright (c) 2003-2007 Dmitry V. Fedorov.                         \n
- * http://www.dimin.net/software/geojasper/                           \n
+ * Access to the JPEG2000 file format uses libJasper version 2.0.14 \n
+ * https://www.ece.uvic.ca/~frodo/jasper/                           \n
+ * Copyright (c) 2001-2016 Michael David Adams.                     \n
  * 
  * \par
  * See \ref im_format_jp2.h
@@ -50,8 +47,6 @@ extern "C" {
  
     Attributes:
       CompressionRatio IM_FLOAT (1) [write only, example: Ratio=7 just like 7:1]
-      GeoTIFFBox IM_BYTE (n)
-      XMLPacket IM_BYTE (n)
 
     Comments:
       We read code stream syntax and JP2, but we write always as JP2.
@@ -61,8 +56,9 @@ extern "C" {
       Changed jas_config.h to match our needs.
       New file jas_binfile.c
       Changed base/jas_stream.c to export jas_stream_create and jas_stream_initbuf.
-      Changed jp2/jp2_dec.c and jpc/jpc_cs.c to remove "uint" and "ulong" usage.
-      The counter is restarted many times, because it has many phases.
+      The counter is for memory transfer only.
+      These changes can be ignored when using an external libJasper distribution,
+      but in this case the imBinFile global features will not work.
 \endverbatim
  * \ingroup format */
  

@@ -65,7 +65,7 @@ typedef struct _imImage
                            Used only when depth=1. Otherwise is NULL. */
   int palette_count;  /**< The palette is always 256 colors allocated, but can have less colors used. */
 
-  void* attrib_table; /**< in fact is an imAttribTable, but we hide this here */
+  void* attributes_table; /**< in fact is an imAttribTable, but we hide this here */
 } imImage;
 
 

@@ -31,7 +31,7 @@ extern "C" {
 struct _imFile
 {
   int is_new;
-  void* attrib_table;    /**< in fact is a imAttribTable, but we hide this here */
+  void* attributes_table;    /**< in fact is a imAttribTable, but we hide this here */
 
   void* line_buffer;     /**< used for line conversion, contains all components if packed, or only one if not */
   int line_buffer_size;

@@ -51,7 +51,7 @@ PHP_FUNCTION(IupDebug)
     intptr_t ih_p_int;
     char event_key_str[120];
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"sr",&msg,&msg_len,&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc,"sr",&msg,&msg_len,&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -259,7 +259,7 @@ PHP_FUNCTION(IupPostMessage)
     char *p = NULL;
     size_t p_len;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r!slds!",&ihandle_res,&s,&s_len,&i,&d,&p,&p_len) == FAILURE) {
+    if (zend_parse_parameters(argc,"r!slds!",&ihandle_res,&s,&s_len,&i,&d,&p,&p_len) == FAILURE) {
         return;
     }
 
@@ -332,7 +332,7 @@ PHP_FUNCTION(IupUpdate)
 
     Ihandle *ih;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc,"r",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -356,7 +356,7 @@ PHP_FUNCTION(IupUpdateChildren)
 
     Ihandle *ih;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc,"r",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -382,7 +382,7 @@ PHP_FUNCTION(IupRedraw)
 
     zend_long children;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"rl",&ihandle_res,&children) == FAILURE) {
+    if (zend_parse_parameters(argc,"rl",&ihandle_res,&children) == FAILURE) {
         return;
     }
 
@@ -406,7 +406,7 @@ PHP_FUNCTION(IupRefresh)
 
     Ihandle *ih;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc,"r",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -430,7 +430,7 @@ PHP_FUNCTION(IupRefreshChildren)
 
     Ihandle *ih;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc,"r",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -517,9 +517,11 @@ PHP_FUNCTION(IupHelp)
 /* }}} */
 
 
+
+/* 
 // void IupLog(const char* type, const char* format, ...);
 // 待完善
-/* {{{ proto string IupLog(string type, string format)
+{{{ proto string IupLog(string type, string format)
    ;
  */
 PHP_FUNCTION(IupLog)
@@ -768,7 +770,7 @@ PHP_FUNCTION(IupSetLanguagePack)
 
     Ihandle *ih;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc,"r",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -792,7 +794,7 @@ PHP_FUNCTION(IupDestroy)
 
     Ihandle *ih;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc,"r",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -816,7 +818,7 @@ PHP_FUNCTION(IupDetach)
 
     Ihandle *child;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc,"r",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -841,7 +843,7 @@ PHP_FUNCTION(IupAppend)
 
     Ihandle *ih, *child, *re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"rr",&ihandle_res_ih,&ihandle_res_child) == FAILURE) {
+    if (zend_parse_parameters(argc,"rr",&ihandle_res_ih,&ihandle_res_child) == FAILURE) {
         return;
     }
 
@@ -867,7 +869,7 @@ PHP_FUNCTION(IupInsert)
 
     Ihandle *ih, *ref_child, *child, *re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"rrr",&ihandle_res_ih,&ihandle_res_ref_child,&ihandle_res_child) == FAILURE) {
+    if (zend_parse_parameters(argc,"rrr",&ihandle_res_ih,&ihandle_res_ref_child,&ihandle_res_child) == FAILURE) {
         return;
     }
 
@@ -894,7 +896,7 @@ PHP_FUNCTION(IupGetChild)
 
     zend_long pos;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"rl",&ihandle_res,&pos) == FAILURE) {
+    if (zend_parse_parameters(argc,"rl",&ihandle_res,&pos) == FAILURE) {
         return;
     }
 
@@ -921,7 +923,7 @@ PHP_FUNCTION(IupGetChildPos)
 
     int i;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"rr",&ihandle_res_ih,&ihandle_res_child) == FAILURE) {
+    if (zend_parse_parameters(argc,"rr",&ihandle_res_ih,&ihandle_res_child) == FAILURE) {
         return;
     }
 
@@ -947,7 +949,7 @@ PHP_FUNCTION(IupGetChildCount)
 
     int i;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc,"r",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -971,7 +973,7 @@ PHP_FUNCTION(IupGetNextChild)
 
     Ihandle *ih, *child, *re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"rr",&ihandle_res_ih,&ihandle_res_child) == FAILURE) {
+    if (zend_parse_parameters(argc,"rr",&ihandle_res_ih,&ihandle_res_child) == FAILURE) {
         return;
     }
 
@@ -995,7 +997,7 @@ PHP_FUNCTION(IupGetBrother)
 
     Ihandle *ih, *re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc,"r",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -1019,7 +1021,7 @@ PHP_FUNCTION(IupGetParent)
 
     Ihandle *ih, *re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc,"r",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -1043,7 +1045,7 @@ PHP_FUNCTION(IupGetDialog)
 
     Ihandle *ih, *re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc,"r",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -1070,7 +1072,7 @@ PHP_FUNCTION(IupGetDialogChild)
     char *name = NULL;
     size_t name_len;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"rs",&ihandle_res,&name,&name_len) == FAILURE) {
+    if (zend_parse_parameters(argc,"rs",&ihandle_res,&name,&name_len) == FAILURE) {
         return;
     }
 
@@ -1098,7 +1100,7 @@ PHP_FUNCTION(IupReparent)
 
     int i;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"rrr",&ihandle_res_ih,&ihandle_res_new_parent,&ihandle_res_ref_child) == FAILURE) {
+    if (zend_parse_parameters(argc,"rrr",&ihandle_res_ih,&ihandle_res_new_parent,&ihandle_res_ref_child) == FAILURE) {
         return;
     }
 
@@ -1127,7 +1129,7 @@ PHP_FUNCTION(IupPopup)
 
     int i;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"rll",&ihandle_res,&x,&y) == FAILURE) {
+    if (zend_parse_parameters(argc,"rll",&ihandle_res,&x,&y) == FAILURE) {
         return;
     }
 
@@ -1152,7 +1154,7 @@ PHP_FUNCTION(IupShow)
 
     int i;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc,"r",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -1179,7 +1181,7 @@ PHP_FUNCTION(IupShowXY)
 
     int i;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"rll",&ihandle_res,&x,&y) == FAILURE) {
+    if (zend_parse_parameters(argc,"rll",&ihandle_res,&x,&y) == FAILURE) {
         return;
     }
 
@@ -1204,7 +1206,7 @@ PHP_FUNCTION(IupHide)
 
     int i;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc,"r",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -1229,7 +1231,7 @@ PHP_FUNCTION(IupMap)
 
     int i;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc,"r",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -1252,7 +1254,7 @@ PHP_FUNCTION(IupUnmap)
 
     Ihandle *ih;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc,"r",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -1279,7 +1281,7 @@ PHP_FUNCTION(IupResetAttribute)
     char *name = NULL;
     size_t name_len;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"rs",&ihandle_res,&name,&name_len) == FAILURE) {
+    if (zend_parse_parameters(argc,"rs",&ihandle_res,&name,&name_len) == FAILURE) {
         return;
     }
 
@@ -1303,7 +1305,6 @@ PHP_FUNCTION(IupGetAllAttributes)
 
     Ihandle *ih;
 
-    // 用以遍历arr_list数组
     zval *names_val;
 
     const char **names;
@@ -1312,7 +1313,13 @@ PHP_FUNCTION(IupGetAllAttributes)
 
     int max_num,re,i;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"rzl",&ihandle_res,&names_val,&n) == FAILURE) {
+    zval names_re;
+
+    HashTable *name_arr;
+
+    zend_string * zstring;
+
+    if (zend_parse_parameters(argc,"rzl",&ihandle_res,&names_val,&n) == FAILURE) {
         return;
     }
 
@@ -1320,12 +1327,10 @@ PHP_FUNCTION(IupGetAllAttributes)
 
     max_num = IupGetAllAttributes(ih,NULL,0);
 
-    // 当未提供接收数据的数组时，直接返回最大属性数量
     if(names_val == NULL || n == 0 || n == -1){
         RETURN_LONG(max_num);
     }
 
-    // 当设定的行数大于最大数量时，设定为最大值
     if(n > max_num){
         n = max_num;
     }
@@ -1341,25 +1346,15 @@ PHP_FUNCTION(IupGetAllAttributes)
 
     if(re != -1){
 
-        zval names_re;
-
-        zend_string * zstring;
-
-        HashTable *name_arr;
-
         ALLOC_HASHTABLE(name_arr);
         zend_hash_init(name_arr,re,NULL,NULL,0);
 
-        // PHP 7.2 的特殊要求
-        // 参考swoole的解决方案 c7109880427f9773b9925b046629e4e8344bdc34
         #ifdef HT_ALLOW_COW_VIOLATION
             HT_ALLOW_COW_VIOLATION(Z_ARRVAL_P(names_val));
         #endif
 
-        // 修改引用数组的值
         for (i = 0; i < re; i ++ )
         {
-            // php_error(E_WARNING, names[i]);
 
             zstring = zend_string_init(names[i], strlen(names[i]), 0);
 
@@ -1371,10 +1366,9 @@ PHP_FUNCTION(IupGetAllAttributes)
         ZVAL_ARR(real_arr_val,name_arr);
     }
 
-    free(names);
-
     RETURN_LONG(re);
 }
+
 /* }}} */
 
 /* {{{ proto resource IupSetAtt(string handle_name, resource ih, string name, string value)
@@ -1402,7 +1396,7 @@ PHP_FUNCTION(IupSetAttributes)
     char *str = NULL;
     size_t str_len;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r!s",&ihandle_res,&str,&str_len) == FAILURE) {
+    if (zend_parse_parameters(argc,"r!s",&ihandle_res,&str,&str_len) == FAILURE) {
         return;
     }
 
@@ -1449,7 +1443,7 @@ PHP_FUNCTION(IupSetAttribute)
     const char *value = NULL;
     size_t value_len;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r!ss!",&ihandle_res,&name,&name_len,&value,&value_len) == FAILURE) {
+    if (zend_parse_parameters(argc,"r!ss!",&ihandle_res,&name,&name_len,&value,&value_len) == FAILURE) {
         return;
     }
 
@@ -1482,7 +1476,7 @@ PHP_FUNCTION(IupSetStrAttribute)
     char *value = NULL;
     size_t value_len;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"rss",&ihandle_res,&name,&name_len,&value,&value_len) == FAILURE) {
+    if (zend_parse_parameters(argc,"rss",&ihandle_res,&name,&name_len,&value,&value_len) == FAILURE) {
         return;
     }
 
@@ -1521,7 +1515,7 @@ PHP_FUNCTION(IupSetInt)
 
     zend_long value;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"rsl",&ihandle_res,&name,&name_len,&value) == FAILURE) {
+    if (zend_parse_parameters(argc,"rsl",&ihandle_res,&name,&name_len,&value) == FAILURE) {
         return;
     }
 
@@ -1549,7 +1543,7 @@ PHP_FUNCTION(IupSetFloat)
 
     double value;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"rsd",&ihandle_res,&name,&name_len,&value) == FAILURE) {
+    if (zend_parse_parameters(argc,"rsd",&ihandle_res,&name,&name_len,&value) == FAILURE) {
         return;
     }
 
@@ -1577,7 +1571,7 @@ PHP_FUNCTION(IupSetDouble)
 
     double value;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"rsd",&ihandle_res,&name,&name_len,&value) == FAILURE) {
+    if (zend_parse_parameters(argc,"rsd",&ihandle_res,&name,&name_len,&value) == FAILURE) {
         return;
     }
 
@@ -1608,7 +1602,7 @@ PHP_FUNCTION(IupSetRGB)
 
     unsigned char rr,gg,bb;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"rslll",&ihandle_res,&name,&name_len,&r,&g,&b) == FAILURE) {
+    if (zend_parse_parameters(argc,"rslll",&ihandle_res,&name,&name_len,&r,&g,&b) == FAILURE) {
         return;
     }
 
@@ -1623,6 +1617,43 @@ PHP_FUNCTION(IupSetRGB)
     RETURN_BOOL(1);
 
     // php_error(E_ERROR, "IupSetRGB: this function requested is not supported");
+}
+/* }}} */
+
+
+
+/* {{{ proto resource IupSetRGBA(resource ih, string name, int r, int g, int b, int a)
+   ;
+ */
+PHP_FUNCTION(IupSetRGBA)
+{
+    int argc = ZEND_NUM_ARGS();
+
+    zval *ihandle_res = NULL;
+
+    Ihandle *ih;
+
+    char *name = NULL;
+    size_t name_len;
+
+    zend_long r,g,b,a;
+
+    unsigned char rr,gg,bb,aa;
+
+    if (zend_parse_parameters(argc,"rsllll",&ihandle_res,&name,&name_len,&r,&g,&b,&a) == FAILURE) {
+        return;
+    }
+
+    ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+
+    rr = (unsigned char)r;
+    gg = (unsigned char)g;
+    bb = (unsigned char)b;
+    aa = (unsigned char)a;
+
+    IupSetRGBA(ih,name,rr,gg,bb,aa);
+
+    RETURN_BOOL(1);
 }
 /* }}} */
 
@@ -1642,7 +1673,7 @@ PHP_FUNCTION(IupGetAttribute)
 
     char * str;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r!s",&ihandle_res,&name,&name_len) == FAILURE) {
+    if (zend_parse_parameters(argc,"r!s",&ihandle_res,&name,&name_len) == FAILURE) {
         return;
     }
 
@@ -1678,7 +1709,7 @@ PHP_FUNCTION(IupGetInt)
 
     int i;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"rs",&ihandle_res,&name,&name_len) == FAILURE) {
+    if (zend_parse_parameters(argc,"rs",&ihandle_res,&name,&name_len) == FAILURE) {
         return;
     }
 
@@ -1706,7 +1737,7 @@ PHP_FUNCTION(IupGetInt2)
 
     int i;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"rs",&ihandle_res,&name,&name_len) == FAILURE) {
+    if (zend_parse_parameters(argc,"rs",&ihandle_res,&name,&name_len) == FAILURE) {
         return;
     }
 
@@ -1736,7 +1767,7 @@ PHP_FUNCTION(IupGetIntInt)
 
     int i,p1,p2;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"rsll",&ihandle_res,&name,&name_len,&i1,&i2) == FAILURE) {
+    if (zend_parse_parameters(argc,"rsll",&ihandle_res,&name,&name_len,&i1,&i2) == FAILURE) {
         return;
     }
 
@@ -1767,7 +1798,7 @@ PHP_FUNCTION(IupGetFloat)
 
     double d;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"rs",&ihandle_res,&name,&name_len) == FAILURE) {
+    if (zend_parse_parameters(argc,"rs",&ihandle_res,&name,&name_len) == FAILURE) {
         return;
     }
 
@@ -1795,7 +1826,7 @@ PHP_FUNCTION(IupGetDouble)
 
     double d;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"rs",&ihandle_res,&name,&name_len) == FAILURE) {
+    if (zend_parse_parameters(argc,"rs",&ihandle_res,&name,&name_len) == FAILURE) {
         return;
     }
 
@@ -1824,7 +1855,7 @@ PHP_FUNCTION(IupGetRGB)
     unsigned char r, g, b;
     zval *rr,*gg,*bb;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"rszzz",&ihandle_res,&name,&name_len,&rr,&gg,&bb) == FAILURE) {
+    if (zend_parse_parameters(argc,"rszzz",&ihandle_res,&name,&name_len,&rr,&gg,&bb) == FAILURE) {
         return;
     }
 
@@ -1840,6 +1871,48 @@ PHP_FUNCTION(IupGetRGB)
 
     zval *real_bb_val = Z_REFVAL_P(bb);
     ZVAL_LONG(real_bb_val,(int)b);
+
+    RETURN_NULL();
+}
+/* }}} */
+
+
+/* {{{ proto resource IupGetRGBA(resource ih, string name, ref r, ref g, ref g, ref a)
+   ;
+ */
+PHP_FUNCTION(IupGetRGBA)
+{
+    int argc = ZEND_NUM_ARGS();
+
+    zval *ihandle_res = NULL;
+
+    Ihandle *ih;
+
+    char *name = NULL;
+    size_t name_len;
+
+    unsigned char r, g, b, a;
+    zval *rr,*gg,*bb,*aa;
+
+    if (zend_parse_parameters(argc,"rszzzz",&ihandle_res,&name,&name_len,&rr,&gg,&bb,&aa) == FAILURE) {
+        return;
+    }
+
+    ih = zend_fetch_resource_ex(ihandle_res,"iup-handle",le_iup_ihandle);
+
+    IupGetRGBA(ih,name,&r,&g,&b,&a);
+
+    zval *real_rr_val = Z_REFVAL_P(rr);
+    ZVAL_LONG(real_rr_val,(int)r);
+
+    zval *real_gg_val = Z_REFVAL_P(gg);
+    ZVAL_LONG(real_gg_val,(int)g);
+
+    zval *real_bb_val = Z_REFVAL_P(bb);
+    ZVAL_LONG(real_bb_val,(int)b);
+
+    zval *real_aa_val = Z_REFVAL_P(aa);
+    ZVAL_LONG(real_aa_val,(int)a);
 
     RETURN_NULL();
 }
@@ -1864,7 +1937,7 @@ PHP_FUNCTION(IupSetAttributeId)
     char *value = NULL;
     size_t value_len;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r!sls!",&ihandle_res,&name,&name_len,&id,&value,&value_len) == FAILURE) {
+    if (zend_parse_parameters(argc,"r!sls!",&ihandle_res,&name,&name_len,&id,&value,&value_len) == FAILURE) {
         return;
     }
 
@@ -1899,7 +1972,7 @@ PHP_FUNCTION(IupSetStrAttributeId)
     char *value = NULL;
     size_t value_len;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"rsls",&ihandle_res,&name,&name_len,&id,&value,&value_len) == FAILURE) {
+    if (zend_parse_parameters(argc,"rsls",&ihandle_res,&name,&name_len,&id,&value,&value_len) == FAILURE) {
         return;
     }
 
@@ -1940,7 +2013,7 @@ PHP_FUNCTION(IupSetIntId)
 
     zend_long value;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"rsll",&ihandle_res,&name,&name_len,&id,&value) == FAILURE) {
+    if (zend_parse_parameters(argc,"rsll",&ihandle_res,&name,&name_len,&id,&value) == FAILURE) {
         return;
     }
 
@@ -1970,7 +2043,7 @@ PHP_FUNCTION(IupSetFloatId)
 
     double value;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"rsld",&ihandle_res,&name,&name_len,&id,&value) == FAILURE) {
+    if (zend_parse_parameters(argc,"rsld",&ihandle_res,&name,&name_len,&id,&value) == FAILURE) {
         return;
     }
 
@@ -2000,7 +2073,7 @@ PHP_FUNCTION(IupSetDoubleId)
 
     double value;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"rsld",&ihandle_res,&name,&name_len,&id,&value) == FAILURE) {
+    if (zend_parse_parameters(argc,"rsld",&ihandle_res,&name,&name_len,&id,&value) == FAILURE) {
         return;
     }
 
@@ -2036,7 +2109,7 @@ PHP_FUNCTION(IupSetRGBId)
     unsigned char gg;
     unsigned char bb;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"rsllll",&ihandle_res,&name,&name_len,&id,&r,&g,&b) == FAILURE) {
+    if (zend_parse_parameters(argc,"rsllll",&ihandle_res,&name,&name_len,&id,&r,&g,&b) == FAILURE) {
         return;
     }
 
@@ -2049,8 +2122,6 @@ PHP_FUNCTION(IupSetRGBId)
     IupSetRGBId(ih,name,id,rr,gg,bb);
 
     RETURN_BOOL(1);
-
-    // php_error(E_ERROR, "IupSetRGB: this function requested is not supported");
 }
 /* }}} */
 
@@ -2072,7 +2143,7 @@ PHP_FUNCTION(IupGetAttributeId)
 
     char * str;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r!sl",&ihandle_res,&name,&name_len,&id) == FAILURE) {
+    if (zend_parse_parameters(argc,"r!sl",&ihandle_res,&name,&name_len,&id) == FAILURE) {
         return;
     }
 
@@ -2110,7 +2181,7 @@ PHP_FUNCTION(IupGetIntId)
 
     int i;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"rsl",&ihandle_res,&name,&name_len,&id) == FAILURE) {
+    if (zend_parse_parameters(argc,"rsl",&ihandle_res,&name,&name_len,&id) == FAILURE) {
         return;
     }
 
@@ -2140,7 +2211,7 @@ PHP_FUNCTION(IupGetFloatId)
 
     double d;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"rsl",&ihandle_res,&name,&name_len,&id) == FAILURE) {
+    if (zend_parse_parameters(argc,"rsl",&ihandle_res,&name,&name_len,&id) == FAILURE) {
         return;
     }
 
@@ -2170,7 +2241,7 @@ PHP_FUNCTION(IupGetDoubleId)
 
     double d;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"rsl",&ihandle_res,&name,&name_len,&id) == FAILURE) {
+    if (zend_parse_parameters(argc,"rsl",&ihandle_res,&name,&name_len,&id) == FAILURE) {
         return;
     }
 
@@ -2201,7 +2272,7 @@ PHP_FUNCTION(IupGetRGBId)
     unsigned char r, g, b;
     zval *rr,*gg,*bb;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"rslzzz",&ihandle_res,&name,&name_len,&id,&rr,&gg,&bb) == FAILURE) {
+    if (zend_parse_parameters(argc,"rslzzz",&ihandle_res,&name,&name_len,&id,&rr,&gg,&bb) == FAILURE) {
         return;
     }
 
@@ -2242,7 +2313,7 @@ PHP_FUNCTION(IupSetAttributeId2)
     char *value = NULL;
     size_t value_len;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r!slls!",&ihandle_res,&name,&name_len,&lin,&col,&value,&value_len) == FAILURE) {
+    if (zend_parse_parameters(argc,"r!slls!",&ihandle_res,&name,&name_len,&lin,&col,&value,&value_len) == FAILURE) {
         return;
     }
 
@@ -2277,7 +2348,7 @@ PHP_FUNCTION(IupSetStrAttributeId2)
     char *value = NULL;
     size_t value_len;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"rslls",&ihandle_res,&name,&name_len,&lin,&col,&value,&value_len) == FAILURE) {
+    if (zend_parse_parameters(argc,"rslls",&ihandle_res,&name,&name_len,&lin,&col,&value,&value_len) == FAILURE) {
         return;
     }
 
@@ -2316,7 +2387,7 @@ PHP_FUNCTION(IupSetIntId2)
 
     zend_long value;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"rslll",&ihandle_res,&name,&name_len,&lin,&col,&value) == FAILURE) {
+    if (zend_parse_parameters(argc,"rslll",&ihandle_res,&name,&name_len,&lin,&col,&value) == FAILURE) {
         return;
     }
 
@@ -2346,7 +2417,7 @@ PHP_FUNCTION(IupSetFloatId2)
 
     double value;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"rslld",&ihandle_res,&name,&name_len,&lin,&col,&value) == FAILURE) {
+    if (zend_parse_parameters(argc,"rslld",&ihandle_res,&name,&name_len,&lin,&col,&value) == FAILURE) {
         return;
     }
 
@@ -2376,7 +2447,7 @@ PHP_FUNCTION(IupSetDoubleId2)
 
     double value;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"rslld",&ihandle_res,&name,&name_len,&lin,&col,&value) == FAILURE) {
+    if (zend_parse_parameters(argc,"rslld",&ihandle_res,&name,&name_len,&lin,&col,&value) == FAILURE) {
         return;
     }
 
@@ -2413,7 +2484,7 @@ PHP_FUNCTION(IupSetRGBId2)
     unsigned char gg;
     unsigned char bb;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"rslllll",&ihandle_res,&name,&name_len,&lin,&col,&r,&g,&b) == FAILURE) {
+    if (zend_parse_parameters(argc,"rslllll",&ihandle_res,&name,&name_len,&lin,&col,&r,&g,&b) == FAILURE) {
         return;
     }
 
@@ -2447,7 +2518,7 @@ PHP_FUNCTION(IupGetAttributeId2)
 
     char * str;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r!sll",&ihandle_res,&name,&name_len,&lin,&col) == FAILURE) {
+    if (zend_parse_parameters(argc,"r!sll",&ihandle_res,&name,&name_len,&lin,&col) == FAILURE) {
         return;
     }
 
@@ -2485,7 +2556,7 @@ PHP_FUNCTION(IupGetIntId2)
 
     int i;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"rsll",&ihandle_res,&name,&name_len,&lin,&col) == FAILURE) {
+    if (zend_parse_parameters(argc,"rsll",&ihandle_res,&name,&name_len,&lin,&col) == FAILURE) {
         return;
     }
 
@@ -2515,7 +2586,7 @@ PHP_FUNCTION(IupGetFloatId2)
 
     double d;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"rsll",&ihandle_res,&name,&name_len,&lin,&col) == FAILURE) {
+    if (zend_parse_parameters(argc,"rsll",&ihandle_res,&name,&name_len,&lin,&col) == FAILURE) {
         return;
     }
 
@@ -2545,7 +2616,7 @@ PHP_FUNCTION(IupGetDoubleId2)
 
     double d;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"rsll",&ihandle_res,&name,&name_len,&lin,&col) == FAILURE) {
+    if (zend_parse_parameters(argc,"rsll",&ihandle_res,&name,&name_len,&lin,&col) == FAILURE) {
         return;
     }
 
@@ -2577,7 +2648,7 @@ PHP_FUNCTION(IupGetRGBId2)
     unsigned char r, g, b;
     zval *rr,*gg,*bb;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"rsllzzz",&ihandle_res,&name,&name_len,&lin,&col,&rr,&gg,&bb) == FAILURE) {
+    if (zend_parse_parameters(argc,"rsllzzz",&ihandle_res,&name,&name_len,&lin,&col,&rr,&gg,&bb) == FAILURE) {
         return;
     }
 
@@ -2674,7 +2745,7 @@ PHP_FUNCTION(IupSetFocus)
 
     Ihandle *ih,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc,"r",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -2716,7 +2787,7 @@ PHP_FUNCTION(IupPreviousField)
 
     Ihandle *ih,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc,"r",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -2739,7 +2810,7 @@ PHP_FUNCTION(IupNextField)
 
     Ihandle *ih,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc,"r",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -2778,7 +2849,7 @@ PHP_FUNCTION(IupSetCallback)
 
     zval event_val;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"rsf!",&ihandle_res, &event_name, &event_name_len, &callable, &call_cache) == FAILURE) {
+    if (zend_parse_parameters(argc,"rsf!",&ihandle_res, &event_name, &event_name_len, &callable, &call_cache) == FAILURE) {
         return;
     }
 
@@ -2793,10 +2864,7 @@ PHP_FUNCTION(IupSetCallback)
     if(callable.size == 0){
 
         if(zend_hash_exists(iup_events,event_key)){
-            // 释放旧事件方法占用的内存
             event_del_callback(event_key);
-
-            // 然后再删除事件
             zend_hash_del(iup_events,event_key);            
         }
 
@@ -2805,12 +2873,9 @@ PHP_FUNCTION(IupSetCallback)
         RETURN_BOOL(1);
     }
 
-    // 判断事件数组中是否存有相同事件id
     if(zend_hash_exists(iup_events,event_key)){
-        // 释放旧事件方法占用的内容
         event_del_callback(event_key);
     }else{
-        // 绑定事件
         event_set_callback(ih, event_name);
     }
 
@@ -2941,18 +3006,21 @@ PHP_FUNCTION(IupGetAllNames)
 
     int max_num,re,i;
 
+    zval names_re;
+    zend_string * zstring;
+
+    HashTable *name_arr;
+
     if (zend_parse_parameters(argc,"zl",&names_val,&n) == FAILURE) {
         return;
     }
 
     max_num = IupGetAllNames(NULL,0);
 
-    // 当未提供接收数据的数组时，直接返回最大属性数量
     if(names_val == NULL || n == 0 || n == -1){
         RETURN_LONG(max_num);
     }
 
-    // 当设定的行数大于最大数量时，设定为最大值
     if(n > max_num){
         n = max_num;
     }
@@ -2966,22 +3034,16 @@ PHP_FUNCTION(IupGetAllNames)
 
     re = IupGetAllNames(names,n);
     
-    zval names_re;
-    zend_string * zstring;
 
-    HashTable *name_arr;
     ALLOC_HASHTABLE(name_arr);
     zend_hash_init(name_arr,n,NULL,NULL,0);
 
-    // PHP 7.2 的特殊要求
-    // 参考swoole的解决方案 c7109880427f9773b9925b046629e4e8344bdc34
     #ifdef HT_ALLOW_COW_VIOLATION
         HT_ALLOW_COW_VIOLATION(Z_ARRVAL_P(names_val));
     #endif
-    // 修改引用数组的值
+
     for (i = 0; i < n; i ++ )
     {
-        // php_error(E_WARNING, names[i]);
         zstring = zend_string_init(names[i], strlen(names[i]), 0);
         ZVAL_STR(&names_re,zstring);
         zend_hash_index_update(name_arr,i,&names_re);
@@ -2990,7 +3052,6 @@ PHP_FUNCTION(IupGetAllNames)
     zval *real_arr_val = Z_REFVAL_P(names_val);
     ZVAL_ARR(real_arr_val,name_arr);
 
-    free(names);
 
     RETURN_LONG(re);
 }
@@ -3003,7 +3064,6 @@ PHP_FUNCTION(IupGetAllDialogs)
 {
     int argc = ZEND_NUM_ARGS();
 
-    // 用以遍历arr_list数组
     zval *names_val;
 
     const char **names;
@@ -3012,18 +3072,22 @@ PHP_FUNCTION(IupGetAllDialogs)
 
     int max_num,re,i;
 
+    zval names_re;
+
+    zend_string * zstring;
+
+    HashTable *name_arr;
+
     if (zend_parse_parameters(argc,"zl",&names_val,&n) == FAILURE) {
         return;
     }
 
     max_num = IupGetAllDialogs(NULL,0);
 
-    // 当未提供接收数据的数组时，直接返回最大属性数量
     if(names_val == NULL || n == 0 || n == -1){
         RETURN_LONG(max_num);
     }
 
-    // 当设定的行数大于最大数量时，设定为最大值
     if(n > max_num){
         n = max_num;
     }
@@ -3037,22 +3101,16 @@ PHP_FUNCTION(IupGetAllDialogs)
 
     re = IupGetAllDialogs(names,n);
     
-    zval names_re;
-    zend_string * zstring;
 
-    HashTable *name_arr;
     ALLOC_HASHTABLE(name_arr);
     zend_hash_init(name_arr,n,NULL,NULL,0);
 
-    // PHP 7.2 的特殊要求
-    // 参考swoole的解决方案 c7109880427f9773b9925b046629e4e8344bdc34
     #ifdef HT_ALLOW_COW_VIOLATION
         HT_ALLOW_COW_VIOLATION(Z_ARRVAL_P(names_val));
     #endif
-    // 修改引用数组的值
+
     for (i = 0; i < n; i ++ )
     {
-        // php_error(E_WARNING, names[i]);
         zstring = zend_string_init(names[i], strlen(names[i]), 0);
         ZVAL_STR(&names_re,zstring);
         zend_hash_index_update(name_arr,i,&names_re);
@@ -3060,8 +3118,6 @@ PHP_FUNCTION(IupGetAllDialogs)
 
     zval *real_arr_val = Z_REFVAL_P(names_val);
     ZVAL_ARR(real_arr_val,name_arr);
-
-    free(names);
 
     RETURN_LONG(re);
 }
@@ -3080,7 +3136,7 @@ PHP_FUNCTION(IupGetName)
 
     char * str;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc,"r",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -3107,7 +3163,7 @@ PHP_FUNCTION(IupSetAttributeHandle)
 
     Ihandle *ih,*ih_named;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r!sr!",&ihandle_res,&name,&name_len,&ihandle_res_named) == FAILURE) {
+    if (zend_parse_parameters(argc,"r!sr!",&ihandle_res,&name,&name_len,&ihandle_res_named) == FAILURE) {
         return;
     }
 
@@ -3143,7 +3199,7 @@ PHP_FUNCTION(IupGetAttributeHandle)
 
     Ihandle *ih,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r!s",&ihandle_res,&name,&name_len) == FAILURE) {
+    if (zend_parse_parameters(argc,"r!s",&ihandle_res,&name,&name_len) == FAILURE) {
         return;
     }
 
@@ -3180,7 +3236,7 @@ PHP_FUNCTION(IupSetAttributeHandleId)
 
     Ihandle *ih,*ih_named;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r!slr!",&ihandle_res,&name,&name_len,&id,&ihandle_res_named) == FAILURE) {
+    if (zend_parse_parameters(argc,"r!slr!",&ihandle_res,&name,&name_len,&id,&ihandle_res_named) == FAILURE) {
         return;
     }
 
@@ -3218,7 +3274,7 @@ PHP_FUNCTION(IupGetAttributeHandleId)
 
     Ihandle *ih,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r!sl",&ihandle_res,&name,&name_len,&id) == FAILURE) {
+    if (zend_parse_parameters(argc,"r!sl",&ihandle_res,&name,&name_len,&id) == FAILURE) {
         return;
     }
 
@@ -3256,7 +3312,7 @@ PHP_FUNCTION(IupSetAttributeHandleId2)
 
     Ihandle *ih,*ih_named;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r!sllr!",&ihandle_res,&name,&name_len,&lin,&col,&ihandle_res_named) == FAILURE) {
+    if (zend_parse_parameters(argc,"r!sllr!",&ihandle_res,&name,&name_len,&lin,&col,&ihandle_res_named) == FAILURE) {
         return;
     }
 
@@ -3294,7 +3350,7 @@ PHP_FUNCTION(IupGetAttributeHandleId2)
 
     Ihandle *ih,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r!sll",&ihandle_res,&name,&name_len,&lin,&col) == FAILURE) {
+    if (zend_parse_parameters(argc,"r!sll",&ihandle_res,&name,&name_len,&lin,&col) == FAILURE) {
         return;
     }
 
@@ -3327,7 +3383,7 @@ PHP_FUNCTION(IupGetClassName)
 
     char * str;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc,"r",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -3352,7 +3408,7 @@ PHP_FUNCTION(IupGetClassType)
 
     char * str;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc,"r",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -3386,12 +3442,10 @@ PHP_FUNCTION(IupGetAllClasses)
 
     max_num = IupGetAllClasses(NULL,0);
 
-    // 当未提供接收数据的数组时，直接返回最大属性数量
     if(names_val == NULL || n == 0 || n == -1){
         RETURN_LONG(max_num);
     }
 
-    // 当设定的行数大于最大数量时，设定为最大值
     if(n > max_num){
         n = max_num;
     }
@@ -3412,15 +3466,12 @@ PHP_FUNCTION(IupGetAllClasses)
     ALLOC_HASHTABLE(name_arr);
     zend_hash_init(name_arr,n,NULL,NULL,0);
 
-    // PHP 7.2 的特殊要求
-    // 参考swoole的解决方案 c7109880427f9773b9925b046629e4e8344bdc34
     #ifdef HT_ALLOW_COW_VIOLATION
         HT_ALLOW_COW_VIOLATION(Z_ARRVAL_P(names_val));
     #endif
-    // 修改引用数组的值
+
     for (i = 0; i < n; i ++ )
     {
-        // php_error(E_WARNING, names[i]);
         zstring = zend_string_init(names[i], strlen(names[i]), 0);
         ZVAL_STR(&names_re,zstring);
         zend_hash_index_update(name_arr,i,&names_re);
@@ -3428,8 +3479,6 @@ PHP_FUNCTION(IupGetAllClasses)
 
     zval *real_arr_val = Z_REFVAL_P(names_val);
     ZVAL_ARR(real_arr_val,name_arr);
-
-    free(names);
 
     RETURN_LONG(re);
 }
@@ -3445,7 +3494,6 @@ PHP_FUNCTION(IupGetClassAttributes)
     char *name = NULL;
     size_t name_len;
 
-    // 用以遍历arr_list数组
     zval *names_val;
 
     const char **names;
@@ -3454,18 +3502,22 @@ PHP_FUNCTION(IupGetClassAttributes)
 
     int max_num,re,i;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"szl",&name,&name_len,&names_val,&n) == FAILURE) {
+    zval names_re;
+
+    zend_string * zstring;
+
+    HashTable *name_arr;
+
+    if (zend_parse_parameters(argc,"szl",&name,&name_len,&names_val,&n) == FAILURE) {
         return;
     }
 
     max_num = IupGetClassAttributes(name,NULL,0);
 
-    // 当未提供接收数据的数组时，直接返回最大属性数量
     if(names_val == NULL || n == 0 || n == -1){
         RETURN_LONG(max_num);
     }
 
-    // 当设定的行数大于最大数量时，设定为最大值
     if(n > max_num){
         n = max_num;
     }
@@ -3481,30 +3533,18 @@ PHP_FUNCTION(IupGetClassAttributes)
 
     if(re != -1){
 
-        zval names_re;
-
-        zend_string * zstring;
-
-        HashTable *name_arr;
         ALLOC_HASHTABLE(name_arr);
         zend_hash_init(name_arr,re,NULL,NULL,0);
 
-        // PHP 7.2 的特殊要求
-        // 参考swoole的解决方案 c7109880427f9773b9925b046629e4e8344bdc34
         #ifdef HT_ALLOW_COW_VIOLATION
             HT_ALLOW_COW_VIOLATION(Z_ARRVAL_P(names_val));
         #endif
 
-        // 修改引用数组的值
         for (i = 0; i < n; i ++ )
         {
-            // php_error(E_WARNING, names[i]);
-
             zstring = zend_string_init(names[i], strlen(names[i]), 0);
 
             ZVAL_STR(&names_re,zstring);
-
-            // zend_hash_index_update(Z_ARRVAL_P(names_val),i,&names_re);
 
             zend_hash_index_update(name_arr,i,&names_re);
         }
@@ -3512,8 +3552,6 @@ PHP_FUNCTION(IupGetClassAttributes)
         zval *real_arr_val = Z_REFVAL_P(names_val);
         ZVAL_ARR(real_arr_val,name_arr);
     }
-
-    free(names);
 
     RETURN_LONG(re);
 }
@@ -3529,7 +3567,6 @@ PHP_FUNCTION(IupGetClassCallbacks)
     char *name = NULL;
     size_t name_len;
 
-    // 用以遍历arr_list数组
     zval *names_val;
 
     const char **names;
@@ -3538,18 +3575,22 @@ PHP_FUNCTION(IupGetClassCallbacks)
 
     int max_num,re,i;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"szl",&name,&name_len,&names_val,&n) == FAILURE) {
+    zval names_re;
+
+    zend_string * zstring;
+
+    HashTable *name_arr;
+
+    if (zend_parse_parameters(argc,"szl",&name,&name_len,&names_val,&n) == FAILURE) {
         return;
     }
 
     max_num = IupGetClassCallbacks(name,NULL,0);
 
-    // 当未提供接收数据的数组时，直接返回最大属性数量
     if(names_val == NULL || n == 0 || n == -1){
         RETURN_LONG(max_num);
     }
 
-    // 当设定的行数大于最大数量时，设定为最大值
     if(n > max_num){
         n = max_num;
     }
@@ -3565,25 +3606,15 @@ PHP_FUNCTION(IupGetClassCallbacks)
 
     if(re != -1){
 
-        zval names_re;
-
-        zend_string * zstring;
-
-        HashTable *name_arr;
         ALLOC_HASHTABLE(name_arr);
         zend_hash_init(name_arr,n,NULL,NULL,0);
 
-        // PHP 7.2 的特殊要求
-        // 参考swoole的解决方案 c7109880427f9773b9925b046629e4e8344bdc34
         #ifdef HT_ALLOW_COW_VIOLATION
             HT_ALLOW_COW_VIOLATION(Z_ARRVAL_P(names_val));
         #endif
 
-        // 修改引用数组的值
         for (i = 0; i < n; i ++ )
         {
-            // php_error(E_WARNING, names[i]);
-
             zstring = zend_string_init(names[i], strlen(names[i]), 0);
 
             ZVAL_STR(&names_re,zstring);
@@ -3593,8 +3624,6 @@ PHP_FUNCTION(IupGetClassCallbacks)
         zval *real_arr_val = Z_REFVAL_P(names_val);
         ZVAL_ARR(real_arr_val,name_arr);
     }
-
-    free(names);
 
     RETURN_LONG(re);
 }
@@ -3611,7 +3640,7 @@ PHP_FUNCTION(IupSaveClassAttributes)
 
     Ihandle *ih;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc,"r",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -3635,7 +3664,7 @@ PHP_FUNCTION(IupCopyClassAttributes)
 
     Ihandle *ih,*dst_ih;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"rr",&ihandle_res,&ihandle_res_det) == FAILURE) {
+    if (zend_parse_parameters(argc,"rr",&ihandle_res,&ihandle_res_det) == FAILURE) {
         return;
     }
 
@@ -3688,7 +3717,7 @@ PHP_FUNCTION(IupClassMatch)
 
     int i;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"rs",&ihandle_res,&classname,&classname_len) == FAILURE) {
+    if (zend_parse_parameters(argc,"rs",&ihandle_res,&classname,&classname_len) == FAILURE) {
         return;
     }
 
@@ -3778,7 +3807,7 @@ PHP_FUNCTION(IupRadio)
 
     Ihandle *child,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r!",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc,"r!",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -3840,7 +3869,7 @@ PHP_FUNCTION(IupVboxv)
 
     Ihandle *children,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r!",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc,"r!",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -3902,7 +3931,7 @@ PHP_FUNCTION(IupZboxv)
 
     Ihandle *children,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r!",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc,"r!",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -3963,7 +3992,7 @@ PHP_FUNCTION(IupHboxv)
 
     Ihandle *children,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r!",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc,"r!",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -4024,7 +4053,7 @@ PHP_FUNCTION(IupNormalizerv)
 
     Ihandle *ih_list,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r!",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc,"r!",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -4085,7 +4114,7 @@ PHP_FUNCTION(IupCboxv)
 
     Ihandle *children,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r!",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc,"r!",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -4111,7 +4140,7 @@ PHP_FUNCTION(IupSbox)
 
     Ihandle *child,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r!",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc,"r!",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -4138,7 +4167,7 @@ PHP_FUNCTION(IupSplit)
 
     Ihandle *child1,*child2,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r!r!",&ihandle_res_child1,&ihandle_res_child2) == FAILURE) {
+    if (zend_parse_parameters(argc,"r!r!",&ihandle_res_child1,&ihandle_res_child2) == FAILURE) {
         return;
     }
 
@@ -4171,7 +4200,7 @@ PHP_FUNCTION(IupScrollBox)
 
     Ihandle *child,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r!",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc,"r!",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -4197,7 +4226,7 @@ PHP_FUNCTION(IupFlatScrollBox)
 
     Ihandle *child,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r!",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc,"r!",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -4258,7 +4287,7 @@ PHP_FUNCTION(IupGridBoxv)
 
     Ihandle *children,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r!",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc,"r!",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -4284,7 +4313,7 @@ PHP_FUNCTION(IupExpander)
 
     Ihandle *child,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r!",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc,"r!",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -4310,7 +4339,7 @@ PHP_FUNCTION(IupDetachBox)
 
     Ihandle *child,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r!",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc,"r!",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -4336,7 +4365,7 @@ PHP_FUNCTION(IupBackgroundBox)
 
     Ihandle *child,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r!",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc,"r!",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -4362,7 +4391,7 @@ PHP_FUNCTION(IupFrame)
 
     Ihandle *child,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r!",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc,"r!",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -4388,7 +4417,7 @@ PHP_FUNCTION(IupFlatFrame)
 
     Ihandle *child,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r!",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc,"r!",&ihandle_res) == FAILURE) {
         return;
     }
     if(ihandle_res == NULL){
@@ -4474,7 +4503,7 @@ PHP_FUNCTION(IupSubmenu)
 
     Ihandle *child,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"s!r!", &name, &name_len, &ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc,"s!r!", &name, &name_len, &ihandle_res) == FAILURE) {
         return;
     }
 
@@ -4553,7 +4582,7 @@ PHP_FUNCTION(IupMenuv)
 
     Ihandle *children,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc,"r",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -4645,7 +4674,7 @@ PHP_FUNCTION(IupDropButton)
 
     Ihandle *dropchild,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r!",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc,"r!",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -4731,7 +4760,7 @@ PHP_FUNCTION(IupDialog)
 
     Ihandle *child,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r!",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc,"r!",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -5003,6 +5032,23 @@ PHP_FUNCTION(IupFlatVal)
 /* }}} */
 
 
+/* {{{ proto string IupFlatTree()
+   ;
+*/
+PHP_FUNCTION(IupFlatTree)
+{
+    Ihandle *re;
+    if (zend_parse_parameters_none() == FAILURE) {
+        return;
+    }
+
+    re = IupFlatTree();
+
+    RETURN_RES(zend_register_resource(re, le_iup_ihandle));
+}
+/* }}} */
+
+
 /* {{{ proto resource IupTabs(resource child)
    ;
  */
@@ -5049,7 +5095,7 @@ PHP_FUNCTION(IupTabsv)
 
     Ihandle *children,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r!",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc,"r!",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -5110,7 +5156,7 @@ PHP_FUNCTION(IupFlatTabsv)
 
     Ihandle *children,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r!",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc,"r!",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -5179,7 +5225,7 @@ PHP_FUNCTION(IupAnimatedLabel)
 
     Ihandle *animation,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r!",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc,"r!",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -5324,7 +5370,7 @@ PHP_FUNCTION(IupSpinbox)
 
     Ihandle *child,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc,"r",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -5386,7 +5432,7 @@ PHP_FUNCTION(IupSaveImageAsText)
 
     int re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"rsss",&ihandle_res,&file_name, &file_name_len, &format, &format_len, &name, &name_len) == FAILURE) {
+    if (zend_parse_parameters(argc,"rsss",&ihandle_res,&file_name, &file_name_len, &format, &format_len, &name, &name_len) == FAILURE) {
         return;
     }
 
@@ -5438,7 +5484,7 @@ PHP_FUNCTION(IupTextConvertLinColToPos)
 
     int pos;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"rllz",&ihandle_res,&lin,&col,&pos_val) == FAILURE) {
+    if (zend_parse_parameters(argc,"rllz",&ihandle_res,&lin,&col,&pos_val) == FAILURE) {
         return;
     }
 
@@ -5472,7 +5518,7 @@ PHP_FUNCTION(IupTextConvertPosToLinCol)
 
     int lin,col;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"rlzz",&ihandle_res,&pos,&lin_val,&col_val) == FAILURE) {
+    if (zend_parse_parameters(argc,"rlzz",&ihandle_res,&pos,&lin_val,&col_val) == FAILURE) {
         return;
     }
 
@@ -5503,7 +5549,7 @@ PHP_FUNCTION(IupConvertXYToPos)
 
     int i;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"rll",&ihandle_res,&x,&y) == FAILURE) {
+    if (zend_parse_parameters(argc,"rll",&ihandle_res,&x,&y) == FAILURE) {
         return;
     }
 
@@ -5609,7 +5655,7 @@ PHP_FUNCTION(IupTreeSetUserId)
 
     int i;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"rll!",&ihandle_res,&id,&userid) == FAILURE) {
+    if (zend_parse_parameters(argc,"rll!",&ihandle_res,&id,&userid) == FAILURE) {
         return;
     }
 
@@ -5640,7 +5686,7 @@ PHP_FUNCTION(IupTreeGetUserId)
 
     int i;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"rl",&ihandle_res,&id) == FAILURE) {
+    if (zend_parse_parameters(argc,"rl",&ihandle_res,&id) == FAILURE) {
         return;
     }
 
@@ -5669,7 +5715,7 @@ PHP_FUNCTION(IupTreeGetId)
 
     int i;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"rl",&ihandle_res,&userid) == FAILURE) {
+    if (zend_parse_parameters(argc,"rl",&ihandle_res,&userid) == FAILURE) {
         return;
     }
 
@@ -5827,25 +5873,7 @@ PHP_FUNCTION(IupMessagef)
 {
 
     php_error(E_WARNING, "IupMessagef: not implemented, use IupMessage instead");
-    
-    // int argc = ZEND_NUM_ARGS();
 
-    // char *title = NULL;
-    // size_t title_len;
-
-    // char *format = NULL;
-    // size_t format_len;
-
-    // char *msg = NULL;
-    // size_t msg_len;
-
-    // if (zend_parse_parameters(argc, "sss", &title, &title_len, &format, &format_len, &msg, &msg_len) == FAILURE) {
-    //     return;
-    // }
-
-    // IupMessagef(title,format,msg);
-
-    // RETURN_BOOL(1);
 }
 /* }}} */
 
@@ -5863,7 +5891,7 @@ PHP_FUNCTION(IupMessageError)
     char *message = NULL;
     size_t message_len;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"rs",&ihandle_res, &message, &message_len) == FAILURE) {
+    if (zend_parse_parameters(argc,"rs",&ihandle_res, &message, &message_len) == FAILURE) {
         return;
     }
 
@@ -5897,7 +5925,7 @@ PHP_FUNCTION(IupMessageAlarm)
 
     int i;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"rsss",&ihandle_res, &title, &title_len, &message, &message_len, &buttons, &buttons_len) == FAILURE) {
+    if (zend_parse_parameters(argc,"rsss",&ihandle_res, &title, &title_len, &message, &message_len, &buttons, &buttons_len) == FAILURE) {
         return;
     }
 
@@ -5974,24 +6002,20 @@ PHP_FUNCTION(IupListDialog)
 
     int *marks;
 
-    // 用以遍历arr_list数组
     long num_key;
     zval *val,*marks_val;
     zend_string *key;
 
-    // 执行结果
     int error,i;
 
     if (zend_parse_parameters(argc, "lslhlllz!", &type,&title, &title_len,&size,&arr_list,&op,&max_col,&max_lin,&marks_val) == FAILURE) {
         return;
     }
 
-    // 先根据数组的数量，申请内存
     list = (char **)malloc(sizeof(char *) * size);
 
     i = 0;
 
-    // 将php的字符串数组转换为c的字符串数组
     ZEND_HASH_FOREACH_KEY_VAL(arr_list, num_key, key, val) {
 
         if(Z_TYPE_P(val) == IS_STRING && i < size) {
@@ -6004,7 +6028,6 @@ PHP_FUNCTION(IupListDialog)
         }
     } ZEND_HASH_FOREACH_END();
 
-    // 初始化marks，默认全部不选中
     marks = (int *)malloc(sizeof(int) * size);
 
     for (i = 0; i < size; i ++ )
@@ -6017,9 +6040,7 @@ PHP_FUNCTION(IupListDialog)
         if(Z_TYPE_P(marks_val) == IS_ARRAY)
         {
             arr_marks = Z_ARRVAL_P(marks_val);
-            // 遍历数组
             i = 0;
-            // 将php的字符串数组转换为c的字符串数组
             ZEND_HASH_FOREACH_KEY_VAL(arr_marks, num_key, key, val) {
                 if(Z_TYPE_P(val) == IS_LONG && i < size) {
                     if(Z_LVAL_P(val) > 0){
@@ -6038,36 +6059,20 @@ PHP_FUNCTION(IupListDialog)
 
     error = IupListDialog(type,title,size,list,op,max_col,max_lin,marks);
 
-    // 判断返回结果，如果是类型2，并且用户有所选中
     if(type == 2 && error == 1 && marks_val != NULL){
 
         zval marks_re;
 
-        // PHP 7.2 的特殊要求
-        // 参考swoole的解决方案 c7109880427f9773b9925b046629e4e8344bdc34
         #ifdef HT_ALLOW_COW_VIOLATION
             HT_ALLOW_COW_VIOLATION(Z_ARRVAL_P(marks_val));
         #endif
 
-        // 修改引用数组的值
         for (i = 0; i < size; i ++ )
         {
             ZVAL_LONG(&marks_re,marks[i]);
             zend_hash_index_update(Z_ARRVAL_P(marks_val),i,&marks_re);
         }
     }
-
-    // 释放内存
-    // for (i = 0; i < size ; i++)
-    // {
-    //     if(list[i] != NULL){
-    //        free(list[i]);
-    //     }
-    // }
-
-    free(list);
-
-    free(marks);
 
     RETURN_LONG(error);
 
@@ -6200,7 +6205,7 @@ PHP_FUNCTION(IupLayoutDialog)
 
     Ihandle *dialog,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r!",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc,"r!",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -6227,7 +6232,7 @@ PHP_FUNCTION(IupElementPropertiesDialog)
 
     Ihandle *parent,*elem,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"rr",&ihandle_res1,&ihandle_res2) == FAILURE) {
+    if (zend_parse_parameters(argc,"rr",&ihandle_res1,&ihandle_res2) == FAILURE) {
         return;
     }
 
@@ -6272,7 +6277,7 @@ PHP_FUNCTION(IupClassInfoDialog)
 
     Ihandle *dialog,*re;
 
-    if (zend_parse_parameters(argc TSRMLS_DC,"r!",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc,"r!",&ihandle_res) == FAILURE) {
         return;
     }
 

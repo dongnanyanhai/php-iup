@@ -341,19 +341,41 @@ int imProcessBinMorphClose(const imImage* src_image, imImage* dst_image, int ker
  * \ingroup morphbin */
 int imProcessBinMorphOutline(const imImage* src_image, imImage* dst_image, int kernel_size, int iter);
 
+/** \defgroup binary Binary Image Operations
+ * \par
+ * Other binary image operations.
+ * \par
+ * See \ref im_process_loc.h
+ * \ingroup process */
+
+
+/** Thins the supplied binary image using Zhang-Suen thinning algorithm. \n
+ * Reference: \n
+ * Rosetta Code \n
+ * https://rosettacode.org/wiki/Zhang-Suen_thinning_algorithm \n
+ * Not using OpenMP when enabled.                            \n
+ * Returns zero if the counter aborted (counter is approximate). \n
+ * (since 3.14)
+ *
+ * \verbatim im.ProcessBinThinZhangSuen(src_image: imImage, dst_image: imImage)-> counter: boolean [in Lua 5] \endverbatim
+ * \verbatim im.ProcessBinThinZhangSuenNew(image: imImage) -> counter: boolean, new_image: imImage [in Lua 5] \endverbatim
+ * \ingroup binary */
+int imProcessBinThinZhangSuen(imImage* src_image, imImage* dst_image);
+
+
 /** Thins the supplied binary image using Rosenfeld's parallel thinning algorithm. \n
  * Reference: \n
  * "Efficient Binary Image Thinning using Neighborhood Maps" \n
  * by Joseph M. Cychosz, 3ksnn64@ecn.purdue.edu              \n
  * in "Graphics Gems IV", Academic Press, 1994               \n
- * Not using OpenMP when enabled.
- * Returns zero if the counter aborted (counter is approximate).
+ * Not using OpenMP when enabled. \n
+ * Returns zero if the counter aborted (counter is approximate). \n
+ * (renamed in 3.14)
  *
- * \verbatim im.ProcessBinMorphThin(src_image: imImage, dst_image: imImage)-> counter: boolean [in Lua 5] \endverbatim
- * \verbatim im.ProcessBinMorphThinNew(image: imImage) -> counter: boolean, new_image: imImage [in Lua 5] \endverbatim
- * \ingroup morphbin */
-int imProcessBinMorphThin(const imImage* src_image, imImage* dst_image);
-
+ * \verbatim im.ProcessBinThinNhMaps(src_image: imImage, dst_image: imImage)-> counter: boolean [in Lua 5] \endverbatim
+ * \verbatim im.ProcessBinThinNhMapsNew(image: imImage) -> counter: boolean, new_image: imImage [in Lua 5] \endverbatim
+ * \ingroup binary */
+int imProcessBinThinNhMaps(const imImage* src_image, imImage* dst_image);
 
 
 /** \defgroup rank Rank Convolution Operations

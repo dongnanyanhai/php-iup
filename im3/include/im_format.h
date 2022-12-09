@@ -26,7 +26,7 @@ public:
   imFileFormatBase(const imFormat* _iformat): iformat(_iformat) {}
   virtual ~imFileFormatBase() {}
 
-  imAttribTable* AttribTable() {return (imAttribTable*)this->attrib_table;}
+  imAttribTable* AttribTable() {return (imAttribTable*)this->attributes_table;}
 
   /* Pure Virtual Methods. Every driver must implement all the following methods. */
 

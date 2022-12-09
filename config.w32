@@ -19,6 +19,7 @@ if (PHP_IUP != "no") {
 
         &&CHECK_HEADER_ADD_INCLUDE("cd.h", "CFLAGS_PHP_IUP", PHP_IUP + ";" + configure_module_dirname+ "/cd5/include")
         && CHECK_LIB("cd.lib", "iup", PHP_IUP + ";" + configure_module_dirname + "/cd5")
+        && CHECK_LIB("cdcairo.lib", "iup", PHP_IUP + ";" + configure_module_dirname + "/cd5")
         && CHECK_LIB("cdcontextplus.lib", "iup", PHP_IUP + ";" + configure_module_dirname + "/cd5")
         && CHECK_LIB("cdgl.lib", "iup", PHP_IUP + ";" + configure_module_dirname + "/cd5")
         && CHECK_LIB("cdim.lib", "iup", PHP_IUP + ";" + configure_module_dirname + "/cd5")

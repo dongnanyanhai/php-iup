@@ -45,6 +45,32 @@ void imColorHSI2RGB(double h, double s, double i, double *r, double *g, double *
  * \ingroup hsi */
 void imColorHSI2RGBbyte(double h, double s, double i, unsigned char *r, unsigned char *g, unsigned char *b);
 
+/** Returns just the hue of the color RGB.
+ * \ingroup hsi */
+double imColorHue(double R, double G, double B);
+
+/** Returns just the hue of the color RGB (byte).
+ * \ingroup hsi */
+double imColorHueByte(unsigned char r, unsigned char g, unsigned char b);
+
+/** Returns just the intensity of the color RGB.
+ * \ingroup hsi */
+double imColorIntensity(double R, double G, double B);
+
+/** Returns just the intensity of the color RGB (byte).
+ * \ingroup hsi */
+double imColorIntensityByte(unsigned char r, unsigned char g, unsigned char b);
+
+/** Returns just the saturation of the color RGB.\n
+ * Here S is not normalized by Smax.
+ * \ingroup hsi */
+double imColorSaturation(double R, double G, double B);
+
+/** Returns just the saturation of the color RGB (byte).
+ * \ingroup hsi */
+double imColorSaturationByte(unsigned char r, unsigned char g, unsigned char b);
+
+
 /***********************************************/
 
 /** Returns I where S is maximum given H (here in radians).

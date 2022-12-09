@@ -195,16 +195,16 @@
 /* These modifiers definitions are specific to IUP    */
 /******************************************************/
 
-#define iup_isShiftXkey(_c) ((_c) & 0x10000000)
-#define iup_isCtrlXkey(_c)  ((_c) & 0x20000000)
-#define iup_isAltXkey(_c)   ((_c) & 0x40000000)
-#define iup_isSysXkey(_c)   ((_c) & 0x80000000)
+#define iup_isShiftXkey(_c) (((_c) & 0x10000000) != 0)
+#define iup_isCtrlXkey(_c)  (((_c) & 0x20000000) != 0)
+#define iup_isAltXkey(_c)   (((_c) & 0x40000000) != 0)
+#define iup_isSysXkey(_c)   (((_c) & 0x80000000) != 0)
 
 #define iup_XkeyBase(_c)  ((_c) & 0x0FFFFFFF)
 #define iup_XkeyShift(_c) ((_c) | 0x10000000)   /* Shift  */
 #define iup_XkeyCtrl(_c)  ((_c) | 0x20000000)   /* Ctrl   */
 #define iup_XkeyAlt(_c)   ((_c) | 0x40000000)   /* Alt    */
-#define iup_XkeySys(_c)   ((_c) | 0x80000000)   /* Sys (Win or Apple) */
+#define iup_XkeySys(_c)   ((_c) | 0x80000000)   /* Sys (Win or Apple) - notice that using "int" will display a negative value */
 
 /* These definitions are here for backward compatibility 
    and to simplify some key combination usage.

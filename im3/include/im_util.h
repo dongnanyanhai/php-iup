@@ -257,11 +257,9 @@ void imBinSwapBytes8(void *data, int count);
  * http://software.schmorp.de/pkg/liblzf                  \n
  * Copyright (C) 2000-2009 Marc Alexander Lehmann
  * \par
- * LZO compression support uses mini-libLZO version 2.07. \n
- * http://www.oberhumer.com/opensource/lzo/                  \n
- * Copyright (C) 1996-2014 Markus Franz Xaver Johannes Oberhumer \n
- * But its License is GPL, so we kept it in a separate library 
- * called "im_lzo" that is also GPL.
+ * LZ4 compression support uses LZ4 version 1.9.3. \n
+ * https://lz4.github.io/lz4/                  \n
+ * Copyright (c) 2011-2016, Yann Collet
  *
  * See \ref im_util.h
  * \ingroup util */
@@ -288,17 +286,17 @@ int imCompressDataLZF(const void* src_data, int src_size, void* dst_data, int ds
  * \ingroup compress */
 int imCompressDataUnLZF(const void* src_data, int src_size, void* dst_data, int dst_size);
 
-/** Compresses the data using the libLZO compression. (Since 3.9) \n
+/** Compresses the data using the libLZ4 compression. (Since 3.15) \n
 * Returns the size of the compressed buffer or zero if failed. \n
-* Available in a separate library called "im_lzo" which license is GPL.
+* Available in a separate library called "im_lz4".
 * \ingroup compress */
-int imCompressDataLZO(const void* src_data, int src_size, void* dst_data, int dst_size);
+int imCompressDataLZ4(const void* src_data, int src_size, void* dst_data, int dst_size);
 
-/** Uncompresses the data compressed with the libLZO compression. (Since 3.9) \n
+/** Uncompresses the data compressed with the libLZ4 compression. (Since 3.15) \n
 * Returns zero if failed. \n
-* Available in a separate library called "im_lzo" which license is GPL.
+* Available in a separate library called "im_lz4".
 * \ingroup compress */
-int imCompressDataUnLZO(const void* src_data, int src_size, void* dst_data, int dst_size);
+int imCompressDataUnLZ4(const void* src_data, int src_size, void* dst_data, int dst_size);
 
 
 #if defined(__cplusplus)

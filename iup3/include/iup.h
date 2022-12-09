@@ -21,10 +21,10 @@ extern "C" {
 
 #define IUP_NAME "IUP - Portable User Interface"
 #define IUP_DESCRIPTION "Multi-platform Toolkit for Building Graphical User Interfaces"
-#define IUP_COPYRIGHT "Copyright (C) 1994-2019 Tecgraf/PUC-Rio"
-#define IUP_VERSION "3.28"         /* bug fixes are reported only by IupVersion functions */
-#define IUP_VERSION_NUMBER 328000
-#define IUP_VERSION_DATE "2019/12/13"  /* does not include bug fix releases */
+#define IUP_COPYRIGHT "Copyright (C) 1994-2020 Tecgraf/PUC-Rio"
+#define IUP_VERSION "3.30"         /* bug fixes are reported only by IupVersion functions */
+#define IUP_VERSION_NUMBER 330000
+#define IUP_VERSION_DATE "2020/07/30"  /* does not include bug fix releases */
 
 typedef struct Ihandle_ Ihandle;
 typedef int (*Icallback)(Ihandle*);
@@ -112,6 +112,7 @@ IUP_API void      IupSetInt         (Ihandle* ih, const char* name, int value);
 IUP_API void      IupSetFloat       (Ihandle* ih, const char* name, float value);
 IUP_API void      IupSetDouble      (Ihandle* ih, const char* name, double value);
 IUP_API void      IupSetRGB         (Ihandle* ih, const char* name, unsigned char r, unsigned char g, unsigned char b);
+IUP_API void      IupSetRGBA        (Ihandle* ih, const char* name, unsigned char r, unsigned char g, unsigned char b, unsigned char a);
 
 IUP_API char*     IupGetAttribute(Ihandle* ih, const char* name);
 IUP_API int       IupGetInt      (Ihandle* ih, const char* name);
@@ -120,6 +121,7 @@ IUP_API int       IupGetIntInt   (Ihandle* ih, const char* name, int *i1, int *i
 IUP_API float     IupGetFloat    (Ihandle* ih, const char* name);
 IUP_API double    IupGetDouble(Ihandle* ih, const char* name);
 IUP_API void      IupGetRGB      (Ihandle* ih, const char* name, unsigned char *r, unsigned char *g, unsigned char *b);
+IUP_API void      IupGetRGBA     (Ihandle* ih, const char* name, unsigned char *r, unsigned char *g, unsigned char *b, unsigned char *a);
 
 IUP_API void  IupSetAttributeId(Ihandle* ih, const char* name, int id, const char *value);
 IUP_API void  IupSetStrAttributeId(Ihandle* ih, const char* name, int id, const char *value);
@@ -258,6 +260,7 @@ IUP_API Ihandle*  IupClipboard  (void);
 IUP_API Ihandle*  IupProgressBar(void);
 IUP_API Ihandle*  IupVal        (const char *type);
 IUP_API Ihandle*  IupFlatVal    (const char *type);
+IUP_API Ihandle*  IupFlatTree   (void);
 IUP_API Ihandle*  IupTabs       (Ihandle* child, ...);
 IUP_API Ihandle*  IupTabsv      (Ihandle* *children);
 IUP_API Ihandle*  IupFlatTabs   (Ihandle* first, ...);
@@ -304,7 +307,7 @@ IUP_API void IupSetfAttributeId(Ihandle* ih, const char* name, int id, const cha
 IUP_API void IupStoreAttributeId2(Ihandle* ih, const char* name, int lin, int col, const char* value);
 IUP_API void IupSetfAttributeId2(Ihandle* ih, const char* name, int lin, int col, const char* format, ...);
 
-/* IupTree utilities */
+/* IupTree and IupFlatTree utilities (work for both) */
 IUP_API int   IupTreeSetUserId(Ihandle* ih, int id, void* userid);
 IUP_API void* IupTreeGetUserId(Ihandle* ih, int id);
 IUP_API int   IupTreeGetId(Ihandle* ih, void *userid);
@@ -377,8 +380,12 @@ IUP_API Ihandle* IupClassInfoDialog(Ihandle* parent);
 #define IUP_MOUSEPOS      0xFFFC  /* 65532 */
 #define IUP_CURRENT       0xFFFB  /* 65531 */
 #define IUP_CENTERPARENT  0xFFFA  /* 65530 */
-#define IUP_TOP       IUP_LEFT
-#define IUP_BOTTOM    IUP_RIGHT
+#define IUP_LEFTPARENT    0xFFF9  /* 65529 */
+#define IUP_RIGHTPARENT   0xFFF8  /* 65528 */
+#define IUP_TOP           IUP_LEFT
+#define IUP_BOTTOM        IUP_RIGHT
+#define IUP_TOPPARENT     IUP_LEFTPARENT
+#define IUP_BOTTOMPARENT  IUP_RIGHTPARENT
 
 /************************************************************************/
 /*               SHOW_CB Callback Values                                */

@@ -124,6 +124,8 @@ namespace Iup
     double GetNumber(const char* name) { return IupGetDouble(ih, name); }
     void SetRGB(const char* name, unsigned char r, unsigned char g, unsigned char b) { IupSetRGB(ih, name, r, g, b); }
     void GetRGB(const char* name, unsigned char &r, unsigned char &g, unsigned char &b) { IupGetRGB(ih, name, &r, &g, &b); }
+    void SetRGBA(const char* name, unsigned char r, unsigned char g, unsigned char b, unsigned char a) { IupSetRGBA(ih, name, r, g, b, a); }
+    void GetRGBA(const char* name, unsigned char &r, unsigned char &g, unsigned char &b, unsigned char &a) { IupGetRGBA(ih, name, &r, &g, &b, &a); }
 
     void SetAttributeId(const char* name, int id, const char* value) { IupSetAttributeId(ih, name, id, value); }
     char* GetAttributeId(const char* name, int id) { return IupGetAttributeId(ih, name, id); }
@@ -515,6 +517,13 @@ namespace Iup
     FlatVal(const char* orientation = 0) : Control(IupFlatVal(orientation)) {}
     FlatVal(Ihandle* _ih) : Control(_ih) {}
     FlatVal(const Element& elem) : Control(elem.GetHandle()) {}
+  };
+  class FlatTree : public Control
+  {
+  public:
+    FlatTree() : Control(IupFlatTree()) {}
+    FlatTree(Ihandle* _ih) : Control(_ih) {}
+    FlatTree(const Element& elem) : Control(elem.GetHandle()) {}
   };
   class ProgressBar : public Control
   {

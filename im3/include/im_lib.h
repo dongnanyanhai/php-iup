@@ -31,11 +31,11 @@ extern "C" {
  */
 #define IM_NAME "IM - An Imaging Toolkit"
 #define IM_DESCRIPTION "Toolkit for Image Representation, Storage, Capture and Processing"
-#define IM_COPYRIGHT "Copyright (C) 1994-2019 Tecgraf/PUC-Rio"
+#define IM_COPYRIGHT "Copyright (C) 1994-2020 Tecgraf/PUC-Rio"
 #define IM_AUTHOR "Antonio Scuri"
-#define IM_VERSION "3.13"      /* bug fixes are reported only by imVersion functions */
-#define IM_VERSION_NUMBER 313000
-#define IM_VERSION_DATE "2019/01/07"  /* does not include bug fix releases */
+#define IM_VERSION "3.15"      /* bug fixes are reported only by imVersion functions */
+#define IM_VERSION_NUMBER 315000
+#define IM_VERSION_DATE "2020/07/30"  /* does not include bug fix releases */
 /** @} */
 
 
@@ -104,7 +104,7 @@ int imVersionNumber(void);
 \verbatim
 
 ****************************************************************************
-Copyright (C) 1994-2019 Tecgraf/PUC-Rio.                                
+Copyright (C) 1994-2020 Tecgraf/PUC-Rio.                                
                                                                          
 Permission is hereby granted, free of charge, to any person obtaining    
 a copy of this software and associated documentation files (the          

@@ -20,14 +20,16 @@ extern "C" {
  * \par
  * Copyright (c) 1986-1988, 1992 by Adobe Systems Incorporated. \n
  * Originally created by a group of companies,
- * the Aldus Corporation keeped the copyright until Aldus was aquired by Adobe. \n
+ * the Aldus Corporation kept the copyright until Aldus was acquired by Adobe. \n
  * TIFF Revision 6.0 Final — June 3, 1992 \n
  * http://www.adobe.com/Support/TechNotes.html
  * \par
- * Access to the TIFF file format uses libTIFF version 4.0.3 \n
- * http://www.remotesensing.org/libtiff/                     \n
- * Copyright (c) 1988-1997 Sam Leffler                      \n
- * Copyright (c) 1991-1997 Silicon Graphics, Inc.           \n
+ * Access to the TIFF file format uses libTIFF version 4.1.0 \n
+ * http://www.simplesystems.org/libtiff/                     \n
+ * https://libtiff.gitlab.io/libtiff/                        \n
+ * http://libtiff.maptools.org/                              \n
+ * Copyright (c) 1988-1997 Sam Leffler                       \n
+ * Copyright (c) 1991-1997 Silicon Graphics, Inc.            \n
  *
  * \section Features
  *
@@ -105,11 +107,13 @@ extern "C" {
 
     Changes:
       "tiff_jpeg.c" - commented "downsampled_output = TRUE" and downsampled_input = TRUE.
-      "tiff_fax3.c" - replaced "inline" by "INLINE"
+      "tiff_fax3.c" - removed "inline"
       "tif_strip.c" - fixed scanline_size
       New files "tif_config.h" and "tifconf.h" to match our needs.
       New file "tiff_binfile.c" that implement I/O rotines using imBinFile.
       Search for "IMLIB" to see the changes.
+      These changes can be ignored when using an external libTIFF distribution,
+      but in this case the handling of upsampled YCbCr raw data will be compromissed.
 \endverbatim
  * \ingroup format */
 void imFormatRegisterTIFF(void);
@@ -122,14 +126,14 @@ void imFormatRegisterTIFF(void);
  * ISO/IEC 10918 (1994, 1995, 1997, 1999)\n
  * http://www.jpeg.org/
  * \par
- * Access to the JPEG file format uses libjpeg version 8c. \n
+ * Access to the JPEG file format uses libjpeg version 9d. \n
  * http://www.ijg.org                                      \n
- * Copyright (C) 1994-2011, Thomas G. Lane, Guido Vollbeding  \n
+ * Copyright (C) 1994-2020, Thomas G. Lane, Guido Vollbeding  \n
  *   from the Independent JPEG Group.
  * \par
- * Access to the EXIF attributes uses libEXIF version 0.6.20. \n
+ * Access to the EXIF attributes uses libEXIF version 0.6.21. \n
  * http://sourceforge.net/projects/libexif                    \n
- * Copyright (C) 2001-2010, Lutz Müller
+ * Copyright (C) 2001-2009, Lutz Müller et. al.
  *
  * \section Features
  *
@@ -155,13 +159,13 @@ void imFormatRegisterTIFF(void);
       (lots of Exif tags)
 
     Changes to libJPEG:
-      jdatadst.c - fflush and ferror replaced by macros JFFLUSH and JFERROR.
-      jinclude.h - standard JFFLUSH and JFERROR definitions, and new macro HAVE_JFIO.
       new file created: jconfig.h from jconfig.txt
+      These changes can be ignored when using an external libJPEG distribution
 
     Changes to libEXIF:
       new files config.h and _stdint.h
-      small fixes in exif-entry.c, exif-loader.c, exif-tag.c, mnote-fuji-tag.h and mnote-olympus-tag.h
+      small fixes to improve compilation. 
+      These changes can be ignored when using an external libEXIF distribution
 
     Comments:
       Other APPx markers are ignored.
