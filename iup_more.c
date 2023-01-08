@@ -87,7 +87,7 @@ PHP_FUNCTION(IupConfigLoad)
 
     int re;
 
-    if (zend_parse_parameters(argc,"r",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -112,7 +112,7 @@ PHP_FUNCTION(IupConfigSave)
 
     int re;
 
-    if (zend_parse_parameters(argc,"r",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -145,7 +145,7 @@ PHP_FUNCTION(IupConfigSetVariableStr)
     char *value = NULL;
     size_t value_len;
 
-    if (zend_parse_parameters(argc,"r!sss!",&ihandle_res,&group,&group_len,&key,&key_len,&value,&value_len) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!sss!",&ihandle_res,&group,&group_len,&key,&key_len,&value,&value_len) == FAILURE) {
         return;
     }
 
@@ -183,7 +183,7 @@ PHP_FUNCTION(IupConfigSetVariableStrId)
     char *value = NULL;
     size_t value_len;
 
-    if (zend_parse_parameters(argc,"r!ssls!",&ihandle_res,&group,&group_len,&key,&key_len,&id,&value,&value_len) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!ssls!",&ihandle_res,&group,&group_len,&key,&key_len,&id,&value,&value_len) == FAILURE) {
         return;
     }
 
@@ -218,7 +218,7 @@ PHP_FUNCTION(IupConfigSetVariableInt)
 
     zend_long value;
 
-    if (zend_parse_parameters(argc,"r!ssl!",&ihandle_res,&group,&group_len,&key,&key_len,&value) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!ssl!",&ihandle_res,&group,&group_len,&key,&key_len,&value) == FAILURE) {
         return;
     }
 
@@ -253,7 +253,7 @@ PHP_FUNCTION(IupConfigSetVariableIntId)
 
     zend_long id,value;
 
-    if (zend_parse_parameters(argc,"r!ssll!",&ihandle_res,&group,&group_len,&key,&key_len,&id,&value) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!ssll!",&ihandle_res,&group,&group_len,&key,&key_len,&id,&value) == FAILURE) {
         return;
     }
 
@@ -288,7 +288,7 @@ PHP_FUNCTION(IupConfigSetVariableDouble)
 
     double value;
 
-    if (zend_parse_parameters(argc,"r!ssd!",&ihandle_res,&group,&group_len,&key,&key_len,&value) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!ssd!",&ihandle_res,&group,&group_len,&key,&key_len,&value) == FAILURE) {
         return;
     }
 
@@ -324,7 +324,7 @@ PHP_FUNCTION(IupConfigSetVariableDoubleId)
     zend_long id;
     double value;
 
-    if (zend_parse_parameters(argc,"r!ssld!",&ihandle_res,&group,&group_len,&key,&key_len,&id,&value) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!ssld!",&ihandle_res,&group,&group_len,&key,&key_len,&id,&value) == FAILURE) {
         return;
     }
 
@@ -360,7 +360,7 @@ PHP_FUNCTION(IupConfigGetVariableStr)
 
     char * str;
 
-    if (zend_parse_parameters(argc,"r!ss",&ihandle_res,&group,&group_len,&key,&key_len) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!ss",&ihandle_res,&group,&group_len,&key,&key_len) == FAILURE) {
         return;
     }
 
@@ -401,7 +401,7 @@ PHP_FUNCTION(IupConfigGetVariableStrId)
 
     char * str;
 
-    if (zend_parse_parameters(argc,"r!ssl",&ihandle_res,&group,&group_len,&key,&key_len,&id) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!ssl",&ihandle_res,&group,&group_len,&key,&key_len,&id) == FAILURE) {
         return;
     }
 
@@ -440,7 +440,7 @@ PHP_FUNCTION(IupConfigGetVariableInt)
 
     int re;
 
-    if (zend_parse_parameters(argc,"r!ss",&ihandle_res,&group,&group_len,&key,&key_len) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!ss",&ihandle_res,&group,&group_len,&key,&key_len) == FAILURE) {
         return;
     }
 
@@ -477,7 +477,7 @@ PHP_FUNCTION(IupConfigGetVariableIntId)
 
     int re;
 
-    if (zend_parse_parameters(argc,"r!ssl",&ihandle_res,&group,&group_len,&key,&key_len,&id) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!ssl",&ihandle_res,&group,&group_len,&key,&key_len,&id) == FAILURE) {
         return;
     }
 
@@ -512,7 +512,7 @@ PHP_FUNCTION(IupConfigGetVariableDouble)
 
     double d;
 
-    if (zend_parse_parameters(argc,"r!ss",&ihandle_res,&group,&group_len,&key,&key_len) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!ss",&ihandle_res,&group,&group_len,&key,&key_len) == FAILURE) {
         return;
     }
 
@@ -549,7 +549,7 @@ PHP_FUNCTION(IupConfigGetVariableDoubleId)
 
     double d;
 
-    if (zend_parse_parameters(argc,"r!ssl",&ihandle_res,&group,&group_len,&key,&key_len,&id) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!ssl",&ihandle_res,&group,&group_len,&key,&key_len,&id) == FAILURE) {
         return;
     }
 
@@ -588,7 +588,7 @@ PHP_FUNCTION(IupConfigGetVariableStrDef)
 
     char * str;
 
-    if (zend_parse_parameters(argc,"r!ssd",&ihandle_res,&group,&group_len,&key,&key_len,&def,&def_len) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!ssd",&ihandle_res,&group,&group_len,&key,&key_len,&def,&def_len) == FAILURE) {
         return;
     }
 
@@ -632,7 +632,7 @@ PHP_FUNCTION(IupConfigGetVariableStrIdDef)
 
     char * str;
 
-    if (zend_parse_parameters(argc,"r!ssld",&ihandle_res,&group,&group_len,&key,&key_len,&id,&def,&def_len) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!ssld",&ihandle_res,&group,&group_len,&key,&key_len,&id,&def,&def_len) == FAILURE) {
         return;
     }
 
@@ -673,7 +673,7 @@ PHP_FUNCTION(IupConfigGetVariableIntDef)
 
     int re;
 
-    if (zend_parse_parameters(argc,"r!ssd",&ihandle_res,&group,&group_len,&key,&key_len,&def) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!ssd",&ihandle_res,&group,&group_len,&key,&key_len,&def) == FAILURE) {
         return;
     }
 
@@ -710,7 +710,7 @@ PHP_FUNCTION(IupConfigGetVariableIntIdDef)
 
     int re;
 
-    if (zend_parse_parameters(argc,"r!ssld",&ihandle_res,&group,&group_len,&key,&key_len,&id,&def) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!ssld",&ihandle_res,&group,&group_len,&key,&key_len,&id,&def) == FAILURE) {
         return;
     }
 
@@ -745,7 +745,7 @@ PHP_FUNCTION(IupConfigGetVariableDoubleDef)
 
     double def,d;
 
-    if (zend_parse_parameters(argc,"r!ssd",&ihandle_res,&group,&group_len,&key,&key_len,&def) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!ssd",&ihandle_res,&group,&group_len,&key,&key_len,&def) == FAILURE) {
         return;
     }
 
@@ -782,7 +782,7 @@ PHP_FUNCTION(IupConfigGetVariableDoubleIdDef)
 
     double def,d;
 
-    if (zend_parse_parameters(argc,"r!ssld",&ihandle_res,&group,&group_len,&key,&key_len,&id,&def) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!ssld",&ihandle_res,&group,&group_len,&key,&key_len,&id,&def) == FAILURE) {
         return;
     }
 
@@ -813,7 +813,7 @@ PHP_FUNCTION(IupConfigCopy)
     char *exclude_prefix = NULL;
     size_t exclude_prefix_len;
 
-    if (zend_parse_parameters(argc,"r!r!s",&ihandle_res_ih1,&ihandle_res_ih2,&exclude_prefix,&exclude_prefix_len) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!r!s",&ihandle_res_ih1,&ihandle_res_ih2,&exclude_prefix,&exclude_prefix_len) == FAILURE) {
         return;
     }
 
@@ -849,7 +849,7 @@ PHP_FUNCTION(IupConfigSetListVariable)
 
     zend_long add;
 
-    if (zend_parse_parameters(argc,"r!sss!l",&ihandle_res,&group,&group_len,&key,&key_len,&value,&value_len,&add) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!sss!l",&ihandle_res,&group,&group_len,&key,&key_len,&value,&value_len,&add) == FAILURE) {
         return;
     }
 
@@ -886,7 +886,7 @@ PHP_FUNCTION(IupConfigRecentInit)
 
     zend_long max_recent;
 
-    if (zend_parse_parameters(argc,"rrfl",&ihandle_res_ih1,&ihandle_res_ih2, &callable, &call_cache,&max_recent) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"rrfl",&ihandle_res_ih1,&ihandle_res_ih2, &callable, &call_cache,&max_recent) == FAILURE) {
         return;
     }
 
@@ -895,7 +895,6 @@ PHP_FUNCTION(IupConfigRecentInit)
     ih1 = zend_fetch_resource_ex(ihandle_res_ih1,"iup-handle",le_iup_ihandle);
     ih2 = zend_fetch_resource_ex(ihandle_res_ih2,"iup-handle",le_iup_ihandle);
 
-    // 先注册
     config_register_callback(ih1,call_p);
 
     IupConfigRecentInit(ih1,ih2,config_recent_cb,max_recent);
@@ -919,7 +918,7 @@ PHP_FUNCTION(IupConfigRecentUpdate)
 
     Ihandle *ih;
 
-    if (zend_parse_parameters(argc,"r!s",&ihandle_res,&filename,&filename_len) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!s",&ihandle_res,&filename,&filename_len) == FAILURE) {
         return;
     }
 
@@ -951,7 +950,7 @@ PHP_FUNCTION(IupConfigDialogShow)
     char *name = NULL;
     size_t name_len;
 
-    if (zend_parse_parameters(argc,"r!r!s",&ihandle_res_ih1,&ihandle_res_ih2,&name,&name_len) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!r!s",&ihandle_res_ih1,&ihandle_res_ih2,&name,&name_len) == FAILURE) {
         return;
     }
 
@@ -979,7 +978,7 @@ PHP_FUNCTION(IupConfigDialogClosed)
     char *name = NULL;
     size_t name_len;
 
-    if (zend_parse_parameters(argc,"r!r!s",&ihandle_res_ih1,&ihandle_res_ih2,&name,&name_len) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r!r!s",&ihandle_res_ih1,&ihandle_res_ih2,&name,&name_len) == FAILURE) {
         return;
     }
 
@@ -1183,7 +1182,7 @@ PHP_FUNCTION(IupSaveImage)
 
     int re;
 
-    if (zend_parse_parameters(argc,"rss",&ihandle_res,&file_name, &file_name_len, &format, &format_len) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"rss",&ihandle_res,&file_name, &file_name_len, &format, &format_len) == FAILURE) {
         return;
     }
 
@@ -1247,7 +1246,6 @@ PHP_FUNCTION(IupLoadAnimationFrames)
 
     i = 0;
 
-    // 将php的字符串数组转换为c的字符串数组
     ZEND_HASH_FOREACH_KEY_VAL(file_name_list_val, num_key, key, val) {
 
         if(Z_TYPE_P(val) == IS_STRING && i < file_count) {
@@ -1261,6 +1259,8 @@ PHP_FUNCTION(IupLoadAnimationFrames)
     } ZEND_HASH_FOREACH_END();
 
     re = IupLoadAnimationFrames(file_name_list,file_count);
+
+    free(file_name_list);
 
     RETURN_RES(zend_register_resource(re, le_iup_ihandle));
 }
@@ -1278,7 +1278,7 @@ PHP_FUNCTION(IupGetNativeHandleImage)
     Ihandle *ih;
     imImage *re;
 
-    if (zend_parse_parameters(argc,"r",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -1302,7 +1302,7 @@ PHP_FUNCTION(IupGetImageNativeHandle)
     imImage *ih;
     void *re;
 
-    if (zend_parse_parameters(argc,"r",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -1326,7 +1326,7 @@ PHP_FUNCTION(IupImageFromImImage)
     imImage *ih;
     Ihandle *re;
 
-    if (zend_parse_parameters(argc,"r",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -1350,7 +1350,7 @@ PHP_FUNCTION(IupImageToImImage)
     Ihandle *ih;
     imImage *re;
 
-    if (zend_parse_parameters(argc,"r",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -1374,7 +1374,7 @@ PHP_FUNCTION(IupDrawBegin)
 
     Ihandle *ih;
 
-    if (zend_parse_parameters(argc,"r",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -1399,7 +1399,7 @@ PHP_FUNCTION(IupDrawEnd)
 
     Ihandle *ih;
 
-    if (zend_parse_parameters(argc,"r",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -1426,7 +1426,7 @@ PHP_FUNCTION(IupDrawSetClipRect)
 
     zend_long x1,y1,x2,y2;
 
-    if (zend_parse_parameters(argc,"rllll",&ihandle_res,&x1,&y1,&x2,&y2) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"rllll",&ihandle_res,&x1,&y1,&x2,&y2) == FAILURE) {
         return;
     }
 
@@ -1453,7 +1453,7 @@ PHP_FUNCTION(IupDrawGetClipRect)
     int x1, y1, x2, y2;
     zval *xx1,*yy1,*xx2,*yy2;
 
-    if (zend_parse_parameters(argc,"rzzzz",&ihandle_res,&xx1,&yy1,&xx2,&yy2) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"rzzzz",&ihandle_res,&xx1,&yy1,&xx2,&yy2) == FAILURE) {
         return;
     }
 
@@ -1489,7 +1489,7 @@ PHP_FUNCTION(IupDrawResetClip)
 
     Ihandle *ih;
 
-    if (zend_parse_parameters(argc,"r",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -1514,7 +1514,7 @@ PHP_FUNCTION(IupDrawParentBackground)
 
     Ihandle *ih;
 
-    if (zend_parse_parameters(argc,"r",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -1541,7 +1541,7 @@ PHP_FUNCTION(IupDrawLine)
 
     zend_long x1,y1,x2,y2;
 
-    if (zend_parse_parameters(argc,"rllll",&ihandle_res,&x1,&y1,&x2,&y2) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"rllll",&ihandle_res,&x1,&y1,&x2,&y2) == FAILURE) {
         return;
     }
 
@@ -1566,7 +1566,7 @@ PHP_FUNCTION(IupDrawRectangle)
 
     zend_long x1,y1,x2,y2;
 
-    if (zend_parse_parameters(argc,"rllll",&ihandle_res,&x1,&y1,&x2,&y2) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"rllll",&ihandle_res,&x1,&y1,&x2,&y2) == FAILURE) {
         return;
     }
 
@@ -1592,7 +1592,7 @@ PHP_FUNCTION(IupDrawArc)
     zend_long x1,y1,x2,y2;
     double a1,a2;
 
-    if (zend_parse_parameters(argc,"rlllldd",&ihandle_res,&x1,&y1,&x2,&y2,&a1,&a2) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"rlllldd",&ihandle_res,&x1,&y1,&x2,&y2,&a1,&a2) == FAILURE) {
         return;
     }
 
@@ -1627,7 +1627,7 @@ PHP_FUNCTION(IupDrawPolygon)
 
     int i;
 
-    if (zend_parse_parameters(argc,"rhl",&ihandle_res,&arr_points,&count) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"rhl",&ihandle_res,&arr_points,&count) == FAILURE) {
         return;
     }
 
@@ -1636,6 +1636,7 @@ PHP_FUNCTION(IupDrawPolygon)
     points = (int *)malloc(sizeof(int) * count);
 
     i = 0;
+
     ZEND_HASH_FOREACH_KEY_VAL(arr_points, num_key, key, val) {
         if(Z_TYPE_P(val) == IS_LONG && i < count) {
             points[i] = Z_LVAL_P(val);
@@ -1644,6 +1645,8 @@ PHP_FUNCTION(IupDrawPolygon)
     } ZEND_HASH_FOREACH_END();
 
     IupDrawPolygon(ih,&points,count);
+
+    free(points);
 
     RETURN_NULL();
     
@@ -1666,7 +1669,7 @@ PHP_FUNCTION(IupDrawText)
 
     zend_long len,x,y,w,h;
 
-    if (zend_parse_parameters(argc,"rslllll",&ihandle_res,&text,&text_len,&len,&x,&y,&w,&h) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"rslllll",&ihandle_res,&text,&text_len,&len,&x,&y,&w,&h) == FAILURE) {
         return;
     }
 
@@ -1695,7 +1698,7 @@ PHP_FUNCTION(IupDrawImage)
 
     zend_long x,y,w,h;
 
-    if (zend_parse_parameters(argc,"rsllll",&ihandle_res,&name,&name_len,&x,&y,&w,&h) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"rsllll",&ihandle_res,&name,&name_len,&x,&y,&w,&h) == FAILURE) {
         return;
     }
 
@@ -1720,7 +1723,7 @@ PHP_FUNCTION(IupDrawSelectRect)
 
     zend_long x1,y1,x2,y2;
 
-    if (zend_parse_parameters(argc,"rllll",&ihandle_res,&x1,&y1,&x2,&y2) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"rllll",&ihandle_res,&x1,&y1,&x2,&y2) == FAILURE) {
         return;
     }
 
@@ -1745,7 +1748,7 @@ PHP_FUNCTION(IupDrawFocusRect)
 
     zend_long x1,y1,x2,y2;
 
-    if (zend_parse_parameters(argc,"rllll",&ihandle_res,&x1,&y1,&x2,&y2) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"rllll",&ihandle_res,&x1,&y1,&x2,&y2) == FAILURE) {
         return;
     }
 
@@ -1772,7 +1775,7 @@ PHP_FUNCTION(IupDrawGetSize)
     int w, h;
     zval *ww,*hh;
 
-    if (zend_parse_parameters(argc,"rzz",&ihandle_res,&ww,&hh) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"rzz",&ihandle_res,&ww,&hh) == FAILURE) {
         return;
     }
 
@@ -1810,7 +1813,7 @@ PHP_FUNCTION(IupDrawGetTextSize)
     int w, h;
     zval *ww,*hh;
 
-    if (zend_parse_parameters(argc,"rslzz",&ihandle_res,&text,&text_len,&len,&ww,&hh) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"rslzz",&ihandle_res,&text,&text_len,&len,&ww,&hh) == FAILURE) {
         return;
     }
 
@@ -1841,7 +1844,7 @@ PHP_FUNCTION(IupDrawGetImageInfo)
     int w, h, bpp;
     zval *ww,*hh,*zbpp;
 
-    if (zend_parse_parameters(argc,"slzz",&name,&name_len,&ww,&hh,&zbpp) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"slzz",&name,&name_len,&ww,&hh,&zbpp) == FAILURE) {
         return;
     }
 
@@ -2018,7 +2021,7 @@ PHP_FUNCTION(IupPlotBegin)
 
     zend_long strXdata;
 
-    if (zend_parse_parameters(argc,"rl",&ihandle_res,&strXdata) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"rl",&ihandle_res,&strXdata) == FAILURE) {
         return;
     }
 
@@ -2044,7 +2047,7 @@ PHP_FUNCTION(IupPlotAdd)
 
     double x,y;
 
-    if (zend_parse_parameters(argc,"rdd",&ihandle_res,&x,&y) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"rdd",&ihandle_res,&x,&y) == FAILURE) {
         return;
     }
 
@@ -2072,7 +2075,7 @@ PHP_FUNCTION(IupPlotAddStr)
 
     double y;
 
-    if (zend_parse_parameters(argc,"rsd",&ihandle_res,&x,&x_len,&y) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"rsd",&ihandle_res,&x,&x_len,&y) == FAILURE) {
         return;
     }
 
@@ -2097,7 +2100,7 @@ PHP_FUNCTION(IupPlotAddSegment)
 
     double x,y;
 
-    if (zend_parse_parameters(argc,"rdd",&ihandle_res,&x,&y) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"rdd",&ihandle_res,&x,&y) == FAILURE) {
         return;
     }
 
@@ -2122,7 +2125,7 @@ PHP_FUNCTION(IupPlotEnd)
 
     int re;
 
-    if (zend_parse_parameters(argc,"r",&ihandle_res) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"r",&ihandle_res) == FAILURE) {
         return;
     }
 
@@ -2153,7 +2156,7 @@ PHP_FUNCTION(IupPlotLoadData)
 
     int re;
 
-    if (zend_parse_parameters(argc,"rsl",&ihandle_res,&filename,&filename_len,&strXdata) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"rsl",&ihandle_res,&filename,&filename_len,&strXdata) == FAILURE) {
         return;
     }
 
@@ -2188,7 +2191,7 @@ PHP_FUNCTION(IupPlotInsert)
     zend_long ds_index,sample_index;
     double x,y;
 
-    if (zend_parse_parameters(argc,"rlldd",&ihandle_res,&ds_index,&sample_index,&x,&y) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"rlldd",&ihandle_res,&ds_index,&sample_index,&x,&y) == FAILURE) {
         return;
     }
 
@@ -2218,7 +2221,7 @@ PHP_FUNCTION(IupPlotInsertStr)
 
     double y;
 
-    if (zend_parse_parameters(argc,"rllsd",&ihandle_res,&ds_index,&sample_index,&x,&x_len,&y) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"rllsd",&ihandle_res,&ds_index,&sample_index,&x,&x_len,&y) == FAILURE) {
         return;
     }
 
@@ -2244,7 +2247,7 @@ PHP_FUNCTION(IupPlotInsertSegment)
     zend_long ds_index,sample_index;
     double x,y;
 
-    if (zend_parse_parameters(argc,"rlldd",&ihandle_res,&ds_index,&sample_index,&x,&y) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"rlldd",&ihandle_res,&ds_index,&sample_index,&x,&y) == FAILURE) {
         return;
     }
 
@@ -2281,7 +2284,7 @@ PHP_FUNCTION(IupPlotInsertStrSamples)
 
     Ihandle *ih;
 
-    if (zend_parse_parameters(argc,"rllhhl",&ihandle_res,&ds_index,&sample_index,&x_val,&y_val,&count) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"rllhhl",&ihandle_res,&ds_index,&sample_index,&x_val,&y_val,&count) == FAILURE) {
         return;
     }
 
@@ -2329,6 +2332,9 @@ PHP_FUNCTION(IupPlotInsertStrSamples)
 
     IupPlotInsertStrSamples(ih,ds_index,sample_index,x,y,count);
 
+    free(x);
+    free(y);
+
     RETURN_NULL();
 }
 /* }}} */
@@ -2356,7 +2362,7 @@ PHP_FUNCTION(IupPlotInsertSamples)
 
     Ihandle *ih;
 
-    if (zend_parse_parameters(argc,"rllhhl",&ihandle_res,&ds_index,&sample_index,&x_val,&y_val,&count) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"rllhhl",&ihandle_res,&ds_index,&sample_index,&x_val,&y_val,&count) == FAILURE) {
         return;
     }
 
@@ -2410,10 +2416,10 @@ PHP_FUNCTION(IupPlotInsertSamples)
     } ZEND_HASH_FOREACH_END();
 
     IupPlotInsertSamples(ih,ds_index,sample_index,x,y,count);
-/*
+
     free(x);
     free(y);
-*/
+
     RETURN_NULL();
 }
 /* }}} */
@@ -2441,7 +2447,7 @@ PHP_FUNCTION(IupPlotAddSamples)
 
     Ihandle *ih;
 
-    if (zend_parse_parameters(argc,"rlhhl",&ihandle_res,&ds_index,&x_val,&y_val,&count) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"rlhhl",&ihandle_res,&ds_index,&x_val,&y_val,&count) == FAILURE) {
         return;
     }
 
@@ -2496,6 +2502,9 @@ PHP_FUNCTION(IupPlotAddSamples)
 
     IupPlotAddSamples(ih,ds_index,x,y,count);
 
+    free(x);
+    free(y);
+
     RETURN_NULL();
 }
 /* }}} */
@@ -2525,7 +2534,7 @@ PHP_FUNCTION(IupPlotAddStrSamples)
 
     Ihandle *ih;
 
-    if (zend_parse_parameters(argc,"rlhhl",&ihandle_res,&ds_index,&x_val,&y_val,&count) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"rlhhl",&ihandle_res,&ds_index,&x_val,&y_val,&count) == FAILURE) {
         return;
     }
 
@@ -2573,6 +2582,9 @@ PHP_FUNCTION(IupPlotAddStrSamples)
 
     IupPlotAddStrSamples(ih,ds_index,x,y,count);
 
+    free(x);
+    free(y);
+
     RETURN_NULL();
 }
 /* }}} */
@@ -2592,7 +2604,7 @@ PHP_FUNCTION(IupPlotGetSample)
     double x, y;
     zval *xx,*yy;
 
-    if (zend_parse_parameters(argc,"rllzz",&ihandle_res,&ds_index,&sample_index,&xx,&yy) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"rllzz",&ihandle_res,&ds_index,&sample_index,&xx,&yy) == FAILURE) {
         return;
     }
 
@@ -2628,7 +2640,7 @@ PHP_FUNCTION(IupPlotGetSampleStr)
     double y;
     zval *xx,*yy;
 
-    if (zend_parse_parameters(argc,"rllzd",&ihandle_res,&ds_index,&sample_index,&xx,&yy) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"rllzd",&ihandle_res,&ds_index,&sample_index,&xx,&yy) == FAILURE) {
         return;
     }
 
@@ -2662,7 +2674,7 @@ PHP_FUNCTION(IupPlotGetSampleSelection)
 
     int re;
 
-    if (zend_parse_parameters(argc,"rll",&ihandle_res,&ds_index,&sample_index) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"rll",&ihandle_res,&ds_index,&sample_index) == FAILURE) {
         return;
     }
 
@@ -2689,7 +2701,7 @@ PHP_FUNCTION(IupPlotGetSampleExtra)
 
     double re;
 
-    if (zend_parse_parameters(argc,"rll",&ihandle_res,&ds_index,&sample_index) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"rll",&ihandle_res,&ds_index,&sample_index) == FAILURE) {
         return;
     }
 
@@ -2716,7 +2728,7 @@ PHP_FUNCTION(IupPlotSetSample)
     zend_long ds_index,sample_index;
     double x,y;
 
-    if (zend_parse_parameters(argc,"rlldd",&ihandle_res,&ds_index,&sample_index,&x,&y) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"rlldd",&ihandle_res,&ds_index,&sample_index,&x,&y) == FAILURE) {
         return;
     }
 
@@ -2747,7 +2759,7 @@ PHP_FUNCTION(IupPlotSetSampleStr)
 
     double y;
 
-    if (zend_parse_parameters(argc,"rllsd",&ihandle_res,&ds_index,&sample_index,&x,&x_len,&y) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"rllsd",&ihandle_res,&ds_index,&sample_index,&x,&x_len,&y) == FAILURE) {
         return;
     }
 
@@ -2773,7 +2785,7 @@ PHP_FUNCTION(IupPlotSetSampleSelection)
 
     zend_long ds_index,sample_index,selected;
 
-    if (zend_parse_parameters(argc,"rlldd",&ihandle_res,&ds_index,&sample_index,&selected) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"rlldd",&ihandle_res,&ds_index,&sample_index,&selected) == FAILURE) {
         return;
     }
 
@@ -2799,7 +2811,7 @@ PHP_FUNCTION(IupPlotSetSampleExtra)
     zend_long ds_index,sample_index;
     double extra;
 
-    if (zend_parse_parameters(argc,"rlldd",&ihandle_res,&ds_index,&sample_index,&extra) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"rlldd",&ihandle_res,&ds_index,&sample_index,&extra) == FAILURE) {
         return;
     }
 
@@ -2827,7 +2839,7 @@ PHP_FUNCTION(IupPlotTransform)
     double cnv_x, cnv_y;
     zval *cnv_xx,*cnv_yy;
 
-    if (zend_parse_parameters(argc,"rddzz",&ihandle_res,&x,&y,&cnv_xx,&cnv_yy) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"rddzz",&ihandle_res,&x,&y,&cnv_xx,&cnv_yy) == FAILURE) {
         return;
     }
 
@@ -2861,7 +2873,7 @@ PHP_FUNCTION(IupPlotTransformTo)
     double x,y;
     zval *xx,*yy;
 
-    if (zend_parse_parameters(argc,"rddzz",&ihandle_res,&cnv_x,&cnv_y,&xx,&yy) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"rddzz",&ihandle_res,&cnv_x,&cnv_y,&xx,&yy) == FAILURE) {
         return;
     }
 
@@ -2896,7 +2908,7 @@ PHP_FUNCTION(IupPlotFindSample)
     int ds_index,sample_index;
     zval *ds_index_val,*sample_index_val;
 
-    if (zend_parse_parameters(argc,"rddzz",&ihandle_res,&cnv_x,&cnv_y,&ds_index_val,&sample_index_val) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"rddzz",&ihandle_res,&cnv_x,&cnv_y,&ds_index_val,&sample_index_val) == FAILURE) {
         return;
     }
 
@@ -2930,7 +2942,7 @@ PHP_FUNCTION(IupPlotFindSegment)
     double ds_index,sample_index1,sample_index2;
     zval *ds_index_val,*sample_index1_val,*sample_index2_val;
 
-    if (zend_parse_parameters(argc,"rddzzz",&ihandle_res,&cnv_x,&cnv_y,&ds_index_val,&sample_index1_val,&sample_index2_val) == FAILURE) {
+    if (zend_parse_parameters(argc TSRMLS_DC,"rddzzz",&ihandle_res,&cnv_x,&cnv_y,&ds_index_val,&sample_index1_val,&sample_index2_val) == FAILURE) {
         return;
     }
 
